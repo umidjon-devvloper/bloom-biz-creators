@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Biznesingiz uchun premium darajadagi websayt, e-commerce va mobil ilovalar. Shaffof narx kalkulyatori, tez yetkazib berish, tajribali jamoa.",
       },
       { name: "author", content: "Devora" },
-      { property: "og:title", content: "Devora — Professional websayt va ilovalar" },
+      { property: "og:title", content: "Devora — Professional websayt va ilovalar ishlab chiqarish" },
       {
         property: "og:description",
         content:
@@ -92,6 +92,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Devora — Professional websayt va ilovalar ishlab chiqarish" },
+      { name: "description", content: "A premium, conversion-focused business website for development teams." },
+      { property: "og:description", content: "A premium, conversion-focused business website for development teams." },
+      { name: "twitter:description", content: "A premium, conversion-focused business website for development teams." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/db8c708c-7bc1-413c-a8af-6460ab38c269/id-preview-23772b71--0b57d979-3577-4123-bcbe-1051b872a9b3.lovable.app-1783015628807.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/db8c708c-7bc1-413c-a8af-6460ab38c269/id-preview-23772b71--0b57d979-3577-4123-bcbe-1051b872a9b3.lovable.app-1783015628807.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
