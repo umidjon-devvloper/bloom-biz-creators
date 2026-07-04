@@ -1,64 +1,77 @@
 import { useState } from "react";
-import { ExternalLink } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ExternalLink, ArrowRight } from "lucide-react";
 import { Section, Reveal } from "./Section";
+import { useI18n } from "@/i18n";
 
 type Cat = "all" | "web" | "mobile" | "ecom";
 
-const FILTERS: { key: Cat; label: string }[] = [
-  { key: "all", label: "Barchasi" },
-  { key: "web", label: "Websaytlar" },
-  { key: "mobile", label: "Mobil ilovalar" },
-  { key: "ecom", label: "E-commerce" },
+// Index-aligned with translations.portfolio.items
+const META: { cat: Exclude<Cat, "all">; tags: string[]; hue: string }[] = [
+  { cat: "web", tags: ["React", "TypeScript", "Node"], hue: "270" },
+  { cat: "ecom", tags: ["Next.js", "Stripe", "Postgres"], hue: "200" },
+  { cat: "mobile", tags: ["React Native", "Firebase"], hue: "330" },
+  { cat: "web", tags: ["Vue", "Nest", "Redis"], hue: "150" },
+  { cat: "ecom", tags: ["Shopify", "Custom Theme"], hue: "40" },
+  { cat: "mobile", tags: ["Flutter", "Supabase"], hue: "310" },
 ];
 
-const PROJECTS: {
-  title: string;
-  desc: string;
-  tags: string[];
-  cat: Exclude<Cat, "all">;
-  link: string;
-  hue: string;
-}[] = [
-  { title: "Finora Bank", desc: "Onlayn bank uchun mijoz kabineti", tags: ["React", "TypeScript", "Node"], cat: "web", link: "#", hue: "270" },
-  { title: "Osiyo Market", desc: "Ko'p sotuvchili marketplace", tags: ["Next.js", "Stripe", "Postgres"], cat: "ecom", link: "#", hue: "200" },
-  { title: "FitPulse", desc: "Sog'liq va sport uchun mobil ilova", tags: ["React Native", "Firebase"], cat: "mobile", link: "#", hue: "330" },
-  { title: "Toshkent Delivery", desc: "Restoran va yetkazib berish platformasi", tags: ["Vue", "Nest", "Redis"], cat: "web", link: "#", hue: "150" },
-  { title: "SilkRoad Store", desc: "Hunarmandchilik onlayn do'koni", tags: ["Shopify", "Custom Theme"], cat: "ecom", link: "#", hue: "40" },
-  { title: "EduKids", desc: "Bolalar uchun ta'lim ilovasi", tags: ["Flutter", "Supabase"], cat: "mobile", link: "#", hue: "310" },
-];
-
-export function Portfolio() {
+export function Portfolio({
+  headless = false,
+  limit,
+  showCta = false,
+}: {
+  headless?: boolean;
+  limit?: number;
+  showCta?: boolean;
+}) {
+  const { t } = useI18n();
   const [filter, setFilter] = useState<Cat>("all");
-  const shown = PROJECTS.filter((p) => filter === "all" || p.cat === filter);
+  const keys: Cat[] = ["all", "web", "mobile", "ecom"];
+
+  const all = t.portfolio.items.map((p, i) => ({ ...p, ...META[i] }));
+  let shown = all.filter((p) => filter === "all" || p.cat === filter);
+  if (limit) shown = shown.slice(0, limit);
 
   return (
     <Section
       id="portfolio"
-      eyebrow="Bajarilgan ishlar"
-      title={<>Loyihalarimiz — <span className="text-gradient-primary">natijalar tili bilan</span></>}
-      description="Ba'zi mijozlar oshkora ko'rsatishga ruxsat bermagan — to'liq portfolio uchun bog'laning."
+      eyebrow={headless ? undefined : t.portfolio.eyebrow}
+      title={
+        headless ? undefined : (
+          <>
+            {t.portfolio.titleA} <span className="text-gradient-primary">{t.portfolio.titleHl}</span>
+          </>
+        )
+      }
+      description={headless ? undefined : t.portfolio.desc}
     >
-      <div className="mb-10 flex flex-wrap justify-center gap-2">
-        {FILTERS.map((f) => (
-          <button
-            key={f.key}
-            onClick={() => setFilter(f.key)}
-            className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
-              filter === f.key
-                ? "bg-gradient-primary text-primary-foreground shadow-glow"
-                : "border border-border bg-surface/50 text-muted-foreground hover:border-primary/40 hover:text-foreground"
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
+      {!limit && (
+        <div className="mb-10 flex flex-wrap justify-center gap-2">
+          {t.portfolio.filters.map((label, i) => {
+            const key = keys[i];
+            return (
+              <button
+                key={key}
+                onClick={() => setFilter(key)}
+                className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
+                  filter === key
+                    ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                    : "border border-border bg-surface/50 text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {shown.map((p, i) => (
           <Reveal key={p.title} delay={i * 60}>
             <a
-              href={p.link}
+              href="#"
               className="group relative block h-full overflow-hidden rounded-2xl border border-border bg-card card-hover"
             >
               <div
@@ -75,7 +88,7 @@ export function Portfolio() {
                 </div>
                 <div className="absolute inset-0 flex items-end justify-end p-4 opacity-0 transition-opacity group-hover:opacity-100">
                   <span className="inline-flex items-center gap-1.5 rounded-full glass-strong px-3 py-1.5 text-xs font-medium">
-                    Ko'rish <ExternalLink className="h-3 w-3" />
+                    {t.portfolio.view} <ExternalLink className="h-3 w-3" />
                   </span>
                 </div>
               </div>
@@ -83,9 +96,12 @@ export function Portfolio() {
                 <h3 className="font-display text-lg font-bold">{p.title}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{p.desc}</p>
                 <div className="mt-4 flex flex-wrap gap-1.5">
-                  {p.tags.map((t) => (
-                    <span key={t} className="rounded-full border border-border bg-surface/50 px-2.5 py-0.5 text-[11px] text-muted-foreground">
-                      {t}
+                  {p.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-border bg-surface/50 px-2.5 py-0.5 text-[11px] text-muted-foreground"
+                    >
+                      {tag}
                     </span>
                   ))}
                 </div>
@@ -94,6 +110,18 @@ export function Portfolio() {
           </Reveal>
         ))}
       </div>
+
+      {showCta && (
+        <div className="mt-12 text-center">
+          <Link
+            to="/portfolio"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-primary/50 hover:bg-surface"
+          >
+            {t.home.seeAll}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      )}
     </Section>
   );
 }

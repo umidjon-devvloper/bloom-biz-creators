@@ -1,16 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
+import { TechMarquee } from "@/components/site/TechMarquee";
 import { Services } from "@/components/site/Services";
-import { PriceCalculator } from "@/components/site/PriceCalculator";
-import { Team } from "@/components/site/Team";
+import { Process } from "@/components/site/Process";
 import { Portfolio } from "@/components/site/Portfolio";
-import { About } from "@/components/site/About";
-import { WhyUs } from "@/components/site/WhyUs";
 import { Testimonials } from "@/components/site/Testimonials";
-import { Contact } from "@/components/site/Contact";
-import { Footer } from "@/components/site/Footer";
-import { FloatingContact } from "@/components/site/FloatingContact";
+import { CtaBand } from "@/components/site/CtaBand";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -18,21 +13,14 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="relative min-h-screen bg-background text-foreground">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <PriceCalculator />
-        <Team />
-        <Portfolio />
-        <About />
-        <WhyUs />
-        <Testimonials />
-        <Contact />
-      </main>
-      <Footer />
-      <FloatingContact />
-    </div>
+    <>
+      <Hero />
+      <TechMarquee />
+      <Services showCta />
+      <Process />
+      <Portfolio limit={3} showCta />
+      <Testimonials />
+      <CtaBand />
+    </>
   );
 }

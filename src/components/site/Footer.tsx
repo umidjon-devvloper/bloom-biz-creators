@@ -1,6 +1,14 @@
-import { Code2, Github, Linkedin, Send } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Github, Linkedin, Send } from "lucide-react";
+import { Logo } from "./Logo";
+import { SITE } from "@/lib/site";
+import { useI18n } from "@/i18n";
+
+const COMPANY_LINKS = ["/about", "/team", "/portfolio", "/services", "/contact"];
 
 export function Footer() {
+  const { t } = useI18n();
+
   return (
     <footer className="relative overflow-hidden border-t border-border bg-surface/50">
       <div
@@ -10,24 +18,20 @@ export function Footer() {
       <div className="relative mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-2">
-            <a href="#top" className="inline-flex items-center gap-2">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-primary shadow-glow">
-                <Code2 className="h-5 w-5 text-primary-foreground" />
-              </span>
-              <span className="font-display text-lg font-bold">
-                Devora<span className="text-gradient-primary">.</span>
-              </span>
-            </a>
-            <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-              Biznesingiz uchun professional websayt va ilovalar. Shaffof narx,
-              tez yetkazib berish, jamoaviy ish.
-            </p>
+            <Logo />
+            <p className="mt-5 max-w-sm text-sm text-muted-foreground">{t.footer.tagline}</p>
             <div className="mt-6 flex items-center gap-2">
-              {[Github, Linkedin, Send].map((Icon, i) => (
+              {[
+                { Icon: Github, href: SITE.github },
+                { Icon: Linkedin, href: SITE.linkedin },
+                { Icon: Send, href: SITE.telegram },
+              ].map(({ Icon, href }, i) => (
                 <a
                   key={i}
-                  href="#"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary"
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-glow"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -36,31 +40,39 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold">Xizmatlar</h4>
+            <h4 className="text-sm font-semibold">{t.footer.servicesTitle}</h4>
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              {["Landing page", "Korporativ sayt", "E-commerce", "Mobil ilova", "Backend / API"].map((t) => (
-                <li key={t}>
-                  <a href="#services" className="transition-colors hover:text-foreground">{t}</a>
+              {t.footer.services.map((s) => (
+                <li key={s}>
+                  <Link to="/services" className="transition-colors hover:text-foreground">
+                    {s}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold">Kompaniya</h4>
+            <h4 className="text-sm font-semibold">{t.footer.companyTitle}</h4>
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              <li><a href="#about" className="hover:text-foreground">Biz haqimizda</a></li>
-              <li><a href="#team" className="hover:text-foreground">Jamoa</a></li>
-              <li><a href="#portfolio" className="hover:text-foreground">Portfolio</a></li>
-              <li><a href="#calculator" className="hover:text-foreground">Narx</a></li>
-              <li><a href="#contact" className="hover:text-foreground">Aloqa</a></li>
+              {t.footer.company.map((label, i) => (
+                <li key={label}>
+                  <Link to={COMPANY_LINKS[i]} className="transition-colors hover:text-foreground">
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
-          <div>© {new Date().getFullYear()} Devora. Barcha huquqlar himoyalangan.</div>
-          <div>Toshkent, O'zbekiston · hello@devora.uz</div>
+          <div>
+            © {new Date().getFullYear()} {SITE.name}. {t.footer.rights}
+          </div>
+          <div>
+            {t.footer.location} · {SITE.email}
+          </div>
         </div>
       </div>
     </footer>

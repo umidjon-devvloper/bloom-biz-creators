@@ -11,6 +11,10 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { I18nProvider } from "../i18n";
+import { Navbar } from "../components/site/Navbar";
+import { Footer } from "../components/site/Footer";
+import { FloatingContact } from "../components/site/FloatingContact";
 
 function NotFoundComponent() {
   return (
@@ -77,27 +81,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Devora — Professional websayt va ilovalar ishlab chiqarish" },
+      { title: "Umidjon Agency — Professional websites, apps & design" },
       {
         name: "description",
         content:
-          "Biznesingiz uchun premium darajadagi websayt, e-commerce va mobil ilovalar. Shaffof narx kalkulyatori, tez yetkazib berish, tajribali jamoa.",
+          "Umidjon Agency — premium websites, e-commerce and mobile apps for your business. Transparent price calculator, fast delivery, an experienced team.",
       },
-      { name: "author", content: "Devora" },
-      { property: "og:title", content: "Devora — Professional websayt va ilovalar ishlab chiqarish" },
+      { name: "author", content: "Umidjon Agency" },
+      { property: "og:title", content: "Umidjon Agency — Professional websites, apps & design" },
       {
         property: "og:description",
         content:
-          "Shaffof narx, tez yetkazib berish, jamoaviy ish. Loyihangiz qiymatini onlayn kalkulyator orqali hisoblang.",
+          "Transparent pricing, fast delivery, team work. Calculate your project's cost with our online calculator.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Devora — Professional websayt va ilovalar ishlab chiqarish" },
-      { name: "description", content: "A premium, conversion-focused business website for development teams." },
-      { property: "og:description", content: "A premium, conversion-focused business website for development teams." },
-      { name: "twitter:description", content: "A premium, conversion-focused business website for development teams." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/db8c708c-7bc1-413c-a8af-6460ab38c269/id-preview-23772b71--0b57d979-3577-4123-bcbe-1051b872a9b3.lovable.app-1783015628807.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/db8c708c-7bc1-413c-a8af-6460ab38c269/id-preview-23772b71--0b57d979-3577-4123-bcbe-1051b872a9b3.lovable.app-1783015628807.png" },
+      { name: "twitter:title", content: "Umidjon Agency — Professional websites, apps & design" },
+      { name: "twitter:description", content: "Premium websites, apps and design for your business — by Umidjon Agency." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -118,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="uz" className="dark" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
@@ -135,8 +135,17 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <I18nProvider>
+        <div className="relative min-h-screen bg-background text-foreground">
+          <Navbar />
+          <main>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </main>
+          <Footer />
+          <FloatingContact />
+        </div>
+      </I18nProvider>
     </QueryClientProvider>
   );
 }

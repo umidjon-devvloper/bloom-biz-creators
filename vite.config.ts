@@ -12,4 +12,9 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Deploy target: Vercel. Nitro's `vercel` preset emits `.vercel/output`
+  // (Build Output API v3), which Vercel picks up automatically.
+  // NOTE: this override only applies OUTSIDE a Lovable build — inside Lovable
+  // the preset is force-pinned to Cloudflare, so this is safe for both.
+  nitro: { preset: "vercel" },
 });
