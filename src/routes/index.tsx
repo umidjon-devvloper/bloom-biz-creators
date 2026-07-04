@@ -3,7 +3,7 @@ import { Hero } from "@/components/site/Hero";
 import { TechMarquee } from "@/components/site/TechMarquee";
 import { Services } from "@/components/site/Services";
 import { Process } from "@/components/site/Process";
-import { Portfolio } from "@/components/site/Portfolio";
+import { PortfolioStack } from "@/components/site/PortfolioStack";
 import { Testimonials } from "@/components/site/Testimonials";
 import { CtaBand } from "@/components/site/CtaBand";
 
@@ -18,7 +18,7 @@ function Index() {
       <TechMarquee />
       <Services showCta />
       <Process />
-      <Portfolio limit={3} showCta />
+      <PortfolioStack />
       <Testimonials />
       <CtaBand />
     </>

@@ -41,14 +41,14 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
         <Logo />
 
-        <ul className="hidden items-center gap-0.5 lg:flex">
+        <ul className="hidden items-center gap-1 lg:flex">
           {NAV.map((item) => {
             const active = pathname === item.to;
             return (
               <li key={item.to}>
                 <Link
                   to={item.to}
-                  className={`relative rounded-full px-4 py-2 text-sm transition-colors ${
+                  className={`relative rounded-full px-4 py-2 text-[15px] font-medium transition-colors ${
                     active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -67,7 +67,7 @@ export function Navbar() {
           <ThemeToggle />
           <Link
             to="/contact"
-            className="hidden rounded-full px-5 py-2 text-sm font-semibold btn-glow md:inline-flex"
+            className="hidden rounded-full px-5 py-2.5 text-[15px] font-semibold btn-glow md:inline-flex"
           >
             {t.common.order}
           </Link>
@@ -89,7 +89,7 @@ export function Navbar() {
                 <Link
                   to={item.to}
                   onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
+                  className="block rounded-lg px-3 py-3 text-[15px] font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
                 >
                   {item.label}
                 </Link>

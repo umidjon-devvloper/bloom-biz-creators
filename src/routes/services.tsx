@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
-import { Services } from "@/components/site/Services";
+import { ServicesTimeline } from "@/components/site/ServicesTimeline";
 import { PriceCalculator } from "@/components/site/PriceCalculator";
 import { WhyUs } from "@/components/site/WhyUs";
 import { CtaBand } from "@/components/site/CtaBand";
@@ -20,7 +20,7 @@ function ServicesPage() {
         highlight={t.services.titleHl}
         description={t.services.desc}
       />
-      <Services headless />
+      <ServicesTimeline />
       <PriceCalculator />
       <WhyUs />
       <CtaBand />

@@ -6,16 +6,17 @@ import { useI18n } from "@/i18n";
 
 /**
  * Language-neutral metadata, index-aligned with translations.team.members.
- * Drop a photo into /public/team/<photo> to replace the gradient initials —
- * the component falls back to initials automatically if the image is missing.
+ * `photo` is empty by default so no broken-image (404) requests are made and the
+ * gradient initials show. To use a real photo, drop a file into /public/team/ and
+ * set e.g. `photo: "/team/1.jpg"` — the <img> only renders when `photo` is set.
  */
 const TEAM_META = [
-  { initials: "UY", photo: "/team/1.jpg", accent: "275", skills: [{ name: "React", value: 96 }, { name: "Architecture", value: 92 }, { name: "Node.js", value: 90 }] },
-  { initials: "JK", photo: "/team/2.jpg", accent: "255", skills: [{ name: "React", value: 95 }, { name: "Node.js", value: 90 }, { name: "PostgreSQL", value: 85 }] },
-  { initials: "NR", photo: "/team/3.jpg", accent: "320", skills: [{ name: "Figma", value: 98 }, { name: "Webflow", value: 80 }, { name: "Motion", value: 75 }] },
-  { initials: "SY", photo: "/team/4.jpg", accent: "200", skills: [{ name: "React Native", value: 90 }, { name: "Swift", value: 70 }, { name: "Kotlin", value: 72 }] },
-  { initials: "DT", photo: "/team/5.jpg", accent: "150", skills: [{ name: "Go", value: 82 }, { name: "Python", value: 88 }, { name: "Docker", value: 78 }] },
-  { initials: "AS", photo: "/team/6.jpg", accent: "40", skills: [{ name: "CI/CD", value: 88 }, { name: "AWS", value: 80 }, { name: "Testing", value: 84 }] },
+  { initials: "UY", photo: "", accent: "275", skills: [{ name: "React", value: 96 }, { name: "Architecture", value: 92 }, { name: "Node.js", value: 90 }] },
+  { initials: "JK", photo: "", accent: "255", skills: [{ name: "React", value: 95 }, { name: "Node.js", value: 90 }, { name: "PostgreSQL", value: 85 }] },
+  { initials: "NR", photo: "", accent: "320", skills: [{ name: "Figma", value: 98 }, { name: "Webflow", value: 80 }, { name: "Motion", value: 75 }] },
+  { initials: "SY", photo: "", accent: "200", skills: [{ name: "React Native", value: 90 }, { name: "Swift", value: 70 }, { name: "Kotlin", value: 72 }] },
+  { initials: "DT", photo: "", accent: "150", skills: [{ name: "Go", value: 82 }, { name: "Python", value: 88 }, { name: "Docker", value: 78 }] },
+  { initials: "AS", photo: "", accent: "40", skills: [{ name: "CI/CD", value: 88 }, { name: "AWS", value: 80 }, { name: "Testing", value: 84 }] },
 ];
 
 function Avatar({ photo, initials, accent }: { photo: string; initials: string; accent: string }) {
@@ -30,11 +31,12 @@ function Avatar({ photo, initials, accent }: { photo: string; initials: string; 
       >
         {initials}
       </div>
-      {!failed && (
+      {photo && !failed && (
         <img
           src={photo}
           alt={initials}
           loading="lazy"
+          decoding="async"
           onError={() => setFailed(true)}
           className="relative h-full w-full object-cover"
         />

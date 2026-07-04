@@ -284,6 +284,10 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+@keyframes marquee-y {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
 
 @keyframes float-slow {
   0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -297,6 +301,21 @@
 
 @keyframes spin-slow {
   to { transform: rotate(360deg); }
+}
+
+@keyframes cube-spin {
+  from { transform: rotateX(-22deg) rotateY(0deg); }
+  to { transform: rotateX(-22deg) rotateY(360deg); }
+}
+
+@keyframes ring-spin {
+  from { transform: rotateX(68deg) rotateZ(0deg); }
+  to { transform: rotateX(68deg) rotateZ(360deg); }
+}
+
+@keyframes pyramid-spin {
+  from { transform: rotateX(18deg) rotateY(0deg); }
+  to { transform: rotateX(18deg) rotateY(360deg); }
 }
 
 @keyframes aurora {
@@ -342,6 +361,9 @@
 @utility animate-float-slow { animation: float-slow 9s ease-in-out infinite; }
 @utility animate-float-x { animation: float-x 7s ease-in-out infinite; }
 @utility animate-spin-slow { animation: spin-slow 24s linear infinite; }
+@utility animate-cube-spin { animation: cube-spin 18s linear infinite; }
+@utility animate-ring-spin { animation: ring-spin 15s linear infinite; }
+@utility animate-pyramid-spin { animation: pyramid-spin 20s linear infinite; }
 @utility animate-aurora { animation: aurora 16s ease-in-out infinite; }
 @utility animate-tilt { animation: tilt 8s ease-in-out infinite; }
 @utility animate-pulse-glow { animation: pulse-glow 2s ease-out infinite; }
@@ -354,6 +376,12 @@
 }
 @utility animate-marquee {
   animation: marquee 32s linear infinite;
+}
+@utility animate-marquee-up {
+  animation: marquee-y 26s linear infinite;
+}
+@utility animate-marquee-down {
+  animation: marquee-y 26s linear infinite reverse;
 }
 
 /* ==================== 3D & premium utilities ==================== */
@@ -412,6 +440,122 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+  }
+}
+
+/* Sticky-stack showcase — cards pin and deck on top of each other while scrolling.
+   Base effect (incremental sticky top) works in every browser; the receding
+   scale/dim is a progressive enhancement gated behind scroll-driven-animation support. */
+.stack-item {
+  position: sticky;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stack-card {
+      animation: stack-recede linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 90%;
+      transform-origin: 50% 35%;
+      will-change: transform, filter;
+    }
+    @keyframes stack-recede {
+      to {
+        transform: scale(0.9);
+        filter: brightness(0.68) saturate(0.85);
+      }
+    }
+  }
+}
+
+/* Services timeline — a light that travels around each card's border and a
+   glowing connector that fills toward the next card as you scroll. */
+@property --tl-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.tl-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--tl-angle),
+    transparent 0deg,
+    transparent 236deg,
+    color-mix(in oklab, var(--primary) 70%, transparent) 288deg,
+    var(--primary-glow) 322deg,
+    color-mix(in oklab, var(--primary) 70%, transparent) 344deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.12;
+  transition: opacity 500ms ease;
+  animation: tl-rotate 4.5s linear infinite;
+  pointer-events: none;
+}
+.tl-card[data-active="true"]::before {
+  opacity: 1;
+}
+@keyframes tl-rotate {
+  to {
+    --tl-angle: 360deg;
+  }
+}
+
+/* Curved SVG connector that snakes between alternating cards */
+.tl-path-track {
+  fill: none;
+  stroke: color-mix(in oklab, var(--border) 85%, transparent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.tl-path-glow {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 5px color-mix(in oklab, var(--primary) 70%, transparent));
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tl-path-glow[data-active="true"] {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-card::before {
+    animation: none;
+  }
+}
+
+/* 3D reveal — card rises and straightens out of depth as it scrolls in.
+   Parent grid supplies the `perspective`; origin at the bottom edge. */
+.reveal-3d {
+  opacity: 0;
+  transform: rotateX(20deg) translateY(46px) translateZ(-80px);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 850ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 850ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal-3d.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-3d {
+    transform: none;
+    transition: opacity 400ms ease;
   }
 }
 
