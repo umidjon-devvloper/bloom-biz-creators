@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { ComponentType } from "react";
 import { Link } from "@tanstack/react-router";
 import {
@@ -29,6 +30,7 @@ const maskFade = {
 } as const;
 
 export function Hero() {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const { t } = useI18n();
   const services = t.services.items.map((s, i) => ({ ...s, Icon: SERVICE_ICONS[i] }));
   const colA = services.slice(0, 3);
@@ -78,27 +80,50 @@ export function Hero() {
               {t.hero.cta1}
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
-              to="/portfolio"
+            <button
+              onClick={() => setIsVideoOpen(true)}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-primary/50 hover:bg-surface hover:shadow-md"
             >
-              <Play className="h-4 w-4" />
-              {t.hero.cta2}
-            </Link>
+              <Play className="h-4 w-4 text-primary" />
+              {t.hero.cta2 || "Showreel"}
+            </button>
           </div>
 
+          {/* Trust Badges */}
           <div
-            className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-muted-foreground lg:justify-start opacity-0"
+            className="mt-12 flex flex-wrap items-center justify-center gap-6 lg:justify-start opacity-0"
             style={{ animation: "fade-up 700ms ease-out 620ms forwards" }}
           >
-            {t.hero.trust.map((tr) => (
-              <div key={tr} className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-success" />
-                {tr}
-              </div>
-            ))}
+            <div className="flex items-center gap-2 grayscale transition-all hover:grayscale-0 opacity-70 hover:opacity-100">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Upwork_Logo.svg" alt="Upwork" className="h-6" />
+              <span className="text-xs font-semibold">Top Rated</span>
+            </div>
+            <div className="flex items-center gap-2 grayscale transition-all hover:grayscale-0 opacity-70 hover:opacity-100">
+              <svg className="h-6 w-auto" viewBox="0 0 100 24" fill="currentColor">
+                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6Z" />
+              </svg>
+              <span className="text-xs font-semibold">Clutch 5.0</span>
+            </div>
           </div>
         </div>
+
+        {isVideoOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+            <div className="relative w-full max-w-4xl rounded-2xl overflow-hidden bg-background">
+              <button 
+                onClick={() => setIsVideoOpen(false)}
+                className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <div className="aspect-video w-full bg-secondary flex items-center justify-center">
+                <p className="text-muted-foreground">Premium Showreel Video Player Placeholder</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* RIGHT — 3D vertical marquee columns */}
         <div

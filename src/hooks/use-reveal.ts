@@ -7,6 +7,18 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(threshold = 0.
   useEffect(() => {
     const node = ref.current;
     if (!node || visible) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+    // Elements taller than the viewport can never reach a fixed intersection
+    // ratio (max ratio = viewportHeight / elementHeight), so cap the threshold
+    // by what is actually reachable — otherwise tall sections stay invisible.
+    const height = node.offsetHeight;
+    const reachable =
+      height > 0
+        ? Math.min(threshold, (window.innerHeight * 0.25) / height)
+        : threshold;
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -16,7 +28,7 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(threshold = 0.
           }
         });
       },
-      { threshold, rootMargin: "0px 0px -40px 0px" },
+      { threshold: reachable, rootMargin: "0px 0px -40px 0px" },
     );
     io.observe(node);
     return () => io.disconnect();

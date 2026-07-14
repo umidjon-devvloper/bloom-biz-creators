@@ -15,7 +15,9 @@ export function Navbar() {
   const NAV = [
     { to: "/", label: t.nav.home },
     { to: "/services", label: t.nav.services },
+    { to: "/case-studies", label: "Case Studies" },
     { to: "/portfolio", label: t.nav.portfolio },
+    { to: "/blog", label: "Blog" },
     { to: "/team", label: t.nav.team },
     { to: "/about", label: t.nav.about },
     { to: "/contact", label: t.nav.contact },
@@ -41,14 +43,14 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
         <Logo />
 
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-0.5 xl:flex">
           {NAV.map((item) => {
             const active = pathname === item.to;
             return (
               <li key={item.to}>
                 <Link
                   to={item.to}
-                  className={`relative rounded-full px-4 py-2 text-[15px] font-medium transition-colors ${
+                  className={`relative rounded-full px-3 py-2 text-[14px] font-medium transition-colors ${
                     active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -67,12 +69,12 @@ export function Navbar() {
           <ThemeToggle />
           <Link
             to="/contact"
-            className="hidden rounded-full px-5 py-2.5 text-[15px] font-semibold btn-glow md:inline-flex"
+            className="hidden rounded-full px-5 py-2 text-[14px] font-semibold btn-glow xl:inline-flex"
           >
             {t.common.order}
           </Link>
           <button
-            className="grid h-9 w-9 place-items-center rounded-full border border-border lg:hidden"
+            className="grid h-9 w-9 place-items-center rounded-full border border-border xl:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
           >
@@ -82,7 +84,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="glass-strong border-t border-border lg:hidden">
+        <div className="glass-strong border-t border-border xl:hidden">
           <ul className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-4">
             {NAV.map((item) => (
               <li key={item.to}>

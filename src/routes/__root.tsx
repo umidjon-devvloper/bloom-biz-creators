@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -15,6 +16,7 @@ import { I18nProvider } from "../i18n";
 import { Navbar } from "../components/site/Navbar";
 import { Footer } from "../components/site/Footer";
 import { FloatingContact } from "../components/site/FloatingContact";
+import { AIChatbot } from "../components/site/AIChatbot";
 
 function NotFoundComponent() {
   return (
@@ -135,18 +137,25 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isAdminPath = pathname.startsWith("/admin");
 
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <div className="relative min-h-screen bg-background text-foreground">
-          <Navbar />
+          {!isAdminPath && <Navbar />}
           <main>
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
           </main>
-          <Footer />
-          <FloatingContact />
+          {!isAdminPath && (
+            <>
+              <Footer />
+              <FloatingContact />
+              <AIChatbot />
+            </>
+          )}
         </div>
       </I18nProvider>
     </QueryClientProvider>

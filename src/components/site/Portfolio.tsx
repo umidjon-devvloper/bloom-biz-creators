@@ -59,10 +59,10 @@ export function Portfolio({
         </div>
       )}
 
-      <div className="grid gap-6 [perspective:1400px] sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mx-auto max-w-6xl flex flex-col gap-16 md:gap-32">
         {shown.map((p, i) => (
-          <Reveal3D key={p.title} delay={(i % 3) * 110}>
-            <ProjectCard p={p} viewLabel={t.portfolio.view} />
+          <Reveal3D key={p.title} delay={100}>
+            <ProjectCard p={p} viewLabel={t.portfolio.view} index={i} />
           </Reveal3D>
         ))}
       </div>
@@ -82,78 +82,79 @@ export function Portfolio({
   );
 }
 
-function ProjectCard({ p, viewLabel }: { p: Project; viewLabel: string }) {
+function ProjectCard({ p, viewLabel, index }: { p: Project; viewLabel: string; index: number }) {
   const hasLive = p.live !== "#";
   const hasRepo = p.github.includes("github.com");
   const cardBorder = p.featured ? "border-primary/40 shadow-glow" : "border-border";
+  const isEven = index % 2 === 0;
 
   return (
     <article
-      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-card card-hover ${cardBorder}`}
+      className={`group relative flex flex-col md:flex-row ${isEven ? "" : "md:flex-row-reverse"} gap-8 lg:gap-16 items-center`}
     >
       {/* Media */}
       <a
         href={hasLive ? p.live : p.github}
         target="_blank"
         rel="noopener noreferrer"
-        className="relative block aspect-[16/10] overflow-hidden"
+        className={`relative block w-full md:w-[55%] shrink-0 overflow-hidden rounded-2xl border bg-card ${cardBorder} aspect-[16/10]`}
         aria-label={`${p.title} — ${viewLabel}`}
       >
         <img
-          src={optimizedImage(p.image, 640)}
+          src={optimizedImage(p.image, 1200)}
           alt={p.title}
-          width={640}
-          height={400}
+          width={1200}
+          height={750}
           loading="lazy"
           decoding="async"
           onError={fallbackToOriginal(p.image)}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
         {/* Badges */}
-        <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
+        <div className="absolute left-4 top-4 flex flex-wrap gap-2">
           {p.featured && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-gradient-primary px-2.5 py-1 text-[11px] font-semibold text-primary-foreground shadow-glow">
-              <Sparkles className="h-3 w-3" /> Featured
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-glow">
+              <Sparkles className="h-3.5 w-3.5" /> Featured
             </span>
           )}
           {p.wip && (
-            <span className="inline-flex items-center gap-1 rounded-full glass-strong px-2.5 py-1 text-[11px] font-semibold text-foreground">
+            <span className="inline-flex items-center gap-1.5 rounded-full glass-strong px-3 py-1.5 text-xs font-semibold text-foreground">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-400" /> In progress
             </span>
           )}
         </div>
 
         {/* View hint */}
-        <div className="absolute bottom-3 right-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <span className="inline-flex items-center gap-1.5 rounded-full glass-strong px-3 py-1.5 text-xs font-medium">
-            {viewLabel} <ExternalLink className="h-3 w-3" />
+        <div className="absolute bottom-4 right-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+          <span className="inline-flex items-center gap-1.5 rounded-full glass-strong px-4 py-2 text-xs font-semibold">
+            {viewLabel} <ExternalLink className="h-3.5 w-3.5" />
           </span>
         </div>
       </a>
 
       {/* Body */}
-      <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+      <div className="flex w-full md:w-[45%] flex-col py-4">
+        <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
           <span className="text-primary">{p.n}</span>
-          <span className="h-px flex-1 bg-border" />
+          <span className="h-px w-8 bg-border" />
           <span>{p.cat}</span>
         </div>
 
-        <h3 className="mt-3 font-display text-lg font-bold leading-snug">{p.title}</h3>
-        <p className="mt-1.5 text-sm text-muted-foreground line-clamp-2">{p.desc}</p>
+        <h3 className="mt-5 font-display text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">{p.title}</h3>
+        <p className="mt-4 text-base leading-relaxed text-muted-foreground lg:text-lg">{p.desc}</p>
 
-        <p className="mt-3 flex items-start gap-1.5 text-xs text-foreground/80">
-          <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+        <p className="mt-6 flex items-start gap-2 text-sm font-medium text-foreground/90">
+          <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
           <span>{p.highlight}</span>
         </p>
 
-        <div className="mt-4 flex flex-wrap gap-1.5">
+        <div className="mt-8 flex flex-wrap gap-2">
           {p.stack.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-border bg-surface/50 px-2.5 py-0.5 text-[11px] text-muted-foreground"
+              className="rounded-full border border-border bg-surface/50 px-3.5 py-1 text-xs font-medium text-muted-foreground"
             >
               {tag}
             </span>
@@ -161,18 +162,18 @@ function ProjectCard({ p, viewLabel }: { p: Project; viewLabel: string }) {
         </div>
 
         {/* Actions */}
-        <div className="mt-5 flex items-center gap-2 border-t border-border pt-4">
+        <div className="mt-10 flex items-center gap-4 border-t border-border pt-6">
           {hasLive ? (
             <a
               href={p.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-gradient-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-transform hover:scale-105 active:scale-95"
             >
-              {viewLabel} <ExternalLink className="h-3.5 w-3.5" />
+              {viewLabel} <ArrowRight className="h-4 w-4" />
             </a>
           ) : (
-            <span className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-dashed border-border px-3 py-2 text-xs font-medium text-muted-foreground">
+            <span className="inline-flex items-center justify-center gap-2 rounded-full border border-dashed border-border px-6 py-3 text-sm font-medium text-muted-foreground">
               Coming soon
             </span>
           )}
@@ -181,10 +182,10 @@ function ProjectCard({ p, viewLabel }: { p: Project; viewLabel: string }) {
               href={p.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-surface/50 px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:text-primary"
               aria-label={`${p.title} — source code`}
             >
-              <Github className="h-3.5 w-3.5" /> Code
+              <Github className="h-4 w-4" /> Code
             </a>
           )}
         </div>
@@ -192,3 +193,4 @@ function ProjectCard({ p, viewLabel }: { p: Project; viewLabel: string }) {
     </article>
   );
 }
+

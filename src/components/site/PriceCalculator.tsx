@@ -157,7 +157,7 @@ export function PriceCalculator({ headless = false }: { headless?: boolean }) {
           </div>
         </div>
 
-        {/* Sticky total */}
+          {/* Sticky total */}
         <div className="lg:sticky lg:top-28 h-fit">
           <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-mesh p-8 shadow-elevated">
             <div className="absolute inset-0 -z-0 opacity-40">
@@ -179,9 +179,51 @@ export function PriceCalculator({ headless = false }: { headless?: boolean }) {
                 <div>{summary}</div>
               </div>
 
+              {/* Lead Capture Form */}
+              <form 
+                className="mt-6 space-y-3"
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const fd = new FormData(e.currentTarget);
+                  const email = fd.get("email") as string;
+                  const name = fd.get("name") as string;
+                  if (email && name) {
+                    try {
+                      // Call Server Function
+                      const { submitLead } = await import("../../api/api");
+                      await submitLead({ data: { name, email, metadata: { total, summary } } });
+                      alert("PDF sent to " + email);
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }
+                }}
+              >
+                <input 
+                  type="text" 
+                  name="name"
+                  placeholder="Your Name" 
+                  required
+                  className="w-full rounded-xl border border-border bg-background/50 px-4 py-3 text-sm focus:border-primary focus:outline-none"
+                />
+                <input 
+                  type="email" 
+                  name="email"
+                  placeholder="Email to send PDF quote" 
+                  required
+                  className="w-full rounded-xl border border-border bg-background/50 px-4 py-3 text-sm focus:border-primary focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface/80 px-6 py-3.5 text-sm font-semibold transition-colors hover:bg-surface"
+                >
+                  Get Quote as PDF
+                </button>
+              </form>
+
               <button
                 onClick={handleOrder}
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold btn-glow"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold btn-glow"
               >
                 {t.services.orderAtPrice}
                 <ArrowRight className="h-4 w-4" />
