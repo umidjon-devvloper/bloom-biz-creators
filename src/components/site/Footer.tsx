@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Github, Linkedin, Send } from "lucide-react";
+import { Github, Linkedin, Send, ArrowUpRight } from "lucide-react";
 import { Logo } from "./Logo";
 import { SITE } from "@/lib/site";
 import { useI18n } from "@/i18n";
@@ -10,41 +10,63 @@ export function Footer() {
   const { t } = useI18n();
 
   return (
-    <footer className="relative overflow-hidden border-t border-border bg-surface/50">
+    <footer className="relative overflow-hidden border-t border-border/40 bg-background pb-8 pt-24 md:pt-40">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 -top-40 h-80 bg-gradient-mesh opacity-40 blur-3xl"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-full bg-gradient-mesh opacity-20 mix-blend-screen"
       />
-      <div className="relative mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-10 md:grid-cols-4">
-          <div className="md:col-span-2">
-            <Logo />
-            <p className="mt-5 max-w-sm text-sm text-muted-foreground">{t.footer.tagline}</p>
-            <div className="mt-6 flex items-center gap-2">
-              {[
-                { Icon: Github, href: SITE.github },
-                { Icon: Linkedin, href: SITE.linkedin },
-                { Icon: Send, href: SITE.telegram },
-              ].map(({ Icon, href }, i) => (
-                <a
-                  key={i}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-glow"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
+      <div className="relative mx-auto max-w-7xl px-6">
+        
+        {/* Massive Call to Action Area */}
+        <div className="flex flex-col items-start justify-between border-b border-border/40 pb-16 md:flex-row md:items-end">
+          <h2 className="font-display text-5xl font-black leading-[0.9] tracking-tighter text-foreground sm:text-7xl md:text-8xl lg:text-[8rem]">
+            Let's build
+            <br />
+            <span className="text-muted-foreground">the future.</span>
+          </h2>
+          <div className="mt-12 flex items-center gap-4 md:mt-0">
+            {[
+              { Icon: Github, href: SITE.github, name: "GitHub" },
+              { Icon: Linkedin, href: SITE.linkedin, name: "LinkedIn" },
+              { Icon: Send, href: SITE.telegram, name: "Telegram" },
+            ].map(({ Icon, href, name }) => (
+              <a
+                key={name}
+                href={href}
+                aria-label={name}
+                target="_blank"
+                rel="noreferrer"
+                className="group relative flex h-16 w-16 items-center justify-center rounded-full border border-border/50 bg-surface/50 text-foreground transition-all duration-500 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-glow"
+              >
+                <Icon className="h-6 w-6 transition-transform duration-500 group-hover:scale-110" />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Editorial Grid Links */}
+        <div className="grid grid-cols-2 gap-12 py-16 md:grid-cols-4 lg:grid-cols-5">
+          <div className="col-span-2 lg:col-span-2">
+            <div className="mb-8">
+              <Logo />
+            </div>
+            <p className="max-w-sm text-lg font-medium text-muted-foreground">
+              {t.footer.tagline}
+            </p>
+            <div className="mt-8">
+              <Link to="/contact" className="group inline-flex items-center gap-2 text-xl font-bold transition-colors hover:text-primary">
+                {t.common.order}
+                <ArrowUpRight className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </Link>
             </div>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold">{t.footer.servicesTitle}</h4>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t.footer.servicesTitle}</h4>
+            <ul className="mt-8 space-y-4">
               {t.footer.services.map((s) => (
                 <li key={s}>
-                  <Link to="/services" className="transition-colors hover:text-foreground">
+                  <Link to="/services" className="text-base font-semibold transition-colors hover:text-primary">
                     {s}
                   </Link>
                 </li>
@@ -53,34 +75,46 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold">{t.footer.companyTitle}</h4>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t.footer.companyTitle}</h4>
+            <ul className="mt-8 space-y-4">
               {t.footer.company.map((label, i) => (
                 <li key={label}>
-                  <Link to={COMPANY_LINKS[i]} className="transition-colors hover:text-foreground">
+                  <Link to={COMPANY_LINKS[i]} className="text-base font-semibold transition-colors hover:text-primary">
                     {label}
                   </Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Platform</h4>
+            <ul className="mt-8 space-y-4">
               <li>
-                <Link to="/careers" className="transition-colors hover:text-foreground">Careers</Link>
+                <Link to="/careers" className="text-base font-semibold transition-colors hover:text-primary">Careers</Link>
               </li>
               <li>
-                <Link to="/portal" className="transition-colors hover:text-foreground">Client Portal</Link>
+                <Link to="/portal" className="text-base font-semibold transition-colors hover:text-primary">Client Portal</Link>
               </li>
               <li>
-                <Link to="/maintenance" className="transition-colors hover:text-foreground">Maintenance</Link>
+                <Link to="/maintenance" className="text-base font-semibold transition-colors hover:text-primary">Maintenance</Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-base font-semibold transition-colors hover:text-primary">Privacy</Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
+        {/* Bottom Bar */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-border/40 pt-8 text-sm font-medium text-muted-foreground md:flex-row">
           <div>
             © {new Date().getFullYear()} {SITE.name}. {t.footer.rights}
           </div>
-          <div>
-            {t.footer.location} · {SITE.email}
+          <div className="flex items-center gap-4">
+            <span>{t.footer.location}</span>
+            <span className="h-1 w-1 rounded-full bg-border"></span>
+            <span>{SITE.email}</span>
           </div>
         </div>
       </div>

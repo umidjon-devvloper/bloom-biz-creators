@@ -1,206 +1,156 @@
 import { useState } from "react";
-import type { ComponentType } from "react";
 import { Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Play,
-  LayoutTemplate,
-  Building2,
-  ShoppingCart,
-  Smartphone,
-  Server,
-  Palette,
-} from "lucide-react";
+import { ArrowRight, Play, Star, TrendingUp, Users } from "lucide-react";
 import { useI18n } from "@/i18n";
-import { AuroraBackground } from "./AuroraBackground";
-
-// Index-aligned with t.services.items
-const SERVICE_ICONS: ComponentType<{ className?: string }>[] = [
-  LayoutTemplate, // Landing page
-  Building2, // Corporate website
-  ShoppingCart, // Online store
-  Smartphone, // Mobile app
-  Server, // Backend / API
-  Palette, // UI/UX design
-];
-
-const maskFade = {
-  WebkitMaskImage: "linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent)",
-  maskImage: "linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent)",
-} as const;
 
 export function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const { t } = useI18n();
-  const services = t.services.items.map((s, i) => ({ ...s, Icon: SERVICE_ICONS[i] }));
-  const colA = services.slice(0, 3);
-  const colB = services.slice(3, 6);
 
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
-      <AuroraBackground dense />
+    <section className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden pt-32 pb-20">
+      {/* Background Gradients & Effects */}
+      <div className="absolute inset-0 -z-30 bg-background" />
+      
+      {/* Huge Ambient Aurora */}
+      <div className="absolute left-1/2 top-0 -z-20 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/3 rounded-[100%] bg-primary/25 blur-[120px] mix-blend-screen animate-pulse-glow" />
+      <div className="absolute right-0 top-[20%] -z-20 h-[500px] w-[500px] translate-x-1/3 rounded-[100%] bg-accent/20 blur-[120px] mix-blend-screen" />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-2">
-        {/* LEFT — copy */}
-        <div className="text-center lg:text-left">
-          <div
-            className="inline-flex items-center gap-2 rounded-full border border-border glass px-4 py-1.5 text-xs font-medium text-muted-foreground opacity-0"
-            style={{ animation: "fade-up 700ms ease-out 100ms forwards" }}
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
-            </span>
-            <span>{t.hero.badge}</span>
-          </div>
-
-          <h1
-            className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl opacity-0"
-            style={{ animation: "fade-up 700ms ease-out 220ms forwards" }}
-          >
-            {t.hero.titleA}{" "}
-            <span className="shimmer-text">{t.hero.titleHl}</span> {t.hero.titleB}
-          </h1>
-
-          <p
-            className="mx-auto mt-6 max-w-xl text-base text-muted-foreground sm:text-lg lg:mx-0 opacity-0"
-            style={{ animation: "fade-up 700ms ease-out 340ms forwards" }}
-          >
-            {t.hero.subtitle}
-          </p>
-
-          <div
-            className="mt-10 flex flex-wrap items-center justify-center gap-3 lg:justify-start opacity-0"
-            style={{ animation: "fade-up 700ms ease-out 460ms forwards" }}
-          >
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold btn-glow"
-            >
-              {t.hero.cta1}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <button
-              onClick={() => setIsVideoOpen(true)}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-primary/50 hover:bg-surface hover:shadow-md"
-            >
-              <Play className="h-4 w-4 text-primary" />
-              {t.hero.cta2 || "Showreel"}
-            </button>
-          </div>
-
-          {/* Trust Badges */}
-          <div
-            className="mt-12 flex flex-wrap items-center justify-center gap-6 lg:justify-start opacity-0"
-            style={{ animation: "fade-up 700ms ease-out 620ms forwards" }}
-          >
-            <div className="flex items-center gap-2 grayscale transition-all hover:grayscale-0 opacity-70 hover:opacity-100">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Upwork_Logo.svg" alt="Upwork" className="h-6" />
-              <span className="text-xs font-semibold">Top Rated</span>
-            </div>
-            <div className="flex items-center gap-2 grayscale transition-all hover:grayscale-0 opacity-70 hover:opacity-100">
-              <svg className="h-6 w-auto" viewBox="0 0 100 24" fill="currentColor">
-                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6Z" />
-              </svg>
-              <span className="text-xs font-semibold">Clutch 5.0</span>
-            </div>
-          </div>
+      {/* Perspective Grid Floor */}
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-[100vh] overflow-hidden [perspective:800px] opacity-70">
+        <div className="absolute inset-0 top-1/2 origin-bottom [transform:rotateX(75deg)]">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,color-mix(in_oklab,var(--primary)_15%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_oklab,var(--primary)_15%,transparent)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:linear-gradient(to_bottom,transparent,black_60%,transparent)]" />
         </div>
+      </div>
 
-        {isVideoOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div className="relative w-full max-w-4xl rounded-2xl overflow-hidden bg-background">
-              <button 
-                onClick={() => setIsVideoOpen(false)}
-                className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
-              >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              <div className="aspect-video w-full bg-secondary flex items-center justify-center">
-                <p className="text-muted-foreground">Premium Showreel Video Player Placeholder</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* RIGHT — 3D vertical marquee columns */}
+      <div className="absolute inset-0 -z-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+      
+      {/* Central Content */}
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-6 text-center">
+        
+        {/* Availability Badge */}
         <div
-          className="relative opacity-0 [perspective:1600px]"
-          style={{ animation: "fade-up 900ms ease-out 700ms forwards" }}
+          className="inline-flex items-center gap-3 rounded-full border border-border/50 bg-surface/50 px-5 py-2.5 text-sm font-semibold text-foreground backdrop-blur-md shadow-sm opacity-0"
+          style={{ animation: "fade-up 800ms cubic-bezier(0.22, 1, 0.36, 1) 100ms forwards" }}
         >
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-mesh blur-3xl opacity-50" />
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
+          </span>
+          {t.hero.badge}
+        </div>
 
-          <div className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground lg:text-left">
-            {t.services.eyebrow}
+        {/* Massive Headline */}
+        <h1
+          className="mt-10 sm:mt-12 font-display text-4xl sm:text-5xl md:text-6xl lg:text-[6.5rem] font-black leading-[1.1] sm:leading-[1.05] tracking-tight text-foreground opacity-0"
+          style={{ animation: "fade-up 1000ms cubic-bezier(0.22, 1, 0.36, 1) 300ms forwards" }}
+        >
+          {t.hero.titleA}
+          <br className="hidden sm:block" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-glow to-primary px-2 pb-2 inline-block">
+            {t.hero.titleHl}
+          </span>
+          <br className="hidden sm:block" />
+          <span className="text-foreground/90">{t.hero.titleB}</span>
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          className="mx-auto mt-10 max-w-3xl text-lg font-medium text-muted-foreground md:text-xl leading-relaxed opacity-0"
+          style={{ animation: "fade-up 1000ms cubic-bezier(0.22, 1, 0.36, 1) 500ms forwards" }}
+        >
+          {t.hero.subtitle}
+        </p>
+
+        {/* CTAs */}
+        <div
+          className="mt-10 sm:mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row opacity-0"
+          style={{ animation: "fade-up 1000ms cubic-bezier(0.22, 1, 0.36, 1) 700ms forwards" }}
+        >
+          <Link
+            to="/contact"
+            className="group relative flex w-full sm:w-auto items-center justify-center gap-2 rounded-full px-8 py-4 sm:px-10 sm:py-5 text-base font-bold btn-glow overflow-hidden"
+          >
+            <span className="relative z-10">{t.hero.cta1}</span>
+            <ArrowRight className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+          <button
+            onClick={() => setIsVideoOpen(true)}
+            className="group flex w-full sm:w-auto items-center justify-center gap-3 rounded-full border border-border/50 bg-surface/50 px-8 py-4 sm:px-10 sm:py-5 text-base font-bold text-foreground backdrop-blur-md transition-all duration-300 hover:border-primary/50 hover:bg-surface hover:shadow-glow"
+          >
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-primary/20 text-primary transition-transform duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+              <Play className="h-4 w-4 ml-0.5" />
+            </span>
+            {t.hero.cta2 || "View Showreel"}
+          </button>
+        </div>
+      </div>
+
+      {/* Floating Elements (Glassmorphic Stats) */}
+      <div className="pointer-events-none absolute inset-0 z-20 hidden overflow-hidden xl:block">
+        {/* Stat 1 */}
+        <div 
+          className="absolute left-[5%] top-[25%] flex items-center gap-4 rounded-[2rem] border border-border/40 bg-surface/30 p-4 pr-8 backdrop-blur-xl shadow-xl animate-float-slow opacity-0"
+          style={{ animation: "fade-in 1000ms ease forwards 1000ms, float-slow 8s ease-in-out infinite" }}
+        >
+          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/20 text-primary ring-1 ring-primary/30">
+            <Star className="h-6 w-6" />
           </div>
+          <div>
+            <div className="text-xl font-black text-foreground">5.0</div>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Clutch Rating</div>
+          </div>
+        </div>
 
-          <div className="flex justify-center gap-4 [transform:rotateX(9deg)_rotateY(-16deg)_rotate(1deg)] [transform-style:preserve-3d] sm:gap-5">
-            <MarqueeColumn services={colA} direction="up" />
-            <MarqueeColumn services={colB} direction="down" className="mt-10" />
+        {/* Stat 2 */}
+        <div 
+          className="absolute right-[5%] top-[30%] flex items-center gap-4 rounded-[2rem] border border-border/40 bg-surface/30 p-4 pr-8 backdrop-blur-xl shadow-xl animate-float opacity-0"
+          style={{ animation: "fade-in 1000ms ease forwards 1200ms, float 7s ease-in-out infinite" }}
+        >
+          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-success/20 text-success ring-1 ring-success/30">
+            <TrendingUp className="h-6 w-6" />
+          </div>
+          <div>
+            <div className="text-xl font-black text-foreground">$50M+</div>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Client Revenue</div>
+          </div>
+        </div>
+
+        {/* Stat 3 */}
+        <div 
+          className="absolute bottom-[25%] left-[10%] flex items-center gap-4 rounded-[2rem] border border-border/40 bg-surface/30 p-4 pr-8 backdrop-blur-xl shadow-xl animate-float-delayed opacity-0"
+          style={{ animation: "fade-in 1000ms ease forwards 1400ms, float-slow 9s ease-in-out infinite" }}
+        >
+          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-accent text-accent-foreground ring-1 ring-accent-foreground/30">
+            <Users className="h-6 w-6" />
+          </div>
+          <div>
+            <div className="text-xl font-black text-foreground">100+</div>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Enterprise Clients</div>
           </div>
         </div>
       </div>
+
+      {/* Video Modal */}
+      {isVideoOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-xl">
+          <div className="relative w-full max-w-5xl rounded-[2rem] overflow-hidden border border-border/50 bg-background shadow-2xl animate-fade-up">
+            <button 
+              onClick={() => setIsVideoOpen(false)}
+              className="absolute right-6 top-6 z-10 grid h-12 w-12 place-items-center rounded-full bg-black/50 text-white backdrop-blur-md transition-colors hover:bg-primary"
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="aspect-video w-full bg-surface flex flex-col items-center justify-center text-center p-8">
+              <Play className="h-16 w-16 text-primary/50 mb-4" />
+              <h3 className="font-display text-3xl font-bold text-foreground">Premium Showreel</h3>
+              <p className="text-muted-foreground mt-2">Connect your YouTube/Vimeo ID here.</p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
-  );
-}
-
-type ServiceCard = {
-  title: string;
-  desc: string;
-  from: string;
-  Icon: ComponentType<{ className?: string }>;
-};
-
-function MarqueeColumn({
-  services,
-  direction,
-  className = "",
-}: {
-  services: ServiceCard[];
-  direction: "up" | "down";
-  className?: string;
-}) {
-  // 4 sets + uniform trailing margin per tile: translateY(-50%) spans exactly two
-  // sets (taller than the viewport), so the loop is seamless with no gap at the seam.
-  const loop = [...services, ...services, ...services, ...services];
-  return (
-    <div
-      className={`h-[440px] w-[190px] shrink-0 overflow-hidden sm:h-[500px] sm:w-[220px] ${className}`}
-      style={maskFade}
-    >
-      <div
-        className={`flex flex-col ${
-          direction === "up" ? "animate-marquee-up" : "animate-marquee-down"
-        } motion-reduce:animate-none`}
-      >
-        {loop.map((s, i) => (
-          <ServiceTile key={`${s.title}-${i}`} s={s} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ServiceTile({ s }: { s: ServiceCard }) {
-  const { Icon } = s;
-  return (
-    <div className="group mb-4 rounded-2xl border border-border glass-strong p-4 shadow-elevated transition-colors hover:border-primary/40">
-      <div className="flex items-center gap-3">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-primary text-primary-foreground shadow-glow">
-          <Icon className="h-4 w-4" />
-        </span>
-        <div className="min-w-0">
-          <div className="truncate text-sm font-semibold">{s.title}</div>
-          <div className="text-[11px] text-primary">
-            {/* from $X */}
-            <span className="text-muted-foreground">from </span>
-            {s.from}
-          </div>
-        </div>
-      </div>
-      <p className="mt-3 text-xs leading-relaxed text-muted-foreground line-clamp-3">{s.desc}</p>
-    </div>
   );
 }

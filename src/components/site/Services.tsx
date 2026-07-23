@@ -14,32 +14,54 @@ export function Services({ headless = false, showCta = false }: { headless?: boo
       eyebrow={headless ? undefined : t.services.eyebrow}
       title={
         headless ? undefined : (
-          <>
-            {t.services.titleA} <span className="text-gradient-primary">{t.services.titleHl}</span>
-          </>
+          <span className="text-5xl md:text-7xl font-black tracking-tighter">
+            {t.services.titleA} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-glow">{t.services.titleHl}</span>
+          </span>
         )
       }
       description={headless ? undefined : t.services.desc}
     >
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 flex flex-col border-t border-border/40">
         {t.services.items.map((s, i) => {
           const Icon = ICONS[i];
+          const num = String(i + 1).padStart(2, "0");
           return (
-            <Reveal key={s.title} delay={i * 80}>
-              <div className="group relative h-full overflow-hidden rounded-2xl border border-border bg-card p-7 card-hover">
-                <div
-                  aria-hidden
-                  className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gradient-primary opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-30"
-                />
-                <div className="relative">
-                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-primary/10 text-primary ring-1 ring-primary/20 transition-transform group-hover:scale-110 group-hover:-rotate-6">
-                    <Icon className="h-6 w-6" />
+            <Reveal key={s.title} delay={i * 100}>
+              <div className="group relative flex flex-col items-start justify-between border-b border-border/40 py-10 transition-colors duration-500 hover:bg-surface/40 md:flex-row md:items-center md:py-16 px-4 md:px-8">
+                
+                {/* Left side: Number and Title */}
+                <div className="flex items-start gap-6 md:gap-12">
+                  <span className="font-display text-4xl font-light text-border transition-colors duration-500 group-hover:text-primary md:text-6xl">
+                    {num}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-3xl font-black tracking-tight text-foreground transition-transform duration-500 group-hover:translate-x-4 md:text-5xl">
+                      {s.title}
+                    </h3>
+                    <p className="mt-4 max-w-lg text-base font-medium leading-relaxed text-muted-foreground opacity-70 transition-opacity duration-500 group-hover:opacity-100">
+                      {s.desc}
+                    </p>
                   </div>
-                  <h3 className="mt-5 font-display text-xl font-bold">{s.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-                  <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
-                    <span className="text-xs text-muted-foreground">{t.common.from}</span>
-                    <span className="font-display text-lg font-bold text-gradient-primary">{s.from}</span>
+                </div>
+
+                {/* Right side: Price and Icon (Reveals on hover on desktop) */}
+                <div className="mt-8 flex w-full items-end justify-between md:mt-0 md:w-auto md:flex-col md:items-end md:gap-6">
+                  <div className="flex flex-col gap-1 md:text-right">
+                    <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                      Starting from
+                    </span>
+                    <span className="font-display text-xl font-bold text-primary md:text-2xl">
+                      {s.from}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-center gap-4 md:-translate-x-8 md:opacity-0 md:transition-all md:duration-500 md:group-hover:translate-x-0 md:group-hover:opacity-100">
+                    <div className="grid h-12 w-12 place-items-center rounded-full border border-border/50 bg-background text-muted-foreground transition-colors group-hover:border-primary group-hover:text-primary">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div className="grid h-12 w-12 place-items-center rounded-full bg-primary text-primary-foreground shadow-glow transition-transform group-hover:scale-110">
+                      <ArrowRight className="h-5 w-5" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -49,13 +71,13 @@ export function Services({ headless = false, showCta = false }: { headless?: boo
       </div>
 
       {showCta && (
-        <div className="mt-12 text-center">
+        <div className="mt-16 text-center">
           <Link
             to="/services"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-primary/50 hover:bg-surface"
+            className="group inline-flex items-center gap-3 rounded-full border border-border/50 bg-surface/50 px-8 py-4 text-base font-bold text-foreground backdrop-blur-md transition-all hover:border-primary/50 hover:bg-surface hover:shadow-glow"
           >
             {t.home.seeAll}
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       )}

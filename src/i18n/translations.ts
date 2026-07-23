@@ -262,11 +262,11 @@ const uz: Dict = {
   },
   about: {
     eyebrow: "Biz haqimizda",
-    titleA: "2022 yildan beri",
-    titleHl: "g'oyalarni ishga tushiramiz",
-    desc: "Kichik, lekin kuchli jamoa. Har bir loyihaga mahsulot egasidek qaraymiz — chunki natija sizniki, obro' bizniki.",
+    titleA: "Raqamli kelajakni",
+    titleHl: "bugun quramiz",
+    desc: "Premium raqamli agentlik. Har bir loyihaga mahsulot egasidek qaraymiz — chunki natija sizniki, obro' bizniki.",
     body:
-      "Biz — O'zbekistondagi kichik, lekin tajribali dasturchilar jamoasimiz. Bizning maqsadimiz sodda: mijozning biznesiga real qiymat qo'shadigan mahsulot yaratish. Bo'sh va'dalar emas — deadlinelar, aniq narx va ishga tushirilgandan keyin ham qo'llab-quvvatlash.",
+      "Umidjon Agency — bu startaplar, korxonalar va ilg'or g'oyalar uchun zamonaviy SaaS platformalar, sun'iy intellekt yechimlari va raqamli mahsulotlar yaratuvchi xalqaro agentlik. Bizning maqsadimiz: premium darajadagi dizayn va mustahkam kod orqali biznesingizga haqiqiy qiymat qo'shish.",
     points: [
       "Har bir loyihaga bitta shaxsiy menejer biriktiriladi",
       "Haftalik hisobot va real-time progress",
@@ -469,11 +469,11 @@ const ru: Dict = {
   },
   about: {
     eyebrow: "О нас",
-    titleA: "С 2022 года",
-    titleHl: "воплощаем идеи в жизнь",
-    desc: "Небольшая, но сильная команда. К каждому проекту относимся как владельцы продукта — ведь результат ваш, а репутация наша.",
+    titleA: "Создаем цифровое",
+    titleHl: "будущее сегодня",
+    desc: "Премиальное диджитал агентство. К каждому проекту относимся как владельцы продукта — ведь результат ваш, а репутация наша.",
     body:
-      "Мы — небольшая, но опытная команда разработчиков из Узбекистана. Наша цель проста: создавать продукты, которые приносят реальную ценность бизнесу клиента. Не пустые обещания — дедлайны, точная цена и поддержка даже после запуска.",
+      "Umidjon Agency — международное агентство цифровых продуктов, создающее современные SaaS-платформы, ИИ-решения и корпоративное ПО. Наша цель — приносить реальную пользу вашему бизнесу через дизайн мирового уровня и надежную инженерию.",
     points: [
       "К каждому проекту прикрепляется персональный менеджер",
       "Еженедельные отчёты и прогресс в реальном времени",
@@ -673,11 +673,11 @@ const en: Dict = {
   },
   about: {
     eyebrow: "About us",
-    titleA: "Since 2022 we've been",
-    titleHl: "turning ideas into products",
-    desc: "A small but strong team. We treat every project like product owners — because the result is yours, and the reputation is ours.",
+    titleA: "Building the digital",
+    titleHl: "future, today.",
+    desc: "A premium digital agency. We treat every project like product owners — because the result is yours, and the reputation is ours.",
     body:
-      "We're a small but experienced team of developers from Uzbekistan. Our goal is simple: build products that add real value to the client's business. No empty promises — deadlines, exact pricing and support even after launch.",
+      "Umidjon Agency is an international digital product agency building modern SaaS platforms, AI solutions, and Enterprise Software. Our goal is simple: to create products that add real value to your business through world-class design and robust engineering.",
     points: [
       "A dedicated personal manager for every project",
       "Weekly reports and real-time progress",

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "./ThemeToggle";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
 import { useI18n } from "@/i18n";
@@ -17,7 +16,6 @@ export function Navbar() {
     { to: "/services", label: t.nav.services },
     { to: "/case-studies", label: "Case Studies" },
     { to: "/portfolio", label: t.nav.portfolio },
-    { to: "/blog", label: "Blog" },
     { to: "/team", label: t.nav.team },
     { to: "/about", label: t.nav.about },
     { to: "/contact", label: t.nav.contact },
@@ -35,78 +33,96 @@ export function Navbar() {
   }, [pathname]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-strong shadow-md" : "bg-transparent"
-      }`}
-    >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
-        <Logo />
+    <header className="fixed inset-x-0 top-4 z-50 flex justify-center px-4 transition-all duration-500 md:top-6">
+      <nav
+        className={`relative flex w-full max-w-[1400px] items-center justify-between rounded-full border transition-all duration-500 ${
+          scrolled
+            ? "border-border/40 bg-background/60 px-4 py-2 shadow-lg backdrop-blur-xl md:px-6 md:py-3"
+            : "border-transparent bg-transparent px-2 py-2 md:px-4"
+        }`}
+      >
+        {/* Glow effect behind the navbar when scrolled */}
+        {scrolled && (
+          <div className="pointer-events-none absolute inset-0 -z-10 rounded-full shadow-[0_0_30px_-5px_rgba(var(--primary),0.3)]"></div>
+        )}
 
-        <ul className="hidden items-center gap-0.5 xl:flex">
+        <div className="flex shrink-0 items-center">
+          <Logo />
+        </div>
+
+        <ul className="hidden items-center gap-1 xl:gap-2 lg:flex">
           {NAV.map((item) => {
             const active = pathname === item.to;
             return (
               <li key={item.to}>
                 <Link
                   to={item.to}
-                  className={`relative rounded-full px-3 py-2 text-[14px] font-medium transition-colors ${
-                    active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  className={`relative whitespace-nowrap rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300 ${
+                    active 
+                      ? "text-primary-foreground bg-primary/20 shadow-[inset_0_0_12px_rgba(var(--primary),0.2)]" 
+                      : "text-muted-foreground hover:bg-surface hover:text-foreground"
                   }`}
                 >
                   {item.label}
-                  {active && (
-                    <span className="absolute inset-x-3 -bottom-0.5 h-px bg-gradient-primary" />
-                  )}
                 </Link>
               </li>
             );
           })}
         </ul>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-3">
           <LanguageSwitcher />
-          <ThemeToggle />
+          {/* ThemeToggle removed for pure dark theme */}
           <Link
             to="/contact"
-            className="hidden rounded-full px-5 py-2 text-[14px] font-semibold btn-glow xl:inline-flex"
+            className="hidden whitespace-nowrap rounded-full px-6 py-2.5 text-[14px] font-bold btn-glow lg:inline-flex"
           >
             {t.common.order}
           </Link>
           <button
-            className="grid h-9 w-9 place-items-center rounded-full border border-border xl:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full border border-border/50 bg-surface/50 lg:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
           >
-            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
-      </nav>
 
-      {open && (
-        <div className="glass-strong border-t border-border xl:hidden">
-          <ul className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-4">
-            {NAV.map((item) => (
-              <li key={item.to}>
+        {/* Mobile menu dropdown */}
+        {open && (
+          <div className="absolute inset-x-0 top-[calc(100%+1rem)] flex flex-col gap-2 rounded-[2rem] border border-border/40 bg-background/80 p-4 shadow-xl backdrop-blur-xl lg:hidden">
+            <ul className="flex flex-col gap-1">
+              {NAV.map((item) => {
+                const active = pathname === item.to;
+                return (
+                  <li key={item.to}>
+                    <Link
+                      to={item.to}
+                      onClick={() => setOpen(false)}
+                      className={`block rounded-2xl px-4 py-3 text-base font-semibold transition-colors ${
+                        active
+                          ? "bg-primary/20 text-primary-foreground"
+                          : "text-muted-foreground hover:bg-surface hover:text-foreground"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+              <li className="mt-2">
                 <Link
-                  to={item.to}
+                  to="/contact"
                   onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-3 text-[15px] font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
+                  className="block w-full rounded-2xl py-3.5 text-center text-base font-bold btn-glow"
                 >
-                  {item.label}
+                  {t.common.order}
                 </Link>
               </li>
-            ))}
-            <Link
-              to="/contact"
-              onClick={() => setOpen(false)}
-              className="mt-2 rounded-full px-5 py-3 text-center text-sm font-semibold btn-glow"
-            >
-              {t.common.order}
-            </Link>
-          </ul>
-        </div>
-      )}
+            </ul>
+          </div>
+        )}
+      </nav>
     </header>
   );
 }
