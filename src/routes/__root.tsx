@@ -154,12 +154,21 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'AW-18019926528');`;
 
+/**
+ * Google Ads conversion event. Sits in the shell, so it fires once per page
+ * load on every route — see the note in RootShell about moving it to the real
+ * conversion action instead.
+ */
+const GTAG_CONVERSION = `gtag('event', 'conversion', {'send_to': 'AW-18019926528/O1XPCOOqs9wcEICEyZBD'});`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="uz" className="dark" suppressHydrationWarning>
       <head>
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18019926528" />
         <script dangerouslySetInnerHTML={{ __html: GTAG_INIT }} />
+        {/* Must stay after GTAG_INIT — that block is what defines `gtag`. */}
+        <script dangerouslySetInnerHTML={{ __html: GTAG_CONVERSION }} />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
         <script dangerouslySetInnerHTML={{ __html: HYDRATION_FAILSAFE }} />
         <HeadContent />
