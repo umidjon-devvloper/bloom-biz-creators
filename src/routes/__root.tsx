@@ -148,18 +148,18 @@ window.__uaHydration=setTimeout(function(){d.classList.remove('js')},4000)})()`;
 const THEME_INIT = `(function(){try{if(localStorage.getItem('ua-theme')==='light'){
 var d=document.documentElement;d.classList.remove('dark');d.classList.add('light')}}catch(e){}})()`;
 
+/** Google Ads (gtag.js) bootstrap. Pairs with the async loader tag in RootShell. */
+const GTAG_INIT = `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'AW-18019926528');`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="uz" className="dark" suppressHydrationWarning>
       <head>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18019926528"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'AW-18019926528');
-      </script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18019926528" />
+        <script dangerouslySetInnerHTML={{ __html: GTAG_INIT }} />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
         <script dangerouslySetInnerHTML={{ __html: HYDRATION_FAILSAFE }} />
         <HeadContent />
