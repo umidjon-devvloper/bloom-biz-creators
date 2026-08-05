@@ -1,11 +1,25 @@
 import { Link } from "@tanstack/react-router";
-import { Globe, Building2, ShoppingBag, Smartphone, Server, Palette, ArrowRight } from "lucide-react";
+import {
+  Globe,
+  Building2,
+  ShoppingBag,
+  Smartphone,
+  Server,
+  Palette,
+  ArrowRight,
+} from "lucide-react";
 import { Section, Reveal } from "./Section";
 import { useI18n } from "@/i18n";
 
 const ICONS = [Globe, Building2, ShoppingBag, Smartphone, Server, Palette];
 
-export function Services({ headless = false, showCta = false }: { headless?: boolean; showCta?: boolean }) {
+export function Services({
+  headless = false,
+  showCta = false,
+}: {
+  headless?: boolean;
+  showCta?: boolean;
+}) {
   const { t } = useI18n();
 
   return (
@@ -15,7 +29,10 @@ export function Services({ headless = false, showCta = false }: { headless?: boo
       title={
         headless ? undefined : (
           <span className="text-5xl md:text-7xl font-black tracking-tighter">
-            {t.services.titleA} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-glow">{t.services.titleHl}</span>
+            {t.services.titleA}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-glow">
+              {t.services.titleHl}
+            </span>
           </span>
         )
       }
@@ -28,7 +45,6 @@ export function Services({ headless = false, showCta = false }: { headless?: boo
           return (
             <Reveal key={s.title} delay={i * 100}>
               <div className="group relative flex flex-col items-start justify-between border-b border-border/40 py-10 transition-colors duration-500 hover:bg-surface/40 md:flex-row md:items-center md:py-16 px-4 md:px-8">
-                
                 {/* Left side: Number and Title */}
                 <div className="flex items-start gap-6 md:gap-12">
                   <span className="font-display text-4xl font-light text-border transition-colors duration-500 group-hover:text-primary md:text-6xl">
@@ -48,13 +64,13 @@ export function Services({ headless = false, showCta = false }: { headless?: boo
                 <div className="mt-8 flex w-full items-end justify-between md:mt-0 md:w-auto md:flex-col md:items-end md:gap-6">
                   <div className="flex flex-col gap-1 md:text-right">
                     <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                      Starting from
+                      {t.common.startingFrom}
                     </span>
                     <span className="font-display text-xl font-bold text-primary md:text-2xl">
                       {s.from}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center gap-4 md:-translate-x-8 md:opacity-0 md:transition-all md:duration-500 md:group-hover:translate-x-0 md:group-hover:opacity-100">
                     <div className="grid h-12 w-12 place-items-center rounded-full border border-border/50 bg-background text-muted-foreground transition-colors group-hover:border-primary group-hover:text-primary">
                       <Icon className="h-5 w-5" />

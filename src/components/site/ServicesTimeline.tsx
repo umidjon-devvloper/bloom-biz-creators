@@ -120,9 +120,14 @@ export function ServicesTimeline() {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                           <h3 className="font-display text-xl font-bold sm:text-2xl">{s.title}</h3>
+                          {/* A label rather than `common.from`: that key is a
+                              postposition in Uzbek ("$800 dan boshlab") but a
+                              preposition in ru/en, so no single word order works
+                              for all three. `startingFrom` reads as a label in
+                              every language. */}
                           <span className="whitespace-nowrap text-right leading-tight">
                             <span className="mr-1.5 text-[11px] uppercase tracking-wider text-muted-foreground">
-                              {t.common.from}
+                              {t.common.startingFrom}
                             </span>
                             <span className="font-display text-xl font-bold text-gradient-primary">
                               {s.from}

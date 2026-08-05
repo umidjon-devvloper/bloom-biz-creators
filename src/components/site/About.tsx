@@ -1,13 +1,17 @@
 import { Check } from "lucide-react";
 import { Section } from "./Section";
 import { useCountUp, useReveal } from "@/hooks/use-reveal";
+import { FACTS } from "@/lib/site";
 import { useI18n } from "@/i18n";
 
 function Stat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
   const { ref, visible } = useReveal();
   const n = useCountUp(value, visible, 2000);
   return (
-    <div ref={ref} className="group relative overflow-hidden rounded-[2rem] border border-border/40 bg-surface/20 p-8 text-center backdrop-blur-md transition-all duration-500 hover:border-primary/50 hover:bg-surface/50 hover:shadow-glow">
+    <div
+      ref={ref}
+      className="group relative overflow-hidden rounded-[2rem] border border-border/40 bg-surface/20 p-8 text-center backdrop-blur-md transition-all duration-500 hover:border-primary/50 hover:bg-surface/50 hover:shadow-glow"
+    >
       <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gradient-primary opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-20" />
       <div className="relative font-display text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-foreground to-foreground/60 tabular-nums tracking-tighter md:text-7xl">
         {n}
@@ -30,7 +34,10 @@ export function About({ headless = false }: { headless?: boolean }) {
       title={
         headless ? undefined : (
           <span className="text-5xl md:text-7xl font-black tracking-tighter">
-            {t.about.titleA} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-glow">{t.about.titleHl}</span>
+            {t.about.titleA}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-glow">
+              {t.about.titleHl}
+            </span>
           </span>
         )
       }
@@ -75,12 +82,16 @@ export function About({ headless = false }: { headless?: boolean }) {
         </div>
       </div>
 
-      {/* Massive Statistics Section */}
+      {/* Statistics — values come from FACTS so they cannot contradict the
+          portfolio, and the note underneath tells visitors how to check them. */}
       <div className="mt-24 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {t.about.stats.map((s) => (
-          <Stat key={s.label} {...s} />
+          <Stat key={s.key} value={FACTS[s.key]} suffix={s.suffix} label={s.label} />
         ))}
       </div>
+      <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground">
+        {t.about.statsNote}
+      </p>
     </Section>
   );
 }

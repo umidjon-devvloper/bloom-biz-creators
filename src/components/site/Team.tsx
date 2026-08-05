@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Github, Linkedin, ArrowRight } from "lucide-react";
 import { Section, Reveal } from "./Section";
+import { SITE } from "@/lib/site";
 import { useI18n } from "@/i18n";
 
 /**
@@ -11,15 +12,46 @@ import { useI18n } from "@/i18n";
  * set e.g. `photo: "/team/1.jpg"` — the <img> only renders when `photo` is set.
  */
 const TEAM_META = [
-  { initials: "UG", photo: "", accent: "275", skills: [{ name: "React & Next.js", value: 98 }, { name: "Architecture", value: 95 }, { name: "Node.js", value: 92 }] },
-  { initials: "DH", photo: "", accent: "200", skills: [{ name: "Node.js & Go", value: 96 }, { name: "PostgreSQL", value: 92 }, { name: "React", value: 88 }] },
-  { initials: "UA", photo: "", accent: "320", skills: [{ name: "React & Vue", value: 96 }, { name: "Tailwind CSS", value: 98 }, { name: "Motion & UI", value: 90 }] },
+  {
+    initials: "UG",
+    photo: "",
+    accent: "275",
+    skills: ["React & Next.js", "TypeScript", "Node.js"],
+    github: SITE.github,
+    linkedin: SITE.linkedin,
+  },
+  {
+    initials: "DH",
+    photo: "",
+    accent: "200",
+    skills: ["Node.js", "PostgreSQL", "React"],
+    github: "",
+    linkedin: "",
+  },
+  {
+    initials: "UA",
+    photo: "",
+    accent: "320",
+    skills: ["React & Vue", "Tailwind CSS", "Motion & UI"],
+    github: "",
+    linkedin: "",
+  },
 ];
 
-const bentoClass = "relative overflow-hidden rounded-[2rem] border border-border/60 bg-card/40 p-8 backdrop-blur-md transition-all duration-500 hover:border-primary/50 hover:bg-card/60 hover:shadow-glow";
-const bentoClassNoPadding = "relative overflow-hidden rounded-[2rem] border border-border/60 bg-card/40 backdrop-blur-md transition-all duration-500 hover:border-primary/50 hover:bg-card/60 hover:shadow-glow";
+const bentoClass =
+  "relative overflow-hidden rounded-[2rem] border border-border/60 bg-card/40 p-8 backdrop-blur-md transition-all duration-500 hover:border-primary/50 hover:bg-card/60 hover:shadow-glow";
+const bentoClassNoPadding =
+  "relative overflow-hidden rounded-[2rem] border border-border/60 bg-card/40 backdrop-blur-md transition-all duration-500 hover:border-primary/50 hover:bg-card/60 hover:shadow-glow";
 
-function BentoAvatar({ photo, initials, accent }: { photo: string; initials: string; accent: string }) {
+function BentoAvatar({
+  photo,
+  initials,
+  accent,
+}: {
+  photo: string;
+  initials: string;
+  accent: string;
+}) {
   const [failed, setFailed] = useState(false);
   return (
     <div className="group relative h-full w-full min-h-[16rem]">
@@ -32,7 +64,7 @@ function BentoAvatar({ photo, initials, accent }: { photo: string; initials: str
         {initials}
       </div>
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
-      
+
       {photo && !failed && (
         <img
           src={photo}
@@ -47,16 +79,28 @@ function BentoAvatar({ photo, initials, accent }: { photo: string; initials: str
   );
 }
 
-function Identity({ m, meta, align = "left" }: { m: any, meta: any, align?: "left" | "right" }) {
+function Identity({
+  m,
+  meta,
+  align = "left",
+}: {
+  m: { name: string; role: string; level: string };
+  meta: { initials: string };
+  align?: "left" | "right";
+}) {
   return (
     <>
-      <div className={`absolute -bottom-16 ${align === 'left' ? '-right-10' : '-left-10'} opacity-[0.02] pointer-events-none select-none transition-transform duration-1000 group-hover:scale-110 group-hover:opacity-[0.04]`}>
+      <div
+        className={`absolute -bottom-16 ${align === "left" ? "-right-10" : "-left-10"} opacity-[0.02] pointer-events-none select-none transition-transform duration-1000 group-hover:scale-110 group-hover:opacity-[0.04]`}
+      >
         <span className="font-display text-[16rem] font-black leading-none">{meta.initials}</span>
       </div>
       <div className="relative z-10 flex h-full flex-col justify-center">
-        <h3 className="font-display text-4xl font-black tracking-tight text-foreground md:text-5xl lg:text-6xl">{m.name}</h3>
+        <h3 className="font-display text-4xl font-black tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          {m.name}
+        </h3>
         <p className="mt-3 text-xl font-bold text-primary md:text-2xl">{m.role}</p>
-        <div className={`mt-6 flex ${align === 'left' ? 'justify-start' : 'justify-end'}`}>
+        <div className={`mt-6 flex ${align === "left" ? "justify-start" : "justify-end"}`}>
           <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-surface/80 px-5 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground shadow-sm backdrop-blur-md">
             {m.level}
           </div>
@@ -66,14 +110,21 @@ function Identity({ m, meta, align = "left" }: { m: any, meta: any, align?: "lef
   );
 }
 
-function BentoSkills({ skills }: { skills: any[] }) {
+/**
+ * Skills used to carry a self-assigned percentage ("React 98%"). A number that
+ * only its own subject can score isn't evidence of anything, and next to real
+ * figures it drags them down with it — so the stack is listed plainly instead.
+ */
+function BentoSkills({ skills }: { skills: string[] }) {
   return (
     <div className="grid h-full grid-cols-1 gap-4 sm:grid-cols-3">
       {skills.map((s) => (
-        <div key={s.name} className="flex h-full min-h-[8rem] flex-col justify-between rounded-2xl border border-border/40 bg-background/50 p-5 transition-colors duration-300 hover:border-primary/40 hover:bg-background/80">
-          <span className="text-sm font-bold text-foreground/80">{s.name}</span>
-          <span className="font-display text-4xl font-black text-transparent bg-clip-text bg-gradient-primary lg:text-5xl">
-            {s.value}<span className="text-2xl font-bold text-primary/50 lg:text-3xl">%</span>
+        <div
+          key={s}
+          className="flex h-full min-h-[8rem] flex-col justify-end rounded-2xl border border-border/40 bg-background/50 p-5 transition-colors duration-300 hover:border-primary/40 hover:bg-background/80"
+        >
+          <span className="font-display text-xl font-black leading-tight text-foreground lg:text-2xl">
+            {s}
           </span>
         </div>
       ))}
@@ -81,28 +132,58 @@ function BentoSkills({ skills }: { skills: any[] }) {
   );
 }
 
-function BentoSocials({ m }: { m: any }) {
+/** Renders only the profiles that exist — an icon linking to "#" is a dead end. */
+function BentoSocials({
+  m,
+  meta,
+}: {
+  m: { name: string };
+  meta: { github: string; linkedin: string };
+}) {
+  const links = [
+    {
+      href: meta.github,
+      Icon: Github,
+      name: "GitHub",
+      hover: "hover:border-primary hover:bg-primary hover:text-primary-foreground",
+    },
+    {
+      href: meta.linkedin,
+      Icon: Linkedin,
+      name: "LinkedIn",
+      hover: "hover:border-[#0A66C2] hover:bg-[#0A66C2] hover:text-white",
+    },
+  ].filter((l) => l.href);
+
+  if (!links.length) {
+    return <span className="text-xs font-medium text-muted-foreground">{m.name}</span>;
+  }
+
   return (
     <>
-      <a
-        href="#"
-        aria-label={`${m.name} GitHub`}
-        className="group/social relative flex h-14 w-14 items-center justify-center rounded-full border border-border/60 bg-background/60 text-muted-foreground shadow-sm backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-glow"
-      >
-        <Github className="h-6 w-6 transition-transform group-hover/social:-rotate-12" />
-      </a>
-      <a
-        href="#"
-        aria-label={`${m.name} LinkedIn`}
-        className="group/social relative flex h-14 w-14 items-center justify-center rounded-full border border-border/60 bg-background/60 text-muted-foreground shadow-sm backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-[#0A66C2] hover:bg-[#0A66C2] hover:text-white hover:shadow-glow"
-      >
-        <Linkedin className="h-6 w-6 transition-transform group-hover/social:rotate-12" />
-      </a>
+      {links.map(({ href, Icon, name, hover }) => (
+        <a
+          key={name}
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`${m.name} ${name}`}
+          className={`group/social relative flex h-14 w-14 items-center justify-center rounded-full border border-border/60 bg-background/60 text-muted-foreground shadow-sm backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:shadow-glow ${hover}`}
+        >
+          <Icon className="h-6 w-6 transition-transform group-hover/social:-rotate-12" />
+        </a>
+      ))}
     </>
   );
 }
 
-export function Team({ headless = false, showJoin = false }: { headless?: boolean; showJoin?: boolean }) {
+export function Team({
+  headless = false,
+  showJoin = false,
+}: {
+  headless?: boolean;
+  showJoin?: boolean;
+}) {
   const { t } = useI18n();
 
   return (
@@ -127,25 +208,32 @@ export function Team({ headless = false, showJoin = false }: { headless?: boolea
           return (
             <Reveal key={m.name} delay={100} className="w-full">
               <div className="flex flex-col gap-4">
-                
                 {/* Top Row */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 md:min-h-[18rem]">
                   {isEven ? (
                     <>
                       <div className={`${bentoClassNoPadding} md:col-span-1 lg:col-span-1`}>
-                        <BentoAvatar photo={meta.photo} initials={meta.initials} accent={meta.accent} />
+                        <BentoAvatar
+                          photo={meta.photo}
+                          initials={meta.initials}
+                          accent={meta.accent}
+                        />
                       </div>
                       <div className={`${bentoClass} md:col-span-2 lg:col-span-3 text-left group`}>
-                         <Identity m={m} meta={meta} align="left" />
+                        <Identity m={m} meta={meta} align="left" />
                       </div>
                     </>
                   ) : (
                     <>
                       <div className={`${bentoClass} md:col-span-2 lg:col-span-3 text-right group`}>
-                         <Identity m={m} meta={meta} align="right" />
+                        <Identity m={m} meta={meta} align="right" />
                       </div>
                       <div className={`${bentoClassNoPadding} md:col-span-1 lg:col-span-1`}>
-                        <BentoAvatar photo={meta.photo} initials={meta.initials} accent={meta.accent} />
+                        <BentoAvatar
+                          photo={meta.photo}
+                          initials={meta.initials}
+                          accent={meta.accent}
+                        />
                       </div>
                     </>
                   )}
@@ -156,24 +244,27 @@ export function Team({ headless = false, showJoin = false }: { headless?: boolea
                   {isEven ? (
                     <>
                       <div className={`${bentoClass} md:col-span-3 p-6`}>
-                         <BentoSkills skills={meta.skills} />
+                        <BentoSkills skills={meta.skills} />
                       </div>
-                      <div className={`${bentoClass} md:col-span-1 flex flex-row md:flex-col items-center justify-center gap-6 p-6`}>
-                         <BentoSocials m={m} />
+                      <div
+                        className={`${bentoClass} md:col-span-1 flex flex-row md:flex-col items-center justify-center gap-6 p-6`}
+                      >
+                        <BentoSocials m={m} meta={meta} />
                       </div>
                     </>
                   ) : (
                     <>
-                      <div className={`${bentoClass} md:col-span-1 flex flex-row md:flex-col items-center justify-center gap-6 p-6`}>
-                         <BentoSocials m={m} />
+                      <div
+                        className={`${bentoClass} md:col-span-1 flex flex-row md:flex-col items-center justify-center gap-6 p-6`}
+                      >
+                        <BentoSocials m={m} meta={meta} />
                       </div>
                       <div className={`${bentoClass} md:col-span-3 p-6`}>
-                         <BentoSkills skills={meta.skills} />
+                        <BentoSkills skills={meta.skills} />
                       </div>
                     </>
                   )}
                 </div>
-
               </div>
             </Reveal>
           );
@@ -184,7 +275,9 @@ export function Team({ headless = false, showJoin = false }: { headless?: boolea
         <Reveal>
           <div className="mt-24 flex flex-col items-center justify-between gap-8 rounded-[2.5rem] border border-border bg-gradient-mesh p-10 text-center shadow-lg md:flex-row md:p-14 md:text-left">
             <div className="max-w-xl">
-              <h3 className="font-display text-3xl font-black tracking-tight md:text-4xl">{t.team.joinTitle}</h3>
+              <h3 className="font-display text-3xl font-black tracking-tight md:text-4xl">
+                {t.team.joinTitle}
+              </h3>
               <p className="mt-4 text-lg text-muted-foreground">{t.team.joinDesc}</p>
             </div>
             <Link

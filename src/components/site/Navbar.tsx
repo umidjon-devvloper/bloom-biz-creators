@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ThemeToggle } from "./ThemeToggle";
 import { Logo } from "./Logo";
 import { useI18n } from "@/i18n";
 
@@ -14,7 +15,7 @@ export function Navbar() {
   const NAV = [
     { to: "/", label: t.nav.home },
     { to: "/services", label: t.nav.services },
-    { to: "/case-studies", label: "Case Studies" },
+    { to: "/case-studies", label: t.nav.cases },
     { to: "/portfolio", label: t.nav.portfolio },
     { to: "/team", label: t.nav.team },
     { to: "/about", label: t.nav.about },
@@ -58,8 +59,10 @@ export function Navbar() {
                 <Link
                   to={item.to}
                   className={`relative whitespace-nowrap rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300 ${
-                    active 
-                      ? "text-primary-foreground bg-primary/20 shadow-[inset_0_0_12px_rgba(var(--primary),0.2)]" 
+                    active
+                      ? // `primary-foreground` is near-white in both themes, which
+                        // vanishes against a 20% tint on a light background.
+                        "text-primary bg-primary/10"
                       : "text-muted-foreground hover:bg-surface hover:text-foreground"
                   }`}
                 >
@@ -70,9 +73,11 @@ export function Navbar() {
           })}
         </ul>
 
-        <div className="flex shrink-0 items-center gap-3">
+        {/* gap tightens on narrow phones — logo, language, theme and the menu
+            button all share this row at 360px. */}
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
           <LanguageSwitcher />
-          {/* ThemeToggle removed for pure dark theme */}
+          <ThemeToggle />
           <Link
             to="/contact"
             className="hidden whitespace-nowrap rounded-full px-6 py-2.5 text-[14px] font-bold btn-glow lg:inline-flex"
@@ -101,7 +106,7 @@ export function Navbar() {
                       onClick={() => setOpen(false)}
                       className={`block rounded-2xl px-4 py-3 text-base font-semibold transition-colors ${
                         active
-                          ? "bg-primary/20 text-primary-foreground"
+                          ? "bg-primary/10 text-primary"
                           : "text-muted-foreground hover:bg-surface hover:text-foreground"
                       }`}
                     >

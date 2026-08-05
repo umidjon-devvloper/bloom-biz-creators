@@ -1,63 +1,74 @@
-import { useEffect, useState } from "react";
-import { Send, Check, Clock, MessageCircle, Mail, Phone, Terminal } from "lucide-react";
+import { useState } from "react";
+import { Send, Check, Clock, MessageCircle, Mail, Phone, Plus } from "lucide-react";
 import { Section } from "./Section";
 import { useI18n } from "@/i18n";
-import { SITE } from "@/lib/site";
+import { SITE, telegramLink } from "@/lib/site";
 
+/**
+ * Two required fields: name and a phone/Telegram handle.
+ *
+ * The previous form asked for name, phone, email, project type, budget and a
+ * note — six fields standing between a warm visitor and a conversation. Project
+ * type and budget are questions we can ask in the first reply; asking them up
+ * front only filters out the people who were willing to talk. The optional note
+ * stays collapsed so it costs nothing to ignore.
+ */
 export function Contact({ headless = false }: { headless?: boolean }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
   const [errors, setErrors] = useState<Record<string, boolean>>({});
-  const [prefill, setPrefill] = useState<{ budget: string; note: string } | null>(null);
-
-  useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem("ua-order");
-      if (raw) {
-        const data = JSON.parse(raw) as { budget: string; summary: string };
-        setPrefill({ budget: data.budget, note: `${t.services.selected} ${data.summary}` });
-        sessionStorage.removeItem("ua-order");
-      }
-    } catch {
-      /* ignore */
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [showNote, setShowNote] = useState(false);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
     const name = String(data.get("name") ?? "").trim();
-    const phone = String(data.get("phone") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
+    const contact = String(data.get("contact") ?? "").trim();
+    const note = String(data.get("note") ?? "").trim();
 
     const errs: Record<string, boolean> = {};
     if (!name) errs.name = true;
-    if (!phone) errs.phone = true;
-    if (!email) errs.email = true;
+    if (!contact) errs.contact = true;
     setErrors(errs);
     if (Object.keys(errs).length) {
       setStatus("error");
-      setTimeout(() => setStatus("idle"), 600);
+      setErrorMsg(t.contact.errorRequired);
       return;
     }
 
     setStatus("loading");
-    // TODO: backend integration
-    await new Promise((r) => setTimeout(r, 1400));
-    setStatus("success");
-    form.reset();
-    setTimeout(() => setStatus("idle"), 4000);
+    try {
+      const { submitLead } = await import("@/api/api");
+      await submitLead({
+        data: { name, contact, note: note || undefined, source: "Contact page", lang },
+      });
+      setStatus("success");
+      form.reset();
+      setShowNote(false);
+    } catch (err) {
+      // Never swallow this silently — the Telegram button below is the fallback
+      // and the error text points the visitor at it.
+      console.error(err);
+      setStatus("error");
+      setErrorMsg(t.contact.errorNetwork);
+    }
   };
 
   const inputBase =
-    "w-full border-0 border-b-2 bg-transparent px-0 py-4 text-lg font-medium text-foreground placeholder:text-muted-foreground/30 outline-none transition-all focus:border-primary focus:ring-0";
+    "w-full rounded-2xl border bg-background/40 px-5 py-4 text-base font-medium text-foreground placeholder:text-muted-foreground/40 outline-none transition-colors focus:border-primary";
 
   const contacts = [
+    {
+      Icon: MessageCircle,
+      label: t.contact.telegramLabel,
+      value: SITE.telegramHandle,
+      href: telegramLink(t.contact.telegramMessage),
+      primary: true,
+    },
     { Icon: Phone, label: t.contact.phoneLabel, value: SITE.phone, href: SITE.phoneHref },
     { Icon: Mail, label: t.contact.emailLabel, value: SITE.email, href: `mailto:${SITE.email}` },
-    { Icon: MessageCircle, label: t.contact.telegramLabel, value: SITE.telegramHandle, href: SITE.telegram },
   ];
 
   return (
@@ -67,125 +78,92 @@ export function Contact({ headless = false }: { headless?: boolean }) {
       title={
         headless ? undefined : (
           <span className="text-5xl md:text-7xl font-black tracking-tighter">
-            {t.contact.titleA} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-glow">{t.contact.titleHl}</span>
+            {t.contact.titleA}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-glow">
+              {t.contact.titleHl}
+            </span>
           </span>
         )
       }
       description={headless ? undefined : t.contact.desc}
     >
-      <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_400px]">
-        {/* Terminal/Booking Form */}
+      <div className="mt-16 grid gap-8 lg:grid-cols-[1fr_380px]">
         <div className="relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-surface/20 p-8 backdrop-blur-md md:p-12">
-          
-          <div className="mb-8 flex items-center gap-3 border-b border-border/40 pb-6">
-             <Terminal className="h-6 w-6 text-primary" />
-             <span className="font-mono text-sm tracking-widest text-muted-foreground uppercase">
-                New_Project_Request.exe
-             </span>
-          </div>
+          <h3 className="font-display text-2xl font-bold tracking-tight">{t.contact.formTitle}</h3>
 
-          <form
-            id="contact-form"
-            onSubmit={onSubmit}
-            className={`${status === "error" ? "animate-shake" : ""}`}
-            noValidate
-          >
-            <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2">
-              <div className="group sm:col-span-1">
-                <label className="block font-mono text-xs font-bold uppercase tracking-widest text-primary/80 transition-colors group-focus-within:text-primary">
-                  {t.contact.name} <span className="text-destructive">*</span>
-                </label>
-                <input
-                  name="name"
-                  type="text"
-                  placeholder={t.contact.namePh}
-                  className={`${inputBase} ${errors.name ? "border-destructive" : "border-border/50"}`}
-                />
+          {status === "success" ? (
+            <div className="mt-8 rounded-[2rem] border border-success/30 bg-success/10 p-8 text-center">
+              <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-success/20 text-success">
+                <Check className="h-7 w-7" />
               </div>
-              
-              <div className="group sm:col-span-1">
-                <label className="block font-mono text-xs font-bold uppercase tracking-widest text-primary/80 transition-colors group-focus-within:text-primary">
-                  {t.contact.phone} <span className="text-destructive">*</span>
-                </label>
-                <input
-                  name="phone"
-                  type="tel"
-                  placeholder="+998 90 123 45 67"
-                  className={`${inputBase} ${errors.phone ? "border-destructive" : "border-border/50"}`}
-                />
+              <div className="mt-4 font-display text-xl font-bold text-foreground">
+                {t.contact.sent}
               </div>
-              
-              <div className="group sm:col-span-2">
-                <label className="block font-mono text-xs font-bold uppercase tracking-widest text-primary/80 transition-colors group-focus-within:text-primary">
-                  {t.contact.email} <span className="text-destructive">*</span>
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  className={`${inputBase} ${errors.email ? "border-destructive" : "border-border/50"}`}
-                />
-              </div>
-              
-              <div className="group sm:col-span-1">
-                <label className="block font-mono text-xs font-bold uppercase tracking-widest text-primary/80 transition-colors group-focus-within:text-primary">
-                  {t.contact.projectType}
-                </label>
-                <select name="type" className={`${inputBase} border-border/50 appearance-none bg-transparent cursor-pointer`} defaultValue="">
-                  <option value="" disabled className="bg-background text-muted-foreground">
-                    {t.contact.choose}
-                  </option>
-                  {t.contact.types.map((ty) => (
-                    <option key={ty} className="bg-background">{ty}</option>
-                  ))}
-                </select>
-              </div>
-              
-              <div className="group sm:col-span-1">
-                <label className="block font-mono text-xs font-bold uppercase tracking-widest text-primary/80 transition-colors group-focus-within:text-primary">
-                  {t.contact.budget}
-                </label>
-                <input
-                  name="budget"
-                  type="text"
-                  defaultValue={prefill?.budget ?? ""}
-                  placeholder={t.contact.budgetPh}
-                  className={`${inputBase} border-border/50`}
-                />
-              </div>
-              
-              <div className="group sm:col-span-2">
-                <label className="block font-mono text-xs font-bold uppercase tracking-widest text-primary/80 transition-colors group-focus-within:text-primary">
-                  {t.contact.note}
-                </label>
-                <textarea
-                  name="note"
-                  rows={4}
-                  defaultValue={prefill?.note ?? ""}
-                  placeholder={t.contact.notePh}
-                  className={`${inputBase} border-border/50 resize-none`}
-                />
-              </div>
+              <p className="mt-2 text-sm text-muted-foreground">{t.contact.successMsg}</p>
             </div>
+          ) : (
+            <form onSubmit={onSubmit} className="mt-8" noValidate>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <label className="block">
+                  <span className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                    {t.contact.name}
+                  </span>
+                  <input
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    placeholder={t.contact.namePh}
+                    className={`${inputBase} ${errors.name ? "border-destructive" : "border-border/50"}`}
+                  />
+                </label>
 
-            <div className="mt-12 flex items-center justify-between border-t border-border/40 pt-8">
-              <span className="font-mono text-xs text-muted-foreground hidden sm:inline-block">
-                SYS: ready for transmission
-              </span>
+                <label className="block">
+                  <span className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                    {t.contact.contact}
+                  </span>
+                  <input
+                    name="contact"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    placeholder={t.contact.contactPh}
+                    className={`${inputBase} ${errors.contact ? "border-destructive" : "border-border/50"}`}
+                  />
+                </label>
+              </div>
+
+              {showNote ? (
+                <label className="mt-4 block">
+                  <span className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                    {t.contact.note}
+                  </span>
+                  <textarea
+                    name="note"
+                    rows={4}
+                    placeholder={t.contact.notePh}
+                    className={`${inputBase} resize-none border-border/50`}
+                  />
+                </label>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setShowNote(true)}
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
+                >
+                  <Plus className="h-4 w-4" />
+                  {t.contact.noteToggle}
+                </button>
+              )}
+
               <button
                 type="submit"
-                disabled={status === "loading" || status === "success"}
-                className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-3 overflow-hidden rounded-full bg-primary px-10 py-4 font-bold text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-glow focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background disabled:opacity-70 disabled:hover:scale-100 disabled:hover:shadow-none"
+                disabled={status === "loading"}
+                className="group mt-8 inline-flex w-full items-center justify-center gap-3 rounded-full bg-primary px-10 py-4 font-bold text-primary-foreground transition-all duration-300 hover:shadow-glow focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background disabled:opacity-70 sm:w-auto"
               >
                 {status === "loading" ? (
                   <>
                     <span className="h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground/40 border-t-primary-foreground" />
                     {t.contact.sending}
-                  </>
-                ) : status === "success" ? (
-                  <>
-                    <Check className="h-5 w-5" />
-                    {t.contact.sent}
                   </>
                 ) : (
                   <>
@@ -194,14 +172,32 @@ export function Contact({ headless = false }: { headless?: boolean }) {
                   </>
                 )}
               </button>
-            </div>
 
-            {status === "success" && (
-              <div className="mt-6 rounded-2xl border border-success/30 bg-success/10 px-6 py-4 text-sm font-medium text-success backdrop-blur-sm">
-                {t.contact.successMsg}
-              </div>
-            )}
-          </form>
+              {status === "error" && (
+                <p className="mt-4 text-sm font-medium text-destructive">{errorMsg}</p>
+              )}
+              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+                {t.contact.privacy}
+              </p>
+            </form>
+          )}
+
+          {/* The form is the secondary path — most people here would rather send
+              one message than fill anything in. */}
+          <div className="mt-10 border-t border-border/40 pt-8">
+            <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              {t.contact.orDivider}
+            </div>
+            <a
+              href={telegramLink(t.contact.telegramMessage)}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-bold btn-glow sm:w-auto"
+            >
+              <MessageCircle className="h-5 w-5" />
+              {t.common.writeTelegram}
+            </a>
+          </div>
         </div>
 
         {/* Info Sidebar */}
@@ -212,27 +208,43 @@ export function Contact({ headless = false }: { headless?: boolean }) {
                 <Clock className="h-6 w-6" />
               </div>
               <div>
-                <div className="font-display text-lg font-bold text-foreground">{t.contact.replyTitle}</div>
-                <div className="mt-1 font-mono text-sm tracking-wide text-muted-foreground">{t.contact.replyHours}</div>
+                <div className="font-display text-lg font-bold text-foreground">
+                  {t.contact.replyTitle}
+                </div>
+                <div className="mt-1 font-mono text-sm tracking-wide text-muted-foreground">
+                  {t.contact.replyHours}
+                </div>
               </div>
             </div>
           </div>
 
           <div className="flex flex-col gap-4">
-            {contacts.map(({ Icon, label, value, href }) => (
+            {contacts.map(({ Icon, label, value, href, primary }) => (
               <a
                 key={label}
                 href={href}
                 target={href.startsWith("http") ? "_blank" : undefined}
                 rel={href.startsWith("http") ? "noreferrer" : undefined}
-                className="group flex items-center gap-5 rounded-[2rem] border border-border/40 bg-surface/20 p-6 backdrop-blur-md transition-all duration-300 hover:border-primary/50 hover:bg-surface/50 hover:shadow-glow"
+                className={`group flex items-center gap-5 rounded-[2rem] border p-6 backdrop-blur-md transition-all duration-300 hover:border-primary/50 hover:bg-surface/50 hover:shadow-glow ${
+                  primary ? "border-primary/40 bg-primary/5" : "border-border/40 bg-surface/20"
+                }`}
               >
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-background/50 text-muted-foreground transition-colors group-hover:text-primary">
+                <div
+                  className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl transition-colors ${
+                    primary
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-background/50 text-muted-foreground group-hover:text-primary"
+                  }`}
+                >
                   <Icon className="h-6 w-6" />
                 </div>
-                <div>
-                  <div className="font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">{label}</div>
-                  <div className="mt-1 font-display text-lg font-bold text-foreground">{value}</div>
+                <div className="min-w-0">
+                  <div className="font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                    {label}
+                  </div>
+                  <div className="mt-1 truncate font-display text-lg font-bold text-foreground">
+                    {value}
+                  </div>
                 </div>
               </a>
             ))}

@@ -3,13 +3,33 @@ export const SITE = {
   short: "Umidjon",
   domain: "umidjon.agency",
   email: "hello@umidjon.agency",
-  phone: "+998 90 000 00 00",
-  phoneHref: "tel:+998900000000",
-  telegram: "https://t.me/umidjon_agency",
-  telegramHandle: "@umidjon_agency",
-  github: "https://github.com/",
-  linkedin: "https://linkedin.com/",
+  phone: "+998 93 655 89 59",
+  phoneHref: "tel:+998936558959",
+  // Telegram is resolved by phone number, which always reaches the account.
+  // Set `telegramUsername` (without "@") once a public @username exists — that
+  // is the only form Telegram accepts a prefilled `?text=` message on.
+  telegram: "https://t.me/+998936558959",
+  telegramHandle: "+998 93 655 89 59",
+  telegramUsername: "" as string,
+  github: "https://github.com/umidjon-devvloper",
+  linkedin: "https://www.linkedin.com/in/umidjon-gafforov-8b151b325/",
 } as const;
+
+/**
+ * Telegram deep link. A prefilled message only survives the username form of
+ * the link, so with a phone-number link we return the bare URL rather than a
+ * URL with a `?text=` that Telegram would silently drop.
+ */
+export function telegramLink(text?: string) {
+  if (!SITE.telegramUsername) return SITE.telegram;
+  const base = `https://t.me/${SITE.telegramUsername}`;
+  return text ? `${base}?text=${encodeURIComponent(text)}` : base;
+}
+
+export function whatsappLink(text?: string) {
+  const base = `https://wa.me/${SITE.phoneHref.replace("tel:+", "")}`;
+  return text ? `${base}?text=${encodeURIComponent(text)}` : base;
+}
 
 export type ProjectFilter = "web" | "mobile" | "ecom";
 
@@ -26,6 +46,10 @@ export type Project = {
   highlight: string;
   featured?: boolean;
   wip?: boolean;
+  /** Paid client work on a live domain, as opposed to a personal/demo build. */
+  client?: boolean;
+  /** Slug of the matching entry in lib/case-studies.ts, when one exists. */
+  caseStudy?: string;
 };
 
 export const PROJECTS: Project[] = [
@@ -39,8 +63,10 @@ export const PROJECTS: Project[] = [
     image: "https://so3gvgph8j.ufs.sh/f/xumlocXZMUIuuFYMrcuiihWKq3pPEtbuSF4Ydz0jvM8HNoGI",
     live: "https://www.kbkm.uz/",
     github: "https://www.kbkm.uz/",
-    highlight: "Government project · 3 languages · LCP < 1.8s",
+    highlight: "Davlat loyihasi · 3 til (uz/ru/en)",
     featured: true,
+    client: true,
+    caseStudy: "kbkm",
   },
   {
     n: "02",
@@ -52,8 +78,10 @@ export const PROJECTS: Project[] = [
     image: "https://9onczztehf.ufs.sh/f/lneKO3fyzBmDh65vxdm22nFCasfAVwB3vicE98dJYzL70xgQ",
     live: "https://artsuzani.com/",
     github: "https://github.com/umidjon11111/new-artsuzani",
-    highlight: "Stripe checkout · Sanity CMS · RSC architecture",
+    highlight: "Stripe to'lov · Sanity CMS · Next.js RSC",
     featured: true,
+    client: true,
+    caseStudy: "artsuzani",
   },
   {
     n: "03",
@@ -65,7 +93,9 @@ export const PROJECTS: Project[] = [
     image: "https://f0ld2x7t5g.ufs.sh/f/JID5A1v1KvIQSmOe7QPHNpM03SEyTdFC5gAxk6WDYvjmRe4f",
     live: "https://www.bukhara-suzana.uz/",
     github: "https://www.bukhara-suzana.uz/",
-    highlight: "Dynamic filters · WhatsApp inquiry flow",
+    highlight: "Dinamik filtr · WhatsApp so'rov oqimi",
+    client: true,
+    caseStudy: "bukhara-suzana",
   },
   {
     n: "04",
@@ -77,7 +107,9 @@ export const PROJECTS: Project[] = [
     image: "https://1or2ln6vsi.ufs.sh/f/WvKcB7zm4E5nNokxVw8HaWg52t8OU41rFixISdsb09zGm6ER",
     live: "https://www.sarasilvers.uz/",
     github: "https://www.sarasilvers.uz/",
-    highlight: "Framer Motion transitions · luxury UX",
+    highlight: "Mahsulot zoom · silliq sahifa o'tishlari",
+    client: true,
+    caseStudy: "sarasilvers",
   },
   {
     n: "05",
@@ -125,7 +157,9 @@ export const PROJECTS: Project[] = [
     image: "https://1or2ln6vsi.ufs.sh/f/WvKcB7zm4E5n3hpeTljmlSRBk49t8PFzJeiCQ0OyDK6hNAvf",
     live: "https://gijduvan-crafts.vercel.app/",
     github: "https://gijduvan-crafts.vercel.app/",
-    highlight: "Scroll-triggered animations · parallax",
+    highlight: "Scroll animatsiyalar · mahsulot galereyasi",
+    client: true,
+    caseStudy: "gijduvan-crafts",
   },
   {
     n: "09",
@@ -137,7 +171,9 @@ export const PROJECTS: Project[] = [
     image: "https://9onczztehf.ufs.sh/f/lneKO3fyzBmDyM1w52hRijYT6sSMXCNLO7bgUWv3KD4dVlzP",
     live: "https://zarina-portfolio-ruby.vercel.app/",
     github: "https://zarina-portfolio-ruby.vercel.app/",
-    highlight: "Custom cursor · animated case studies",
+    highlight: "Custom cursor · sahifa o'tishlari",
+    client: true,
+    caseStudy: "zarina-portfolio",
   },
   {
     n: "10",
@@ -153,6 +189,28 @@ export const PROJECTS: Project[] = [
     wip: true,
   },
 ];
+
+/**
+ * Every public number on the site is derived from PROJECTS above, so a claim
+ * can always be checked against the portfolio grid — each entry links to a live
+ * URL. Nothing here is a marketing figure: if a number cannot be verified by
+ * clicking through, it does not belong in this object.
+ *
+ * `years` is the only hand-maintained value — bump it, don't inflate it.
+ */
+export const FACTS = {
+  /** Shipped and reachable — excludes work in progress. */
+  projects: PROJECTS.filter((p) => !p.wip).length,
+  /** Paid client work, as opposed to personal builds and clones. */
+  clients: PROJECTS.filter((p) => p.client).length,
+  years: 3,
+  responseHours: 24,
+} as const;
+
+export type FactKey = keyof typeof FACTS;
+
+/** Client work with a live URL — the proof block links straight to these. */
+export const CLIENT_SITES = PROJECTS.filter((p) => p.client && p.live !== "#");
 
 export const TECH_STACK = [
   "React",

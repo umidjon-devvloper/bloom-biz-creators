@@ -14,23 +14,25 @@ export function WhyUs({ headless = false }: { headless?: boolean }) {
       title={
         headless ? undefined : (
           <span className="text-5xl md:text-7xl font-black tracking-tighter">
-            {t.about.whyTitleA} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-glow">{t.about.whyTitleHl}</span>
+            {t.about.whyTitleA}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-glow">
+              {t.about.whyTitleHl}
+            </span>
           </span>
         )
       }
       description={headless ? undefined : t.about.whyDesc}
     >
       <div className="mt-16 grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-24">
-        
         {/* Left Side: Editorial Statement */}
         <div className="lg:col-span-5">
           <div className="sticky top-32">
             <h2 className="font-display text-4xl font-black leading-tight tracking-tighter md:text-5xl">
-              We don't just build software. <br />
-              <span className="text-muted-foreground">We build category leaders.</span>
+              {t.about.whyLeadA} <br />
+              <span className="text-muted-foreground">{t.about.whyLeadB}</span>
             </h2>
             <p className="mt-8 text-lg font-medium leading-relaxed text-muted-foreground">
-              Working with us means partnering with a team of relentless problem solvers. We combine top-tier engineering with world-class design to deliver products that don't just work—they dominate their market.
+              {t.about.whyLeadBody}
             </p>
           </div>
         </div>
@@ -51,7 +53,7 @@ export function WhyUs({ headless = false }: { headless?: boolean }) {
                       <Icon className="h-7 w-7 transition-transform duration-500 group-hover:scale-110" />
                     </div>
                   </div>
-                  
+
                   <div>
                     <h3 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
                       {r.title}

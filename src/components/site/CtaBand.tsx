@@ -15,7 +15,7 @@ export function CtaBand() {
         <div className="relative">
           <span className="inline-flex items-center gap-2 rounded-full border border-border glass px-4 py-1.5 text-xs font-medium text-primary">
             <Sparkles className="h-3.5 w-3.5" />
-            {t.services.calcEyebrow}
+            {t.calc.eyebrow}
           </span>
           <h2 className="mx-auto mt-6 max-w-2xl font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             {t.home.ctaTitle}

@@ -56,10 +56,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const value = useMemo<I18nCtx>(
-    () => ({ lang, setLang, t: translations[lang] }),
-    [lang, setLang],
-  );
+  const value = useMemo<I18nCtx>(() => ({ lang, setLang, t: translations[lang] }), [lang, setLang]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
@@ -68,6 +65,17 @@ export function useI18n() {
   const ctx = useContext(I18nContext);
   if (!ctx) throw new Error("useI18n must be used within <I18nProvider>");
   return ctx;
+}
+
+const FALLBACK: I18nCtx = { lang: "uz", setLang: () => {}, t: translations.uz };
+
+/**
+ * Same as useI18n, but safe outside the provider. Router-level boundaries
+ * (notFound, error) can render in place of the tree that mounts I18nProvider, and
+ * throwing there would replace a translated 404 with a crash.
+ */
+export function useI18nOptional() {
+  return useContext(I18nContext) ?? FALLBACK;
 }
 
 export { LANGS };

@@ -50,6 +50,7 @@
 
 :root {
   --radius: 0.875rem;
+  color-scheme: dark;
 
   /* Premium Dark Theme (Near Black / Graphite) */
   --background: oklch(0.12 0.01 265); /* Very dark, near black graphite */
@@ -97,9 +98,78 @@
   --shadow-elevated: 0 40px 100px -20px color-mix(in oklab, var(--primary) 35%, transparent);
 }
 
-/* We don't need a light mode anymore as this is a premium dark theme agency */
-.light {
-  display: none; /* Just a placeholder to show intent */
+/*
+ * Light theme.
+ *
+ * Dark stays in :root, so it remains what renders with no class, no JS and no
+ * stored preference — the design was built dark-first and that path must not
+ * regress. Light is an override applied by the toggle in the navbar.
+ *
+ * Only tokens are redefined here. Components never hard-code a colour, so they
+ * follow automatically; the exceptions are the decorative blend modes handled
+ * at the bottom of this block, which are the one thing a palette swap alone
+ * cannot fix.
+ */
+html.light {
+  color-scheme: light;
+
+  --background: oklch(0.99 0.002 265);
+  --foreground: oklch(0.21 0.02 265);
+  --surface: oklch(0.97 0.005 265);
+  --surface-elevated: oklch(1 0 0);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.02 265);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.02 265);
+
+  /* Darkened from the dark-theme blue: the same hue at L 0.65 only reaches
+     ~2.6:1 on white, which fails for the small bold labels it is used on. */
+  --primary: oklch(0.52 0.24 262);
+  --primary-foreground: oklch(0.99 0.002 265);
+  --primary-glow: oklch(0.48 0.26 285);
+
+  --secondary: oklch(0.96 0.008 265);
+  --secondary-foreground: oklch(0.21 0.02 265);
+  --muted: oklch(0.96 0.008 265);
+  --muted-foreground: oklch(0.47 0.02 265); /* ~5.6:1 on the background */
+  --accent: oklch(0.93 0.025 270);
+  --accent-foreground: oklch(0.28 0.04 270);
+
+  --destructive: oklch(0.53 0.21 25);
+  --destructive-foreground: oklch(0.99 0.002 265);
+  --success: oklch(0.52 0.14 155);
+
+  --border: oklch(0.21 0.02 265 / 0.12);
+  --input: oklch(0.21 0.02 265 / 0.18);
+  --ring: oklch(0.52 0.24 262);
+
+  /* The mesh is a background wash here rather than a glow, so the mixes are
+     roughly halved — at dark-theme strength it reads as a printing error. */
+  --gradient-mesh:
+    radial-gradient(at 20% 20%, color-mix(in oklab, var(--primary) 12%, transparent) 0px, transparent 50%),
+    radial-gradient(at 80% 30%, color-mix(in oklab, var(--primary-glow) 10%, transparent) 0px, transparent 50%),
+    radial-gradient(at 50% 90%, color-mix(in oklab, var(--primary) 8%, transparent) 0px, transparent 50%);
+
+  /* Black at dark-theme opacity turns every card into a smudge on white. */
+  --shadow-sm: 0 1px 2px 0 oklch(0.21 0.02 265 / 0.06);
+  --shadow-md: 0 8px 24px -8px oklch(0.21 0.02 265 / 0.12);
+  --shadow-lg: 0 24px 60px -18px oklch(0.21 0.02 265 / 0.18);
+  --shadow-glow: 0 0 50px -10px color-mix(in oklab, var(--primary) 32%, transparent);
+  --shadow-elevated: 0 30px 80px -24px color-mix(in oklab, var(--primary) 22%, transparent);
+}
+
+/* `screen` blended against a white page returns white, so every aurora and
+   gradient wash would silently disappear. `multiply` is the light-background
+   equivalent: the same colour, tinting downward instead of upward. */
+html.light [class~="mix-blend-screen"] {
+  mix-blend-mode: multiply;
+}
+
+/* The grain overlay is tuned to lift a near-black background. At the same
+   strength over white it just reads as dirt. */
+html.light [class~="mix-blend-overlay"] {
+  opacity: 0.06;
 }
 
 @layer base {
@@ -497,6 +567,19 @@
   .tl-card::before {
     animation: none;
   }
+}
+
+/* Reveal animations hide their content until JS marks it visible, so they are
+   gated on `html.js` — a class the shell script adds on load and *removes* again
+   if hydration never completes. Without the gate, a blocked or half-loaded
+   bundle leaves the visitor on a blank page: sections at opacity 0 and stat
+   blocks reading "0". Content-visible is the correct default; the animation is
+   the enhancement. */
+html:not(.js) .reveal,
+html:not(.js) .reveal-3d {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 /* 3D reveal — card rises and straightens out of depth as it scrolls in.

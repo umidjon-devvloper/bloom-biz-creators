@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { About } from "@/components/site/About";
 import { WhyUs } from "@/components/site/WhyUs";
 import { FAQ } from "@/components/site/FAQ";
-import { Testimonials } from "@/components/site/Testimonials";
+import { ClientProof } from "@/components/site/ClientProof";
 import { CtaBand } from "@/components/site/CtaBand";
 import { useI18n } from "@/i18n";
 
@@ -24,7 +24,7 @@ function AboutPage() {
       <About headless />
       <WhyUs />
       <FAQ />
-      <Testimonials />
+      <ClientProof />
       <CtaBand />
     </>
   );

@@ -12,27 +12,25 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { I18nProvider } from "../i18n";
+import { I18nProvider, useI18nOptional } from "../i18n";
 import { Navbar } from "../components/site/Navbar";
 import { Footer } from "../components/site/Footer";
 import { FloatingContact } from "../components/site/FloatingContact";
-import { AIChatbot } from "../components/site/AIChatbot";
 
 function NotFoundComponent() {
+  const { t } = useI18nOptional();
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">{t.notFound.title}</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{t.notFound.desc}</p>
         <div className="mt-6">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            {t.notFound.home}
           </Link>
         </div>
       </div>
@@ -83,23 +81,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Umidjon Agency — Professional websites, apps & design" },
+      // Uzbek is the default language of the document, so the default meta is
+      // Uzbek too — mixing an English description into a uz page splits the
+      // search intent and reads as a template nobody finished.
+      { title: "Umidjon Agency — websayt, onlayn do'kon va mobil ilova (Toshkent)" },
       {
         name: "description",
         content:
-          "Umidjon Agency — premium websites, e-commerce and mobile apps for your business. Transparent price calculator, fast delivery, an experienced team.",
+          "Toshkentdagi ishlab chiqish jamoasi: websayt, onlayn do'kon va mobil ilova. Kalkulyatorda 4 savolga javob berib taxminiy narxni darhol ko'ring.",
       },
       { name: "author", content: "Umidjon Agency" },
-      { property: "og:title", content: "Umidjon Agency — Professional websites, apps & design" },
+      { property: "og:title", content: "Umidjon Agency — websayt, onlayn do'kon va mobil ilova" },
       {
         property: "og:description",
         content:
-          "Transparent pricing, fast delivery, team work. Calculate your project's cost with our online calculator.",
+          "Shaffof narx: kalkulyatorda 4 savol — taxminiy narx darhol. Toshkent, javob 24 soat ichida.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "uz_UZ" },
+      { property: "og:locale:alternate", content: "ru_RU" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Umidjon Agency — Professional websites, apps & design" },
-      { name: "twitter:description", content: "Premium websites, apps and design for your business — by Umidjon Agency." },
+      { name: "twitter:title", content: "Umidjon Agency — websayt, onlayn do'kon va mobil ilova" },
+      {
+        name: "twitter:description",
+        content: "Kalkulyatorda 4 savol — taxminiy narx darhol. Toshkent, javob 24 soat ichida.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -121,10 +127,41 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+/**
+ * Marks the document as JS-capable, then takes the mark back if hydration never
+ * lands. styles.css keys every reveal animation off `html.js`, so a blocked or
+ * half-loaded bundle degrades to plain visible content instead of a page of
+ * `opacity: 0` sections. RootComponent cancels the timer once it mounts.
+ */
+const HYDRATION_FAILSAFE = `(function(){var d=document.documentElement;d.classList.add('js');
+window.__uaHydration=setTimeout(function(){d.classList.remove('js')},4000)})()`;
+
+/**
+ * Applies a stored light-theme preference before the first paint. Running this
+ * from a component would mean a full dark render flashing to light on hydration,
+ * which is worse on the eyes than either theme on its own.
+ *
+ * Only "light" is acted on: the server already renders the dark class, so the
+ * default and every failure path need no work. Mirrors lib/theme.ts — the key
+ * and class names have to stay in step.
+ */
+const THEME_INIT = `(function(){try{if(localStorage.getItem('ua-theme')==='light'){
+var d=document.documentElement;d.classList.remove('dark');d.classList.add('light')}}catch(e){}})()`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="uz" className="dark" suppressHydrationWarning>
       <head>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18019926528"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'AW-18019926528');
+      </script>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
+        <script dangerouslySetInnerHTML={{ __html: HYDRATION_FAILSAFE }} />
         <HeadContent />
       </head>
       <body>
@@ -140,6 +177,12 @@ function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAdminPath = pathname.startsWith("/admin");
 
+  // Hydration made it — keep the reveal animations enabled.
+  useEffect(() => {
+    const w = window as unknown as { __uaHydration?: number };
+    if (w.__uaHydration) window.clearTimeout(w.__uaHydration);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
@@ -153,7 +196,6 @@ function RootComponent() {
             <>
               <Footer />
               <FloatingContact />
-              <AIChatbot />
             </>
           )}
         </div>

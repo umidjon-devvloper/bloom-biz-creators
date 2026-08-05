@@ -1,6 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getCareers } from "../api/api";
 import { PageHeader } from "../components/site/PageHeader";
+import { useI18n } from "../i18n";
+
+/** Shape of db/models/Career after the loader's JSON round-trip. */
+type CareerRow = {
+  _id: string;
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  description: string;
+  requirements: string[];
+};
 
 export const Route = createFileRoute("/careers")({
   component: CareersPage,
@@ -11,20 +23,26 @@ export const Route = createFileRoute("/careers")({
 
 function CareersPage() {
   const careers = Route.useLoaderData();
+  const { t } = useI18n();
 
   return (
     <div>
       <PageHeader
-        title="Join Our Team"
-        subtitle="Help us build world-class digital products. We're always looking for talented individuals."
+        eyebrow={t.pages.careers.eyebrow}
+        title={t.pages.careers.title}
+        highlight={t.pages.careers.highlight}
+        description={t.pages.careers.desc}
       />
       <div className="mx-auto max-w-4xl px-6 py-20">
         <div className="flex flex-col gap-6">
           {careers.length === 0 && (
-            <div className="text-center text-muted-foreground py-10">No open positions currently. Check back later!</div>
+            <div className="text-center text-muted-foreground py-10">{t.pages.careers.empty}</div>
           )}
-          {careers.map((job: any) => (
-            <div key={job._id} className="group rounded-2xl border border-border bg-card p-6 sm:p-8 transition-colors hover:border-primary">
+          {careers.map((job: CareerRow) => (
+            <div
+              key={job._id}
+              className="group rounded-2xl border border-border bg-card p-6 sm:p-8 transition-colors hover:border-primary"
+            >
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
                 <div>
                   <h3 className="text-2xl font-bold mb-2">{job.title}</h3>

@@ -40,8 +40,29 @@ export const getCareers = createServerFn({ method: "GET" }).handler(async () => 
   return JSON.parse(JSON.stringify(careers));
 });
 
+export type LeadInput = {
+  name: string;
+  /** Phone number or Telegram handle — the channel we actually reply on. */
+  contact: string;
+  email?: string;
+  note?: string;
+  source?: string;
+  lang?: string;
+  metadata?: Record<string, unknown>;
+};
+
 export const submitLead = createServerFn({ method: "POST" })
-  .validator((data: { name: string; email: string; phone?: string; source?: string; metadata?: any }) => data)
+  .validator((data: LeadInput) => {
+    const name = String(data?.name ?? "").trim();
+    const contact = String(data?.contact ?? "").trim();
+    if (!name || !contact) throw new Error("name and contact are required");
+    return {
+      ...data,
+      name: name.slice(0, 120),
+      contact: contact.slice(0, 120),
+      note: data.note?.trim().slice(0, 2000),
+    };
+  })
   .handler(async ({ data }) => {
     await connectDB();
     const lead = await Lead.create(data);

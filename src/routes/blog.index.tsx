@@ -1,6 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getBlogPosts } from "../api/api";
 import { PageHeader } from "../components/site/PageHeader";
+import { useI18n } from "../i18n";
+
+/** Shape of db/models/BlogPost after the loader's JSON round-trip. */
+type BlogPostRow = {
+  _id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  author: string;
+  publishedAt: string;
+  imageUrl?: string;
+};
 
 export const Route = createFileRoute("/blog/")({
   component: BlogList,
@@ -11,16 +23,19 @@ export const Route = createFileRoute("/blog/")({
 
 function BlogList() {
   const posts = Route.useLoaderData();
+  const { t } = useI18n();
 
   return (
     <div>
       <PageHeader
-        title="IT & Business Insights"
-        subtitle="Thoughts, tutorials, and insights on modern web development and digital transformation."
+        eyebrow={t.pages.blog.eyebrow}
+        title={t.pages.blog.title}
+        highlight={t.pages.blog.highlight}
+        description={t.pages.blog.desc}
       />
       <div className="mx-auto max-w-7xl px-6 py-20">
         <div className="grid gap-12 md:grid-cols-3">
-          {posts.map((post: any) => (
+          {posts.map((post: BlogPostRow) => (
             <Link
               key={post._id}
               to="/blog/$slug"
