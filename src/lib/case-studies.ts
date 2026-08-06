@@ -379,6 +379,186 @@ export const CASE_STUDIES: CaseStudy[] = [
       },
     },
   },
+  {
+    slug: "chinora-app",
+    project: "Chinora school — React Native App",
+    client: "Chinora School",
+    industry: {
+      uz: "Mobil ilova · Ta'lim",
+      ru: "Мобильное приложение · Образование",
+      en: "Mobile app · Education",
+    },
+    copy: {
+      uz: {
+        title: "Maktab uchun mobil ilova — xabar ota-onaga o'zi yetib boradi",
+        summary:
+          "Chinora maktabi uchun React Native ilova: push bildirishnomalar va real vaqtli yangilanishlar, App Store va Google Play'da.",
+        problem:
+          "Maktab bilan ota-ona o'rtasidagi aloqa Telegram guruhlariga tarqalgan edi: muhim e'lon yuzlab xabar ichida ko'milib ketadi, kim o'qigan-o'qimaganini bilib bo'lmaydi. Saytga e'lon qo'yish ham yechim emas — ota-ona saytni o'zi ochib tekshirishi kerak, ya'ni xabar faqat qidirgan odamga yetadi.",
+        solution:
+          "Yo'nalishni teskari qildik: ota-ona ma'lumotni qidirmaydi, ma'lumot o'zi keladi. Push bildirishnoma telefon ekranida chiqadi, ilovani ochish shart emas. Ilovani React Native + Expo'da yozdik, chunki bitta kod bazasi ikkala platformaga chiqadi — maktab uchun bu ikki marta ishlab chiqish va ikki marta qo'llab-quvvatlash xarajatidan qutulish demak. Backend sifatida Firebase: real vaqtli yangilanish va push infratuzilmasi tayyor holda keladi, maktabga alohida server ham, uni boshqaradigan odam ham kerak bo'lmaydi.",
+        delivered: [
+          "iOS va Android uchun bitta React Native kod bazasi",
+          "Push bildirishnomalar — e'lon telefon ekraniga to'g'ridan-to'g'ri tushadi",
+          "Firebase orqali real vaqtda yangilanadigan kontent — ilovani qayta chiqarish shart emas",
+          "App Store va Google Play'da nashr qilingan, do'kon tekshiruvidan o'tgan",
+          "TypeScript bilan tipizatsiya qilingan kod bazasi",
+        ],
+      },
+      ru: {
+        title: "Мобильное приложение для школы — сообщение доходит до родителя само",
+        summary:
+          "Приложение на React Native для школы Chinora: пуш-уведомления и обновления в реальном времени, в App Store и Google Play.",
+        problem:
+          "Связь школы с родителями была размазана по Telegram-группам: важное объявление тонет среди сотен сообщений, и непонятно, кто его прочитал. Публикация на сайте тоже не решает задачу — родитель должен сам зайти и проверить, то есть сообщение доходит только до того, кто его искал.",
+        solution:
+          "Мы развернули направление: не родитель ищет информацию, а информация приходит к нему. Пуш-уведомление появляется на экране телефона, открывать приложение не требуется. Писали на React Native + Expo, потому что одна кодовая база выходит на обе платформы — для школы это отказ от двойной разработки и двойной поддержки. В качестве бэкенда — Firebase: обновления в реальном времени и пуш-инфраструктура приходят готовыми, школе не нужен ни отдельный сервер, ни человек, который им управляет.",
+        delivered: [
+          "Одна кодовая база на React Native для iOS и Android",
+          "Пуш-уведомления — объявление попадает прямо на экран телефона",
+          "Контент обновляется в реальном времени через Firebase — без выпуска новой версии",
+          "Опубликовано в App Store и Google Play, прошло проверку сторов",
+          "Типизированная кодовая база на TypeScript",
+        ],
+      },
+      en: {
+        title: "A school's mobile app — the message reaches the parent on its own",
+        summary:
+          "A React Native app for Chinora School: push notifications and real-time updates, live on the App Store and Google Play.",
+        problem:
+          "Communication between the school and parents was spread across Telegram groups: an important announcement sinks under hundreds of messages, and there's no way to tell who read it. Posting to the website doesn't solve it either — a parent has to go and check, so the message only reaches whoever was already looking for it.",
+        solution:
+          "We reversed the direction: instead of the parent looking for information, the information arrives. A push notification appears on the phone's screen with no app to open. We built it on React Native + Expo, because one codebase ships to both platforms — for a school that means avoiding double development and double maintenance. Firebase is the backend: real-time updates and push infrastructure come ready-made, so the school needs neither a server of its own nor someone to run it.",
+        delivered: [
+          "A single React Native codebase for iOS and Android",
+          "Push notifications — announcements land directly on the phone screen",
+          "Content updated in real time through Firebase — no new release required",
+          "Published on the App Store and Google Play, through both stores' review",
+          "A TypeScript-typed codebase",
+        ],
+      },
+    },
+  },
+  {
+    slug: "sushi-time",
+    project: "Sushi time  — React Native and Expo App",
+    client: "Sushi Time",
+    industry: {
+      uz: "Mobil ilova · Restoran",
+      ru: "Мобильное приложение · Ресторан",
+      en: "Mobile app · Restaurant",
+    },
+    copy: {
+      uz: {
+        title: "Restoran uchun o'z ilovasi — menyu mijozning telefonida qoladi",
+        summary:
+          "Sushi Time uchun React Native ilova: menyu real vaqtda yangilanadi, aksiyalar push orqali yetadi. App Store va Google Play'da.",
+        problem:
+          "Restoran buyurtmalari agregator ilovalar va Instagram orqali kelardi. Ikkalasida ham mijoz restoranniki emas, platformaniki bo'lib qoladi: qayta buyurtma qilish uchun uni har safar yangidan jalb qilish kerak, aksiya haqida xabar berish esa faqat pullik reklama orqali mumkin. Ustiga menyu o'zgarsa — narx, mavsumiy taom, tugagan pozitsiya — buni bir necha joyda alohida yangilash kerak edi.",
+        solution:
+          "Ilovani restoranning o'z kanali sifatida qurdik: bir marta o'rnatilgan ilova telefonda qoladi, ya'ni takroriy buyurtma uchun qayta reklama to'lovi kerak emas. Menyuni Firebase'ga bog'ladik — narx yoki taom o'zgarsa, o'zgarish ilovada darhol ko'rinadi, do'kondan yangi versiya kutilmaydi. Aksiya va yangi pozitsiyalar push bildirishnoma sifatida chiqadi. React Native + Expo tanlovi bu yerda ham xarajat masalasi: bitta kod bazasi iOS va Android'ga chiqadi.",
+        delivered: [
+          "iOS va Android uchun bitta React Native + Expo kod bazasi",
+          "Firebase'ga bog'langan menyu — narx va taomlar real vaqtda yangilanadi",
+          "Push bildirishnomalar — aksiya va yangi pozitsiyalar to'g'ridan-to'g'ri mijozga",
+          "App Store va Google Play'da nashr qilingan, do'kon tekshiruvidan o'tgan",
+          "TypeScript kod bazasi + Tailwind asosidagi izchil dizayn tizimi",
+        ],
+      },
+      ru: {
+        title: "Собственное приложение ресторана — меню остаётся в телефоне гостя",
+        summary:
+          "Приложение на React Native для Sushi Time: меню обновляется в реальном времени, акции доходят пушем. В App Store и Google Play.",
+        problem:
+          "Заказы приходили через агрегаторы и Instagram. В обоих случаях гость принадлежит платформе, а не ресторану: за повторный заказ приходится платить привлечением заново, а рассказать об акции можно только через платную рекламу. Плюс любое изменение меню — цена, сезонная позиция, стоп-лист — приходилось обновлять отдельно в нескольких местах.",
+        solution:
+          "Построили приложение как собственный канал ресторана: однажды установленное, оно остаётся в телефоне, то есть повторный заказ не требует нового рекламного бюджета. Меню завязали на Firebase — изменение цены или позиции видно в приложении сразу, без ожидания новой версии в сторе. Акции и новинки уходят пуш-уведомлением. Выбор React Native + Expo здесь тоже про стоимость: одна кодовая база выходит и на iOS, и на Android.",
+        delivered: [
+          "Одна кодовая база React Native + Expo для iOS и Android",
+          "Меню на Firebase — цены и позиции обновляются в реальном времени",
+          "Пуш-уведомления — акции и новинки напрямую гостю",
+          "Опубликовано в App Store и Google Play, прошло проверку сторов",
+          "Кодовая база на TypeScript + согласованная дизайн-система на Tailwind",
+        ],
+      },
+      en: {
+        title: "A restaurant's own app — the menu stays in the guest's phone",
+        summary:
+          "A React Native app for Sushi Time: a menu that updates in real time and offers delivered by push. Live on the App Store and Google Play.",
+        problem:
+          "Orders arrived through aggregators and Instagram. In both cases the guest belongs to the platform rather than the restaurant: winning a repeat order means paying to reach them again, and announcing an offer is only possible through paid advertising. On top of that, every menu change — a price, a seasonal item, something sold out — had to be updated separately in several places.",
+        solution:
+          "We built the app as the restaurant's own channel: once installed it stays on the phone, so a repeat order costs no new ad budget. The menu is wired to Firebase — a price or an item changes and it shows in the app immediately, with no new store release to wait for. Offers and new items go out as push notifications. React Native + Expo is again a cost decision here: one codebase ships to both iOS and Android.",
+        delivered: [
+          "A single React Native + Expo codebase for iOS and Android",
+          "A Firebase-backed menu — prices and items update in real time",
+          "Push notifications — offers and new items straight to the guest",
+          "Published on the App Store and Google Play, through both stores' review",
+          "A TypeScript codebase with a consistent Tailwind-based design system",
+        ],
+      },
+    },
+  },
+  {
+    slug: "zapchasty",
+    project: "Zapchasty  — React Native and Expo App",
+    client: "Zapchasty",
+    industry: {
+      uz: "Mobil ilova · Avto ehtiyot qismlar",
+      ru: "Мобильное приложение · Автозапчасти",
+      en: "Mobile app · Auto parts",
+    },
+    copy: {
+      uz: {
+        title: "Ehtiyot qismlar katalogi telefonda — qidiruv chatdan ilovaga ko'chdi",
+        summary:
+          "Zapchasty uchun React Native ilova: katalog real vaqtda yangilanadi, yangi kelgan qismlar push orqali xabar qilinadi.",
+        problem:
+          "Avto ehtiyot qismlar savdosida asosiy vaqt qidiruvga ketadi: mijoz kerakli qismni topolmay sotuvchiga yozadi, sotuvchi qo'lda javob beradi. Bu har bir so'rovni odam vaqtiga bog'lab qo'yadi, kechqurun kelgan so'rov esa ertalabgacha javobsiz qoladi. Assortiment tez o'zgaradi — bugun bor qism ertaga yo'q — shuning uchun statik ro'yxat bir haftada eskiradi.",
+        solution:
+          "Qidiruvni sotuvchidan katalogga o'tkazdik: mijoz qismni ilovada o'zi topadi, aloqa esa faqat kerak bo'lganda boshlanadi. Katalog Firebase'da turadi, ya'ni omborda o'zgarish bo'lishi bilan ilovadagi ro'yxat ham yangilanadi — do'konga yangi versiya yuklash shart emas. Yangi kelgan partiyalar push bildirishnoma bilan e'lon qilinadi, chunki bu biznesda kutilgan qism kelganini o'z vaqtida bilish xaridni hal qiladi. React Native + Expo — bitta kod bazasi, ikkala platforma.",
+        delivered: [
+          "iOS va Android uchun bitta React Native + Expo kod bazasi",
+          "Firebase'dagi katalog — assortiment o'zgarishi ilovada darhol ko'rinadi",
+          "Push bildirishnomalar — yangi kelgan qismlar haqida xabar",
+          "App Store va Google Play'da nashr qilingan, do'kon tekshiruvidan o'tgan",
+          "TypeScript kod bazasi + Tailwind dizayn tizimi",
+        ],
+      },
+      ru: {
+        title: "Каталог автозапчастей в телефоне — поиск переехал из переписки в приложение",
+        summary:
+          "Приложение на React Native для Zapchasty: каталог обновляется в реальном времени, о новых поступлениях сообщает пуш.",
+        problem:
+          "В торговле автозапчастями основное время уходит на поиск: клиент не находит нужную деталь и пишет продавцу, продавец отвечает вручную. Каждый запрос оказывается привязан к рабочему времени человека, а вечерний вопрос остаётся без ответа до утра. Ассортимент при этом меняется быстро — сегодня деталь есть, завтра нет, — поэтому статичный список устаревает за неделю.",
+        solution:
+          "Перенесли поиск с продавца в каталог: клиент находит деталь сам, а разговор начинается только когда он действительно нужен. Каталог лежит в Firebase, то есть изменение на складе сразу отражается в списке внутри приложения — без загрузки новой версии в стор. О новых поступлениях сообщает пуш-уведомление: в этом бизнесе вовремя узнать, что нужная деталь приехала, и решает покупку. React Native + Expo — одна кодовая база на обе платформы.",
+        delivered: [
+          "Одна кодовая база React Native + Expo для iOS и Android",
+          "Каталог на Firebase — изменения ассортимента видны в приложении сразу",
+          "Пуш-уведомления о новых поступлениях",
+          "Опубликовано в App Store и Google Play, прошло проверку сторов",
+          "Кодовая база на TypeScript + дизайн-система на Tailwind",
+        ],
+      },
+      en: {
+        title: "An auto-parts catalog in the phone — search moved out of the chat",
+        summary:
+          "A React Native app for Zapchasty: a catalog that updates in real time, with new stock announced by push.",
+        problem:
+          "In the parts trade most of the time goes into searching: the customer can't find the part, messages the seller, and the seller answers by hand. That ties every enquiry to one person's working hours, and a question sent in the evening waits until morning. Stock also turns over fast — in today, gone tomorrow — so a static list is out of date within a week.",
+        solution:
+          "We moved the search from the seller into the catalog: the customer finds the part themselves, and the conversation starts only when it's actually needed. The catalog lives in Firebase, so a change in stock is reflected in the in-app list immediately, with no new store release. New arrivals are announced by push, because in this business hearing that the part you waited for has landed is what closes the sale. React Native + Expo: one codebase, both platforms.",
+        delivered: [
+          "A single React Native + Expo codebase for iOS and Android",
+          "A Firebase-backed catalog — stock changes appear in the app immediately",
+          "Push notifications for new arrivals",
+          "Published on the App Store and Google Play, through both stores' review",
+          "A TypeScript codebase with a Tailwind design system",
+        ],
+      },
+    },
+  },
 ];
 
 /** Case study joined with its PROJECTS entry (image, stack, live URL). */

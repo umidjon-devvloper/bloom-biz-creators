@@ -292,7 +292,7 @@ const uz: Dict = {
         desc: "UI/UX prototip — kod yozishdan oldin ko'rasiz va tasdiqlaysiz.",
       },
       { title: "Ishlab chiqish", desc: "Toza kod, haftalik demo va real-time progress." },
-      { title: "Ishga tushirish", desc: "Test, deploy va 3 oy bepul texnik yordam." },
+      { title: "Ishga tushirish", desc: "Test, deploy va 1 oy bepul texnik yordam." },
     ],
     stackEyebrow: "Texnologiyalar",
     stackTitle: "Zamonaviy va ishonchli stack",
@@ -481,7 +481,7 @@ const uz: Dict = {
       "Har bir loyihada aloqa to'g'ridan-to'g'ri dasturchi bilan — menejer orqali emas",
       "Haftalik demo: taraqqiyotni gap bilan emas, ishlayotgan versiyada ko'rasiz",
       "Kod sizniki — GitHub repozitoriya to'liq topshiriladi",
-      "Ishga tushirgandan keyin 3 oy bepul bug-fix",
+      "Ishga tushirgandan keyin 1 oy bepul bug-fix",
     ],
     stats: [
       { key: "projects", suffix: "", label: "Tugallangan loyiha" },
@@ -514,7 +514,7 @@ const uz: Dict = {
       },
       {
         title: "Yordam davom etadi",
-        desc: "3 oy bepul bug-fix va konsultatsiya. Keyin arzon oylik paket.",
+        desc: "1 oy bepul bug-fix va konsultatsiya. Keyin arzon oylik paket.",
       },
       {
         title: "Kod sizniki",
@@ -546,7 +546,7 @@ const uz: Dict = {
       },
       {
         q: "Ishga tushgandan keyin yordam beriladimi?",
-        a: "Ha, 3 oy bepul texnik yordam va bug-fix. Undan keyin arzon oylik qo'llab-quvvatlash paketi mavjud.",
+        a: "Ha, 1 oy bepul texnik yordam va bug-fix. Undan keyin arzon narxda oylik qo'llab-quvvatlash paketi mavjud.",
       },
     ],
   },
@@ -681,7 +681,7 @@ const ru: Dict = {
         desc: "UI/UX прототип — вы видите и утверждаете до написания кода.",
       },
       { title: "Разработка", desc: "Чистый код, еженедельные демо и прогресс в реальном времени." },
-      { title: "Запуск", desc: "Тестирование, деплой и 3 месяца бесплатной поддержки." },
+      { title: "Запуск", desc: "Тестирование, деплой и 1 месяц бесплатной поддержки." },
     ],
     stackEyebrow: "Технологии",
     stackTitle: "Современный и надёжный стек",
@@ -870,7 +870,7 @@ const ru: Dict = {
       "Общение напрямую с разработчиком — без менеджера-посредника",
       "Еженедельное демо: прогресс видно в работающей версии, а не на словах",
       "Код ваш — GitHub-репозиторий передаётся полностью",
-      "3 месяца бесплатных исправлений после запуска",
+      "1 месяц бесплатных исправлений после запуска",
     ],
     stats: [
       { key: "projects", suffix: "", label: "Завершённых проектов" },
@@ -903,7 +903,7 @@ const ru: Dict = {
       },
       {
         title: "Поддержка продолжается",
-        desc: "3 месяца бесплатных исправлений и консультаций. Далее — недорогой пакет.",
+        desc: "1 месяц бесплатных исправлений и консультаций. Далее — недорогой пакет.",
       },
       { title: "Код ваш", desc: "GitHub-репозиторий передаётся вам. Никакой привязки." },
       {
@@ -932,7 +932,7 @@ const ru: Dict = {
       },
       {
         q: "Есть ли поддержка после запуска?",
-        a: "Да, 3 месяца бесплатной техподдержки и исправлений. Далее доступен недорогой пакет сопровождения.",
+        a: "Да, 1 месяц бесплатной техподдержки и исправлений. Далее доступен недорогой пакет сопровождения.",
       },
     ],
   },
@@ -1073,7 +1073,7 @@ const en: Dict = {
         desc: "UI/UX prototype — you see and approve it before any code.",
       },
       { title: "Development", desc: "Clean code, weekly demos and real-time progress." },
-      { title: "Launch", desc: "Testing, deploy and 3 months of free technical support." },
+      { title: "Launch", desc: "Testing, deploy and 1 month of free technical support." },
     ],
     stackEyebrow: "Technologies",
     stackTitle: "A modern, reliable stack",
@@ -1263,7 +1263,7 @@ const en: Dict = {
       "You talk to the developer directly — no account manager in between",
       "Weekly demos: progress you can see in a running build, not in a status update",
       "The code is yours — the GitHub repository is handed over in full",
-      "3 months of free bug-fixes after launch",
+      "1 month of free bug-fixes after launch",
     ],
     stats: [
       { key: "projects", suffix: "", label: "Projects shipped" },
@@ -1296,7 +1296,7 @@ const en: Dict = {
       },
       {
         title: "Support continues",
-        desc: "3 months of free bug-fixes and consulting. Then an affordable monthly plan.",
+        desc: "1 month of free bug-fixes and consulting. Then an affordable monthly plan.",
       },
       {
         title: "The code is yours",
@@ -1328,7 +1328,7 @@ const en: Dict = {
       },
       {
         q: "Is there support after launch?",
-        a: "Yes, 3 months of free technical support and bug-fixes. After that an affordable maintenance package is available.",
+        a: "Yes, 1 month of free technical support and bug-fixes. After that an affordable maintenance package is available.",
       },
     ],
   },

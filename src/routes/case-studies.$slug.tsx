@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Check, ExternalLink, MessageCircle, Quote } from "lucide-react";
+import { StoreBadges } from "../components/site/StoreBadges";
 import { CASE_STUDIES, getCaseStudy, listCaseStudies } from "../lib/case-studies";
 import { optimizedImage, fallbackToOriginal } from "../lib/img";
 import { telegramLink } from "../lib/site";
@@ -172,6 +173,13 @@ function CaseStudyDetail() {
                 <ExternalLink className="h-4 w-4" />
               </a>
             )}
+
+            {/* For an app the store listing is the live URL — same proof, different door. */}
+            <StoreBadges
+              appStore={project.appStore}
+              playStore={project.playStore}
+              className="mt-8"
+            />
           </section>
         </div>
 

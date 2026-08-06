@@ -1,11 +1,16 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { PageHeader } from "../components/site/PageHeader";
 import { Reveal3D } from "../components/site/Reveal3D";
+import { StoreBadges } from "../components/site/StoreBadges";
 import { CtaBand } from "../components/site/CtaBand";
 import { listCaseStudies } from "../lib/case-studies";
+import type { ProjectFilter } from "../lib/site";
 import { optimizedImage, fallbackToOriginal } from "../lib/img";
 import { useI18n } from "../i18n";
+
+type Cat = "all" | ProjectFilter;
 
 /**
  * Served from lib/case-studies.ts rather than MongoDB. These pages are the main
@@ -29,7 +34,13 @@ export const Route = createFileRoute("/case-studies/")({
 
 function CaseStudies() {
   const { t, lang } = useI18n();
-  const cases = listCaseStudies();
+  // Same four buckets as the portfolio grid, driven off the linked project's
+  // `filter` so a case study can never drift into a category its project isn't in.
+  const [filter, setFilter] = useState<Cat>("all");
+  const keys: Cat[] = ["all", "web", "mobile", "ecom"];
+  const cases = listCaseStudies().filter(
+    ({ project }) => filter === "all" || project.filter === filter,
+  );
 
   return (
     <div className="pb-8">
@@ -40,7 +51,26 @@ function CaseStudies() {
         description={t.cases.desc}
       />
 
-      <div className="mx-auto mt-20 max-w-7xl px-6">
+      <div className="mx-auto mt-16 max-w-7xl px-6">
+        <div className="mb-14 flex flex-wrap justify-center gap-3">
+          {t.portfolio.filters.map((label, i) => {
+            const key = keys[i];
+            return (
+              <button
+                key={key}
+                onClick={() => setFilter(key)}
+                className={`rounded-full px-6 py-2.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 ${
+                  filter === key
+                    ? "bg-foreground text-background shadow-lg"
+                    : "border border-border/50 bg-surface/50 text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
           {cases.map(({ study, project }, i) => {
             const copy = study.copy[lang];
@@ -111,16 +141,25 @@ function CaseStudies() {
                         {t.proof.readCase}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </Link>
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
-                      >
-                        {t.common.openSite}
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
+                      {/* An app has no site to open — its stores are the link. */}
+                      {project.live !== "#" && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
+                        >
+                          {t.common.openSite}
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      )}
                     </div>
+
+                    <StoreBadges
+                      appStore={project.appStore}
+                      playStore={project.playStore}
+                      className="mt-5"
+                    />
                   </div>
                 </article>
               </Reveal3D>

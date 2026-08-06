@@ -5,6 +5,7 @@ import BlogPost from "../db/models/BlogPost";
 import Lead from "../db/models/Lead";
 import Career from "../db/models/Career";
 import ClientProject from "../db/models/ClientProject";
+import { notifyLead } from "./telegram";
 
 export const getCaseStudies = createServerFn({ method: "GET" }).handler(async () => {
   await connectDB();
@@ -66,6 +67,10 @@ export const submitLead = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     await connectDB();
     const lead = await Lead.create(data);
+    // Awaited rather than fired-and-forgotten: on a serverless host the function
+    // can be frozen the moment it returns, which would drop a pending request.
+    // notifyLead swallows its own failures, so this can't fail the submission.
+    await notifyLead(data);
     return JSON.parse(JSON.stringify(lead));
   });
 

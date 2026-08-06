@@ -2,7 +2,7 @@ export const SITE = {
   name: "Umidjon Agency",
   short: "Umidjon",
   domain: "umidjon.agency",
-  email: "hello@umidjon.agency",
+  email: "umidjongafforov175@gmail.com",
   phone: "+998 93 655 89 59",
   phoneHref: "tel:+998936558959",
   // Telegram is resolved by phone number, which always reaches the account.
@@ -179,7 +179,7 @@ export const PROJECTS: Project[] = [
     caseStudy: "zarina-portfolio",
   },
   {
-     n: "10",
+    n: "10",
     title: "Chinora Website - Landing Page",
     cat: "Landing & Brand",
     filter: "web",
@@ -205,7 +205,7 @@ export const PROJECTS: Project[] = [
     appStore: "https://apps.apple.com/uz/app/chinora-school/id6764380123",
     playStore: "https://play.google.com/store/apps/details?id=com.chinara.chinora",
     highlight: "Real-time  push notifications",
-    wip: true,
+    caseStudy: "chinora-app",
   },
   {
     n: "12",
@@ -221,7 +221,7 @@ export const PROJECTS: Project[] = [
     appStore: "https://apps.apple.com/us/app/sushi-time/id6783957410",
     playStore: "https://play.google.com/store/apps/details?id=com.sushitime.app",
     highlight: "Real-time  push notifications",
-    wip: true,
+    caseStudy: "sushi-time",
   },
   {
     n: "13",
@@ -237,7 +237,7 @@ export const PROJECTS: Project[] = [
     appStore: "https://apps.apple.com/us/app/zapchasty/id6789631906",
     playStore: "https://play.google.com/store/apps/details?id=com.zapchasty.zapchasty",
     highlight: "Real-time  push notifications",
-    wip: true,
+    caseStudy: "zapchasty",
   },
 ];
 
