@@ -43,6 +43,9 @@ export type Project = {
   image: string;
   live: string;
   github: string;
+  /** Mobile builds ship to the stores instead of a URL — either may be absent. */
+  appStore?: string;
+  playStore?: string;
   highlight: string;
   featured?: boolean;
   wip?: boolean;
@@ -176,16 +179,64 @@ export const PROJECTS: Project[] = [
     caseStudy: "zarina-portfolio",
   },
   {
-    n: "10",
-    title: "QuickDeliver — React Native App",
-    cat: "Mobile · WIP",
-    filter: "mobile",
-    desc: "Cross-platform delivery tracking app with real-time map, push notifications, courier dashboard, and order history.",
-    stack: ["React Native", "Expo", "TypeScript", "Firebase", "Google Maps"],
-    image: "https://so3gvgph8j.ufs.sh/f/xumlocXZMUIuuFYMrcuiihWKq3pPEtbuSF4Ydz0jvM8HNoGI",
-    live: "#",
-    github: "https://github.com/umidjon11111",
+     n: "10",
+    title: "Chinora Website - Landing Page",
+    cat: "Landing & Brand",
+    filter: "web",
+    desc: "Landing page for Chinora — modern design with smooth animations and responsive layout.",
+    stack: ["React ", "TypeScript"],
+    image: "https://vjuubkjgs6.ufs.sh/f/ATnCuPXyY61ivvH79IQeAZnJsWz6ONDLFMUj9IbERfpViXgc",
+    live: "https://www.chinar-school.uz",
+    github: "https://www.chinar-school.uz",
     highlight: "Real-time map · push notifications",
+    wip: true,
+  },
+  {
+    n: "11",
+    title: "Chinora school — React Native App",
+    cat: "Landing & Brand",
+    filter: "mobile",
+    desc: "Mobile application for Chinora school — built with React Native and Expo, featuring real-time updates and push notifications.",
+    stack: ["React Native", "Expo", "TypeScript", "Firebase"],
+    image: "https://vjuubkjgs6.ufs.sh/f/ATnCuPXyY61iR2QqMtDw2MCnmoShDAe4HPrufQ3Kql6kOvIT",
+    // No web URL — the app itself is the deliverable, so the stores are the links.
+    live: "#",
+    github: "#",
+    appStore: "https://apps.apple.com/uz/app/chinora-school/id6764380123",
+    playStore: "https://play.google.com/store/apps/details?id=com.chinara.chinora",
+    highlight: "Real-time  push notifications",
+    wip: true,
+  },
+  {
+    n: "12",
+    title: "Sushi time  — React Native and Expo App",
+    cat: "Landing & Brand",
+    filter: "mobile",
+    desc: "Mobile application for Sushi time — built with React Native and Expo, featuring real-time updates and push notifications.",
+    stack: ["React Native", "Expo", "TypeScript", "Firebase", "Tailwind", "Push Notifications"],
+    image: "https://vjuubkjgs6.ufs.sh/f/ATnCuPXyY61iGtwWFzCgKshzbFy4nfRVW8wJLrAx6IimUM9e",
+    // No web URL — the app itself is the deliverable, so the stores are the links.
+    live: "#",
+    github: "#",
+    appStore: "https://apps.apple.com/us/app/sushi-time/id6783957410",
+    playStore: "https://play.google.com/store/apps/details?id=com.sushitime.app",
+    highlight: "Real-time  push notifications",
+    wip: true,
+  },
+  {
+    n: "13",
+    title: "Zapchasty  — React Native and Expo App",
+    cat: "Landing & Brand",
+    filter: "mobile",
+    desc: "Mobile application for Zapchasty — built with React Native and Expo, featuring real-time updates and push notifications.",
+    stack: ["React Native", "Expo", "TypeScript", "Firebase", "Tailwind", "Push Notifications"],
+    image: "https://vjuubkjgs6.ufs.sh/f/ATnCuPXyY61itvP4Op7lcRD4YAzEN6SPXovQgifU1IG20bBt",
+    // No web URL — the app itself is the deliverable, so the stores are the links.
+    live: "#",
+    github: "#",
+    appStore: "https://apps.apple.com/us/app/zapchasty/id6789631906",
+    playStore: "https://play.google.com/store/apps/details?id=com.zapchasty.zapchasty",
+    highlight: "Real-time  push notifications",
     wip: true,
   },
 ];

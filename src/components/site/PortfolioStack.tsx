@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ExternalLink, Github, ArrowRight, Terminal } from "lucide-react";
 import { PROJECTS, type Project } from "@/lib/site";
+import { StoreBadges } from "./StoreBadges";
 import { optimizedImage, fallbackToOriginal } from "@/lib/img";
 import { useI18n } from "@/i18n";
 
@@ -56,6 +57,8 @@ export function PortfolioStack({ count = 5 }: { count?: number }) {
 function StackCard({ p, viewLabel }: { p: Project; viewLabel: string }) {
   const hasLive = p.live !== "#";
   const hasRepo = p.github.includes("github.com");
+  // An app ships to the stores, not a URL — those buttons stand in for "view site".
+  const hasStore = Boolean(p.appStore || p.playStore);
 
   return (
     <article
@@ -127,10 +130,13 @@ function StackCard({ p, viewLabel }: { p: Project; viewLabel: string }) {
               {viewLabel} <ExternalLink className="h-4 w-4" />
             </a>
           ) : (
-            <span className="inline-flex items-center gap-2 rounded-xl border border-dashed border-border px-6 py-3 text-sm font-medium text-muted-foreground">
-              Coming soon
-            </span>
+            !hasStore && (
+              <span className="inline-flex items-center gap-2 rounded-xl border border-dashed border-border px-6 py-3 text-sm font-medium text-muted-foreground">
+                Coming soon
+              </span>
+            )
           )}
+          <StoreBadges appStore={p.appStore} playStore={p.playStore} />
           {hasRepo && (
             <a
               href={p.github}

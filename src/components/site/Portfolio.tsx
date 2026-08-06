@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, ExternalLink, Wrench } from "lucide-react";
 import { Section } from "./Section";
 import { Reveal3D } from "./Reveal3D";
+import { StoreBadges } from "./StoreBadges";
 import { PROJECTS, type Project, type ProjectFilter } from "@/lib/site";
 import { optimizedImage, fallbackToOriginal } from "@/lib/img";
 import { useI18n } from "@/i18n";
@@ -108,6 +109,8 @@ export function Portfolio({
 function CaseStudyCard({ p, isFull }: { p: Project; isFull: boolean }) {
   const { t } = useI18n();
   const hasLive = p.live !== "#";
+  // A store listing is the "live" link for an app, so it also drives the image tap.
+  const primary = hasLive ? p.live : (p.appStore ?? p.playStore ?? p.github);
 
   return (
     <article
@@ -115,7 +118,7 @@ function CaseStudyCard({ p, isFull }: { p: Project; isFull: boolean }) {
     >
       {/* Image Container */}
       <a
-        href={hasLive ? p.live : p.github}
+        href={primary}
         target="_blank"
         rel="noopener noreferrer"
         className={`relative block shrink-0 overflow-hidden ${isFull ? "w-full md:w-3/5" : "w-full"} aspect-[4/3] ${isFull ? "md:aspect-auto" : ""}`}
@@ -178,6 +181,7 @@ function CaseStudyCard({ p, isFull }: { p: Project; isFull: boolean }) {
         {/* What the project actually is, plus the two links that prove it. */}
         <div className="mt-10 rounded-2xl border border-border/40 bg-background/50 p-6">
           <p className="font-mono text-xs leading-relaxed text-foreground/70">▹ {p.highlight}</p>
+          <StoreBadges appStore={p.appStore} playStore={p.playStore} className="mt-5" />
           <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
             {hasLive && (
               <a
