@@ -12,7 +12,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { I18nProvider, useI18nOptional } from "../i18n";
+import { DEFAULT_LANG, I18nProvider, langFromSearch, useI18nOptional } from "../i18n";
+import { META } from "../i18n/translations";
 import { Navbar } from "../components/site/Navbar";
 import { Footer } from "../components/site/Footer";
 import { FloatingContact } from "../components/site/FloatingContact";
@@ -77,50 +78,49 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      // Uzbek is the default language of the document, so the default meta is
-      // Uzbek too — mixing an English description into a uz page splits the
-      // search intent and reads as a template nobody finished.
-      { title: "Umidjon Agency — websayt, onlayn do'kon va mobil ilova (Toshkent)" },
-      {
-        name: "description",
-        content:
-          "Toshkentdagi ishlab chiqish jamoasi: websayt, onlayn do'kon va mobil ilova. Kalkulyatorda 4 savolga javob berib taxminiy narxni darhol ko'ring.",
-      },
-      { name: "author", content: "Umidjon Agency" },
-      { property: "og:title", content: "Umidjon Agency — websayt, onlayn do'kon va mobil ilova" },
-      {
-        property: "og:description",
-        content:
-          "Shaffof narx: kalkulyatorda 4 savol — taxminiy narx darhol. Toshkent, javob 24 soat ichida.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:locale", content: "uz_UZ" },
-      { property: "og:locale:alternate", content: "ru_RU" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Umidjon Agency — websayt, onlayn do'kon va mobil ilova" },
-      {
-        name: "twitter:description",
-        content: "Kalkulyatorda 4 savol — taxminiy narx darhol. Toshkent, javob 24 soat ichida.",
-      },
-    ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/logo.png", type: "image/x-icon" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      // Image CDN (resizes + WebP for portfolio screenshots)
-      { rel: "preconnect", href: "https://wsrv.nl", crossOrigin: "anonymous" },
-      { rel: "dns-prefetch", href: "https://wsrv.nl" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
-      },
-    ],
-  }),
+  // `?lang=` pins the document language server-side. Everything else in search is
+  // passed through untouched — gclid, utm_*, and whatever else an ad click adds.
+  validateSearch: (search: Record<string, unknown>) => search,
+  head: ({ match }) => {
+    // Uzbek is the default language of the document, so the default meta is
+    // Uzbek too — mixing an English description into a uz page splits the
+    // search intent and reads as a template nobody finished. A pinned ?lang=
+    // swaps the whole set, title and locale included.
+    const lang = langFromSearch(match.search) ?? DEFAULT_LANG;
+    const m = META[lang];
+    const alternates = (["uz_UZ", "ru_RU", "en_US"] as const).filter((l) => l !== m.locale);
+
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { title: m.title },
+        { name: "description", content: m.description },
+        { name: "author", content: "Umidjon Agency" },
+        { property: "og:title", content: m.title },
+        { property: "og:description", content: m.ogDescription },
+        { property: "og:type", content: "website" },
+        { property: "og:locale", content: m.locale },
+        ...alternates.map((l) => ({ property: "og:locale:alternate", content: l })),
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: m.title },
+        { name: "twitter:description", content: m.ogDescription },
+      ],
+      links: [
+        { rel: "stylesheet", href: appCss },
+        { rel: "icon", href: "/logo.png", type: "image/x-icon" },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+        // Image CDN (resizes + WebP for portfolio screenshots)
+        { rel: "preconnect", href: "https://wsrv.nl", crossOrigin: "anonymous" },
+        { rel: "dns-prefetch", href: "https://wsrv.nl" },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+        },
+      ],
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -162,8 +162,12 @@ gtag('config', 'AW-18019926528');`;
 const GTAG_CONVERSION = `gtag('event', 'conversion', {'send_to': 'AW-18019926528/O1XPCOOqs9wcEICEyZBD'});`;
 
 function RootShell({ children }: { children: ReactNode }) {
+  // Kept in step with the language the body renders in — a `?lang=ru` landing
+  // that still declares lang="uz" is exactly the mismatch ad review flags.
+  const pinned = useRouterState({ select: (s) => langFromSearch(s.location.search) });
+
   return (
-    <html lang="uz" className="dark" suppressHydrationWarning>
+    <html lang={pinned ?? DEFAULT_LANG} className="dark" suppressHydrationWarning>
       <head>
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18019926528" />
         <script dangerouslySetInnerHTML={{ __html: GTAG_INIT }} />
@@ -184,6 +188,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pinnedLang = useRouterState({ select: (s) => langFromSearch(s.location.search) });
   const isAdminPath = pathname.startsWith("/admin");
 
   // Hydration made it — keep the reveal animations enabled.
@@ -194,7 +199,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <I18nProvider>
+      <I18nProvider initialLang={pinnedLang}>
         <div className="relative min-h-screen bg-background text-foreground">
           {!isAdminPath && <Navbar />}
           <main>

@@ -59,14 +59,18 @@ export const PROJECTS: Project[] = [
   {
     n: "01",
     title: "Kichik Biznesga Ko'maklashish Markazi",
-    cat: "Government · Featured",
+    // Deliberately described as a corporate multilingual build rather than a
+    // government one: ad review reads "official / government" on an agency site
+    // as an offer of government services and asks for a certification we have no
+    // reason to hold. The work itself is the same, the framing is the client's.
+    cat: "Corporate · Featured",
     filter: "web",
-    desc: "Official website for Uzbekistan's small business support center — government-grade performance & multilingual SEO (uz/ru/en).",
+    desc: "Multilingual website for a small business support center — three separately indexed languages (uz/ru/en) and fast first paint on slow mobile connections.",
     stack: ["Vite", "React", "TypeScript", "Tailwind", "i18n"],
     image: "https://so3gvgph8j.ufs.sh/f/xumlocXZMUIuuFYMrcuiihWKq3pPEtbuSF4Ydz0jvM8HNoGI",
     live: "https://www.kbkm.uz/",
     github: "https://www.kbkm.uz/",
-    highlight: "Davlat loyihasi · 3 til (uz/ru/en)",
+    highlight: "3 til (uz/ru/en) · Mobil-first",
     featured: true,
     client: true,
     caseStudy: "kbkm",

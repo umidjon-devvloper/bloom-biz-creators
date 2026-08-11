@@ -476,7 +476,7 @@ const uz: Dict = {
     titleA: "Toshkentda ishlaydigan",
     titleHl: "kichik jamoa",
     desc: "Katta agentlik emasmiz va bunday ko'rinishga harakat ham qilmaymiz. Uch kishi, ochiq narx, topshirilgan ishlar.",
-    body: "Umidjon Agency — Toshkentda joylashgan kichik ishlab chiqish jamoasi. Biz websayt, onlayn do'kon va mobil ilovalar qilamiz. Mijozlarimiz orasida davlat tashkiloti ham, hunarmandchilik brendlari ham bor — barchasining sayti hozir ishlayapti va portfoliodan bosib ko'rishingiz mumkin.",
+    body: "Umidjon Agency — Toshkentda joylashgan kichik ishlab chiqish jamoasi. Biz websayt, onlayn do'kon va mobil ilovalar qilamiz. Mijozlarimiz orasida biznesga ko'maklashish markazi ham, hunarmandchilik brendlari ham bor — barchasining sayti hozir ishlayapti va portfoliodan bosib ko'rishingiz mumkin.",
     points: [
       "Har bir loyihada aloqa to'g'ridan-to'g'ri dasturchi bilan — menejer orqali emas",
       "Haftalik demo: taraqqiyotni gap bilan emas, ishlayotgan versiyada ko'rasiz",
@@ -865,7 +865,7 @@ const ru: Dict = {
     titleA: "Небольшая команда",
     titleHl: "из Ташкента",
     desc: "Мы не большое агентство и не пытаемся им выглядеть. Три человека, открытая цена, сданные проекты.",
-    body: "Umidjon Agency — небольшая команда разработки из Ташкента. Мы делаем сайты, интернет-магазины и мобильные приложения. Среди клиентов есть и государственная организация, и ремесленные бренды — все их сайты сейчас работают, и по ним можно перейти прямо из портфолио.",
+    body: "Umidjon Agency — небольшая команда разработки из Ташкента. Мы делаем сайты, интернет-магазины и мобильные приложения. Среди клиентов есть и центр поддержки бизнеса, и ремесленные бренды — все их сайты сейчас работают, и по ним можно перейти прямо из портфолио.",
     points: [
       "Общение напрямую с разработчиком — без менеджера-посредника",
       "Еженедельное демо: прогресс видно в работающей версии, а не на словах",
@@ -1258,7 +1258,7 @@ const en: Dict = {
     titleA: "A small team",
     titleHl: "based in Tashkent",
     desc: "We're not a large agency and we don't try to look like one. Three people, open pricing, delivered work.",
-    body: "Umidjon Agency is a small development team based in Tashkent. We build websites, online stores and mobile apps. Our clients include a government organisation and several artisan brands — every one of those sites is live, and you can click straight through from the portfolio.",
+    body: "Umidjon Agency is a small development team based in Tashkent. We build websites, online stores and mobile apps. Our clients include a business support centre and several artisan brands — every one of those sites is live, and you can click straight through from the portfolio.",
     points: [
       "You talk to the developer directly — no account manager in between",
       "Weekly demos: progress you can see in a running build, not in a status update",
@@ -1409,4 +1409,41 @@ const en: Dict = {
 };
 
 export const translations: Record<Lang, Dict> = { uz, ru, en };
+
+/**
+ * Document-level copy for <head>. Kept out of Dict because it is consumed by the
+ * root route's head() — which runs outside React and so cannot read the i18n
+ * context — and keyed by the same Lang the page body renders in, so a `?lang=ru`
+ * landing never ships Russian content under an Uzbek title.
+ */
+export const META: Record<
+  Lang,
+  { title: string; description: string; ogDescription: string; locale: string }
+> = {
+  uz: {
+    title: "Umidjon Agency — websayt, onlayn do'kon va mobil ilova (Toshkent)",
+    description:
+      "Toshkentdagi ishlab chiqish jamoasi: websayt, onlayn do'kon va mobil ilova. Kalkulyatorda 4 savolga javob berib taxminiy narxni darhol ko'ring.",
+    ogDescription:
+      "Shaffof narx: kalkulyatorda 4 savol — taxminiy narx darhol. Toshkent, javob 24 soat ichida.",
+    locale: "uz_UZ",
+  },
+  ru: {
+    title: "Umidjon Agency — разработка сайтов, интернет-магазинов и мобильных приложений",
+    description:
+      "Команда разработки из Ташкента: сайты, интернет-магазины и мобильные приложения. Ответьте на 4 вопроса в калькуляторе и сразу увидите примерную стоимость.",
+    ogDescription:
+      "Прозрачная цена: 4 вопроса в калькуляторе — примерная стоимость сразу. Ташкент, ответ в течение 24 часов.",
+    locale: "ru_RU",
+  },
+  en: {
+    title: "Umidjon Agency — websites, online stores and mobile apps (Tashkent)",
+    description:
+      "A development team in Tashkent building websites, online stores and mobile apps. Answer four questions in the calculator and see an estimate straight away.",
+    ogDescription:
+      "Transparent pricing: four questions in the calculator, an estimate straight away. Tashkent, reply within 24 hours.",
+    locale: "en_US",
+  },
+};
+
 export type { Dict, Stat, StatKey };

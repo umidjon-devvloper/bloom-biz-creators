@@ -49,14 +49,14 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: "kbkm",
     project: "Kichik Biznesga Ko'maklashish Markazi",
     client: "Kichik Biznesga Ko'maklashish Markazi",
-    industry: { uz: "Davlat sektori", ru: "Госсектор", en: "Public sector" },
+    industry: { uz: "Biznesga ko'maklashish", ru: "Поддержка бизнеса", en: "Business support" },
     copy: {
       uz: {
-        title: "Davlat markazi sayti — uch tilda, sekin internetga chidamli",
+        title: "Ko'p tilli markaz sayti — uch tilda, sekin internetga chidamli",
         summary:
-          "Kichik biznesga ko'maklashish markazining rasmiy sayti: o'zbek, rus va ingliz tillari, har biri alohida indekslanadi.",
+          "Kichik biznesga ko'maklashish markazining sayti: o'zbek, rus va ingliz tillari, har biri alohida indekslanadi.",
         problem:
-          "Markaz tadbirkorlarga xizmat ko'rsatadi, lekin sayt davlat tashkiloti talablariga javob berishi kerak edi: uchta til majburiy, ustiga foydalanuvchilarning katta qismi viloyatlardan, sekin mobil internet orqali kiradi. Bir tilli yoki og'ir yuklanadigan sayt bu auditoriyani yo'qotardi.",
+          "Markaz tadbirkorlarga xizmat ko'rsatadi, lekin sayt markazning talablariga javob berishi kerak edi: uchta til majburiy, ustiga foydalanuvchilarning katta qismi viloyatlardan, sekin mobil internet orqali kiradi. Bir tilli yoki og'ir yuklanadigan sayt bu auditoriyani yo'qotardi.",
         solution:
           "Vite + React + TypeScript ustida qurdik va tilni interfeysga emas, marshrutga bog'ladik: har bir til o'z URL va o'z meta teglariga ega, shuning uchun Google uchta versiyani alohida indekslaydi — bu bir sahifada til almashtirishdan farqli natija beradi. Yuklanish tomonida kod bo'laklab uzatiladi va rasmlar WebP'ga o'tkaziladi, chunki bu yerda hal qiluvchi omil — dizayn emas, 3G'da birinchi ekran qancha vaqtda chiqishi.",
         delivered: [
@@ -68,11 +68,11 @@ export const CASE_STUDIES: CaseStudy[] = [
         ],
       },
       ru: {
-        title: "Сайт государственного центра — три языка, устойчив к медленному интернету",
+        title: "Сайт центра поддержки — три языка, устойчив к медленному интернету",
         summary:
-          "Официальный сайт центра поддержки малого бизнеса: узбекский, русский и английский, каждый индексируется отдельно.",
+          "Сайт центра поддержки малого бизнеса: узбекский, русский и английский, каждый индексируется отдельно.",
         problem:
-          "Центр работает с предпринимателями, но сайт должен был соответствовать требованиям госорганизации: три языка обязательны, при этом значительная часть посетителей заходит из регионов через медленный мобильный интернет. Одноязычный или тяжёлый сайт терял бы эту аудиторию.",
+          "Центр работает с предпринимателями, но сайт должен был соответствовать требованиям центра: три языка обязательны, при этом значительная часть посетителей заходит из регионов через медленный мобильный интернет. Одноязычный или тяжёлый сайт терял бы эту аудиторию.",
         solution:
           "Собрали на Vite + React + TypeScript и привязали язык не к интерфейсу, а к маршруту: у каждого языка свой URL и свои meta-теги, поэтому Google индексирует три версии отдельно — результат заметно отличается от переключения языка на одной странице. На стороне загрузки код разбит на части, изображения отдаются в WebP: здесь решает не дизайн, а то, за сколько на 3G появится первый экран.",
         delivered: [
@@ -84,11 +84,11 @@ export const CASE_STUDIES: CaseStudy[] = [
         ],
       },
       en: {
-        title: "A government centre's site — three languages, built for slow connections",
+        title: "A support centre's site — three languages, built for slow connections",
         summary:
-          "The official site for Uzbekistan's small-business support centre: Uzbek, Russian and English, each indexed separately.",
+          "The site for a small-business support centre: Uzbek, Russian and English, each indexed separately.",
         problem:
-          "The centre serves entrepreneurs, but the site had to meet public-sector requirements: three languages were mandatory, and a large share of visitors arrive from the regions over slow mobile connections. A single-language or heavy site would have lost that audience.",
+          "The centre serves entrepreneurs, but the site had to meet the centre's own requirements: three languages were mandatory, and a large share of visitors arrive from the regions over slow mobile connections. A single-language or heavy site would have lost that audience.",
         solution:
           "We built it on Vite + React + TypeScript and tied language to the route rather than the interface: each language has its own URL and its own meta tags, so Google indexes three versions separately — a materially different outcome from swapping language on one page. On the loading side the bundle is code-split and images are served as WebP, because what decides things here isn't the design, it's how fast the first screen appears on 3G.",
         delivered: [
