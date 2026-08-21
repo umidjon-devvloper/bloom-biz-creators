@@ -1,4 +1,4 @@
-import { createStart, createMiddleware } from "@tanstack/react-start";
+import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";
 
@@ -17,6 +17,21 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
   }
 });
 
+/**
+ * Server functions are same-origin RPC: `submitLead` writes to the database and
+ * the admin functions edit content, all authorised by nothing but being called.
+ * Without this, any page on any site could invoke them in a visitor's session.
+ *
+ * Only server functions are checked. Document requests are navigations, which
+ * legitimately arrive cross-site — every inbound link from Google, Instagram or
+ * Telegram is one, and rejecting those would take the site off the internet.
+ */
+const csrfMiddleware = createCsrfMiddleware({
+  filter: (ctx) => ctx.handlerType === "serverFn",
+});
+
+// CSRF first: a cross-site call is refused before it reaches anything that could
+// touch the database. errorMiddleware still wraps the handlers themselves.
 export const startInstance = createStart(() => ({
-  requestMiddleware: [errorMiddleware],
+  requestMiddleware: [csrfMiddleware, errorMiddleware],
 }));
