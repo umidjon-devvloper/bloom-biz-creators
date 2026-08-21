@@ -15,7 +15,7 @@ dist-ssr
 .tanstack/**
 .nitro
 *.local
-
+/bot-server
 # Environment — these hold credentials (bot token, DB URI). Never commit them.
 .env
 .env.*

@@ -10,12 +10,19 @@ import { useI18n } from "@/i18n";
  * `photo` is empty by default so no broken-image (404) requests are made and the
  * gradient initials show. To use a real photo, drop a file into /public/team/ and
  * set e.g. `photo: "/team/1.jpg"` — the <img> only renders when `photo` is set.
+ *
+ * `accent` is a hue that feeds the default initials gradient; `bg` overrides it
+ * with a full CSS background when a tile needs an exact colour instead of a hue.
  */
 const TEAM_META = [
   {
     initials: "UG",
-    photo: "",
-    accent: "275",
+    photo: "/portrait.webp",
+    // The portrait is a transparent cut-out, so this gradient IS its background.
+    // Built from --primary so it is literally the site's blue in both themes —
+    // the hue+40 formula below would drift into the violet the gold fights with.
+    bg: "linear-gradient(135deg, color-mix(in oklab, var(--primary) 72%, black) 0%, var(--primary) 100%)",
+    accent: "260",
     skills: ["React & Next.js", "TypeScript", "Node.js"],
     github: SITE.github,
     linkedin: SITE.linkedin,
@@ -23,6 +30,7 @@ const TEAM_META = [
   {
     initials: "DH",
     photo: "",
+    bg: "",
     accent: "200",
     skills: ["Node.js", "PostgreSQL", "React"],
     github: "",
@@ -31,6 +39,7 @@ const TEAM_META = [
   {
     initials: "UA",
     photo: "",
+    bg: "",
     accent: "320",
     skills: ["React & Vue", "Tailwind CSS", "Motion & UI"],
     github: "",
@@ -47,10 +56,12 @@ function BentoAvatar({
   photo,
   initials,
   accent,
+  bg,
 }: {
   photo: string;
   initials: string;
   accent: string;
+  bg: string;
 }) {
   const [failed, setFailed] = useState(false);
   return (
@@ -58,7 +69,9 @@ function BentoAvatar({
       <div
         className="absolute inset-0 grid place-items-center font-display text-8xl font-black text-primary-foreground opacity-90 transition-transform duration-700 group-hover:scale-110"
         style={{
-          background: `linear-gradient(135deg, oklch(0.62 0.2 ${accent}) 0%, oklch(0.74 0.17 ${Number(accent) + 40}) 100%)`,
+          background:
+            bg ||
+            `linear-gradient(135deg, oklch(0.62 0.2 ${accent}) 0%, oklch(0.74 0.17 ${Number(accent) + 40}) 100%)`,
         }}
       >
         {initials}
@@ -217,6 +230,7 @@ export function Team({
                           photo={meta.photo}
                           initials={meta.initials}
                           accent={meta.accent}
+                          bg={meta.bg}
                         />
                       </div>
                       <div className={`${bentoClass} md:col-span-2 lg:col-span-3 text-left group`}>
@@ -233,6 +247,7 @@ export function Team({
                           photo={meta.photo}
                           initials={meta.initials}
                           accent={meta.accent}
+                          bg={meta.bg}
                         />
                       </div>
                     </>

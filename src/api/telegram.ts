@@ -7,13 +7,28 @@ import type { LeadInput } from "./api";
  * next time someone opens /admin is a lead answered a day late. This pushes it
  * to the phone the moment it arrives.
  *
- * Both values come from the environment — the token is a credential and must
+ * Two delivery paths, in order of preference:
+ *   1. LEAD_BOT_URL — the standalone bot service in ./bot-server. It owns the
+ *      token, retries failed sends, keeps its own copy of every lead and stays
+ *      up while the site is redeploying.
+ *   2. TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID — talk to Telegram directly. Kept
+ *      so the site still notifies when the bot service is not deployed.
+ *
+ * All values come from the environment — the token is a credential and must
  * never be committed. Missing config is not an error: the site then behaves
  * exactly as it did before, storing leads without notifying.
  */
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN ?? "";
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID ?? "";
+/**
+ * A public URL, not a credential, so it ships as the default and the site needs
+ * no extra environment variable to notify. Set LEAD_BOT_URL to point at another
+ * deployment, or to an empty string to fall back to talking to Telegram directly.
+ */
+const DEFAULT_BOT_URL = "https://umidjon-agency-bot-server.fly.dev";
+const BOT_URL = (process.env.LEAD_BOT_URL ?? DEFAULT_BOT_URL).replace(/\/$/, "");
+const BOT_API_KEY = process.env.LEAD_BOT_API_KEY ?? "";
 
 /** Telegram's HTML parse mode rejects unescaped &, < and > anywhere in the text. */
 function esc(value: unknown) {
@@ -74,6 +89,7 @@ function buildMessage(lead: LeadInput) {
  * into an error message for the visitor, who would then think the form failed.
  */
 export async function notifyLead(lead: LeadInput) {
+  if (BOT_URL) return notifyViaBotService(lead);
   if (!TOKEN || !CHAT_ID) return false;
 
   try {
@@ -95,6 +111,37 @@ export async function notifyLead(lead: LeadInput) {
     return true;
   } catch (err) {
     console.error("[telegram] notifyLead error:", err);
+    return false;
+  }
+}
+
+/**
+ * Hands the lead to the standalone bot service. The service formats and delivers
+ * it, so nothing here needs the token.
+ *
+ * The timeout matters: this call sits inside the visitor's form submission, and
+ * an unreachable service must not hold the page on a spinner. Failing here still
+ * leaves the lead saved in the database and visible in /admin.
+ */
+async function notifyViaBotService(lead: LeadInput) {
+  try {
+    const res = await fetch(`${BOT_URL}/api/lead`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(BOT_API_KEY ? { "x-api-key": BOT_API_KEY } : {}),
+      },
+      body: JSON.stringify(lead),
+      signal: AbortSignal.timeout(8000),
+    });
+
+    if (!res.ok) {
+      console.error("[telegram] bot service rejected lead:", res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("[telegram] bot service unreachable:", err);
     return false;
   }
 }

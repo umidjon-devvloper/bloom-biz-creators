@@ -65,13 +65,29 @@ export const submitLead = createServerFn({ method: "POST" })
     };
   })
   .handler(async ({ data }) => {
-    await connectDB();
-    const lead = await Lead.create(data);
+    // The notification is the half the team actually reacts to, so it must not
+    // depend on the database being reachable. Storing first and notifying second
+    // meant an unset MONGODB_URI or a Mongo outage threw before Telegram was ever
+    // called — the visitor saw the form fail and the lead existed nowhere.
+    let saved: unknown = null;
+    try {
+      await connectDB();
+      saved = await Lead.create(data);
+    } catch (err) {
+      console.error("[leads] could not store lead:", err);
+    }
+
     // Awaited rather than fired-and-forgotten: on a serverless host the function
     // can be frozen the moment it returns, which would drop a pending request.
-    // notifyLead swallows its own failures, so this can't fail the submission.
-    await notifyLead(data);
-    return JSON.parse(JSON.stringify(lead));
+    // notifyLead swallows its own failures and reports them as false.
+    const notified = await notifyLead(data);
+
+    // Only when both paths failed is the lead genuinely lost. Throwing here is
+    // what puts the error message under the form, which points at the Telegram
+    // button next to it.
+    if (!saved && !notified) throw new Error("lead could not be delivered");
+
+    return saved ? JSON.parse(JSON.stringify(saved)) : { ok: true, stored: false };
   });
 
 export const getClientProject = createServerFn({ method: "GET" })
