@@ -196,7 +196,6 @@ type Dict = {
     contactPh: string;
     note: string;
     notePh: string;
-    noteToggle: string;
     submit: string;
     sending: string;
     sent: string;
@@ -562,7 +561,6 @@ const uz: Dict = {
     contactPh: "+998 __ ___ __ __",
     note: "Loyiha haqida (majburiy emas)",
     notePh: "Nima qilish kerakligini qisqacha yozing…",
-    noteToggle: "Izoh qo'shish",
     submit: "Yuborish",
     sending: "Yuborilmoqda…",
     sent: "Qabul qilindi",
@@ -948,7 +946,6 @@ const ru: Dict = {
     contactPh: "+998 __ ___ __ __",
     note: "О проекте (необязательно)",
     notePh: "Кратко опишите, что нужно сделать…",
-    noteToggle: "Добавить комментарий",
     submit: "Отправить",
     sending: "Отправка…",
     sent: "Принято",
@@ -1344,7 +1341,6 @@ const en: Dict = {
     contactPh: "+998 __ ___ __ __",
     note: "About the project (optional)",
     notePh: "Briefly, what needs building…",
-    noteToggle: "Add a note",
     submit: "Send",
     sending: "Sending…",
     sent: "Received",

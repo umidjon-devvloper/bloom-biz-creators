@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Send, Check, Clock, MessageCircle, Mail, Phone, Plus } from "lucide-react";
+import { Send, Check, Clock, MessageCircle, Mail, Phone } from "lucide-react";
 import { Section } from "./Section";
 import { useI18n } from "@/i18n";
 import { SITE, telegramLink } from "@/lib/site";
@@ -10,15 +10,15 @@ import { SITE, telegramLink } from "@/lib/site";
  * The previous form asked for name, phone, email, project type, budget and a
  * note — six fields standing between a warm visitor and a conversation. Project
  * type and budget are questions we can ask in the first reply; asking them up
- * front only filters out the people who were willing to talk. The optional note
- * stays collapsed so it costs nothing to ignore.
+ * front only filters out the people who were willing to talk. The note is
+ * optional but always visible: it was behind an "add a note" toggle, and someone
+ * with something to say had to first discover that a place to say it existed.
  */
 export function Contact({ headless = false }: { headless?: boolean }) {
   const { t, lang } = useI18n();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [errors, setErrors] = useState<Record<string, boolean>>({});
-  const [showNote, setShowNote] = useState(false);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,7 +46,6 @@ export function Contact({ headless = false }: { headless?: boolean }) {
       });
       setStatus("success");
       form.reset();
-      setShowNote(false);
     } catch (err) {
       // Never swallow this silently — the Telegram button below is the fallback
       // and the error text points the visitor at it.
@@ -132,28 +131,17 @@ export function Contact({ headless = false }: { headless?: boolean }) {
                 </label>
               </div>
 
-              {showNote ? (
-                <label className="mt-4 block">
-                  <span className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                    {t.contact.note}
-                  </span>
-                  <textarea
-                    name="note"
-                    rows={4}
-                    placeholder={t.contact.notePh}
-                    className={`${inputBase} resize-none border-border/50`}
-                  />
-                </label>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setShowNote(true)}
-                  className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
-                >
-                  <Plus className="h-4 w-4" />
-                  {t.contact.noteToggle}
-                </button>
-              )}
+              <label className="mt-4 block">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  {t.contact.note}
+                </span>
+                <textarea
+                  name="note"
+                  rows={3}
+                  placeholder={t.contact.notePh}
+                  className={`${inputBase} resize-none border-border/50`}
+                />
+              </label>
 
               <button
                 type="submit"
