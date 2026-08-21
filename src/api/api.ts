@@ -65,29 +65,35 @@ export const submitLead = createServerFn({ method: "POST" })
     };
   })
   .handler(async ({ data }) => {
-    // The notification is the half the team actually reacts to, so it must not
-    // depend on the database being reachable. Storing first and notifying second
-    // meant an unset MONGODB_URI or a Mongo outage threw before Telegram was ever
-    // called — the visitor saw the form fail and the lead existed nowhere.
-    let saved: unknown = null;
-    try {
-      await connectDB();
-      saved = await Lead.create(data);
-    } catch (err) {
-      console.error("[leads] could not store lead:", err);
-    }
-
-    // Awaited rather than fired-and-forgotten: on a serverless host the function
-    // can be frozen the moment it returns, which would drop a pending request.
-    // notifyLead swallows its own failures and reports them as false.
-    const notified = await notifyLead(data);
+    // Storing and notifying run side by side, not one after the other. They need
+    // nothing from each other, and the visitor waits for whichever is slower
+    // rather than for their sum — the notification alone is ~0.5s, while a
+    // database that is merely unreachable costs seconds before it says so.
+    //
+    // Neither is allowed to fail the other: the notification is the half the team
+    // reacts to, and a Mongo outage used to throw before Telegram was ever called.
+    // Both are awaited rather than fired-and-forgotten because a serverless host
+    // can freeze the function the moment it returns, dropping a pending request.
+    const [stored, notified] = await Promise.all([
+      (async () => {
+        try {
+          await connectDB();
+          return await Lead.create(data);
+        } catch (err) {
+          console.error("[leads] could not store lead:", err);
+          return null;
+        }
+      })(),
+      // notifyLead swallows its own failures and reports them as false.
+      notifyLead(data),
+    ]);
 
     // Only when both paths failed is the lead genuinely lost. Throwing here is
     // what puts the error message under the form, which points at the Telegram
     // button next to it.
-    if (!saved && !notified) throw new Error("lead could not be delivered");
+    if (!stored && !notified) throw new Error("lead could not be delivered");
 
-    return saved ? JSON.parse(JSON.stringify(saved)) : { ok: true, stored: false };
+    return stored ? JSON.parse(JSON.stringify(stored)) : { ok: true, stored: false };
   });
 
 export const getClientProject = createServerFn({ method: "GET" })
