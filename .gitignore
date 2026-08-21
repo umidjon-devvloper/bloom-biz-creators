@@ -38,3 +38,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# The lead bot is its own repository and its own deployment:
+# github.com/umidjon-devvloper/umidjon-agency-bot-server → fly.io.
+# Committing it here only produced a broken submodule pointer with no files.
+bot-server/
