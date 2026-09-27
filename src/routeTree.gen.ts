@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
@@ -37,6 +38,11 @@ const TeamRoute = TeamRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortfolioRoute = PortfolioRouteImport.update({
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/maintenance': typeof MaintenanceRoute
   '/portal': typeof PortalRoute
   '/portfolio': typeof PortfolioRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRoute
   '/team': typeof TeamRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/maintenance': typeof MaintenanceRoute
   '/portal': typeof PortalRoute
   '/portfolio': typeof PortfolioRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRoute
   '/team': typeof TeamRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/maintenance': typeof MaintenanceRoute
   '/portal': typeof PortalRoute
   '/portfolio': typeof PortfolioRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRoute
   '/team': typeof TeamRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/portal'
     | '/portfolio'
+    | '/privacy-policy'
     | '/services'
     | '/team'
     | '/admin/blog'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/portal'
     | '/portfolio'
+    | '/privacy-policy'
     | '/services'
     | '/team'
     | '/admin/blog'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/portal'
     | '/portfolio'
+    | '/privacy-policy'
     | '/services'
     | '/team'
     | '/admin/blog'
@@ -262,6 +274,7 @@ export interface RootRouteChildren {
   MaintenanceRoute: typeof MaintenanceRoute
   PortalRoute: typeof PortalRoute
   PortfolioRoute: typeof PortfolioRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ServicesRoute: typeof ServicesRoute
   TeamRoute: typeof TeamRoute
   AdminLoginRoute: typeof AdminLoginRoute
@@ -285,6 +298,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portfolio': {
@@ -434,6 +454,7 @@ const rootRouteChildren: RootRouteChildren = {
   MaintenanceRoute: MaintenanceRoute,
   PortalRoute: PortalRoute,
   PortfolioRoute: PortfolioRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ServicesRoute: ServicesRoute,
   TeamRoute: TeamRoute,
   AdminLoginRoute: AdminLoginRoute,

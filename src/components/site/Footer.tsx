@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site";
 import { useI18n } from "@/i18n";
 
 const COMPANY_LINKS = ["/about", "/team", "/portfolio", "/services", "/contact"];
-const PLATFORM_LINKS = ["/careers", "/portal", "/maintenance"];
+const PLATFORM_LINKS = ["/careers", "/portal", "/maintenance", "/privacy-policy"];
 
 export function Footer() {
   const { t } = useI18n();
@@ -103,8 +103,6 @@ export function Footer() {
               {t.footer.platformTitle}
             </h4>
             <ul className="mt-8 space-y-4">
-              {/* /privacy used to be listed here but no such route exists — a
-                  footer link to a 404 reads as an unfinished site. */}
               {t.footer.platform.map((label, i) => (
                 <li key={label}>
                   <Link
