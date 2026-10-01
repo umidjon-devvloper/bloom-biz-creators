@@ -18,6 +18,5 @@ export default defineConfig({
   // the preset is force-pinned to Cloudflare, so this is safe for both.
   nitro: {
     preset: "vercel",
-    vercel: { functions: { runtime: "nodejs20.x" } },
   },
 });
