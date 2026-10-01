@@ -1,6 +1,5 @@
-import { useRouterState } from "@tanstack/react-router";
 import { SITE, FACTS, TECH_STACK } from "@/lib/site";
-import { useI18n, langFromSearch, DEFAULT_LANG } from "@/i18n";
+import { useI18n } from "@/i18n";
 
 const ORIGIN = `https://www.${SITE.domain}`;
 
