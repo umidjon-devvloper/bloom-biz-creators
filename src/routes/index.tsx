@@ -10,6 +10,7 @@ import { About } from "@/components/site/About";
 import { ClientProof } from "@/components/site/ClientProof";
 import { FAQ } from "@/components/site/FAQ";
 import { Contact } from "@/components/site/Contact";
+import { FAQPageJsonLd } from "@/components/site/JsonLd";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -30,6 +31,7 @@ function Index() {
       <About />
       <ClientProof />
       <FAQ />
+      <FAQPageJsonLd />
       <Contact />
     </>
   );
