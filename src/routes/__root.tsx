@@ -17,6 +17,7 @@ import { META } from "../i18n/translations";
 import { Navbar } from "../components/site/Navbar";
 import { Footer } from "../components/site/Footer";
 import { FloatingContact } from "../components/site/FloatingContact";
+import { SeoHead } from "../components/site/SeoHead";
 
 function NotFoundComponent() {
   const { t } = useI18nOptional();
@@ -108,7 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       ],
       links: [
         { rel: "stylesheet", href: appCss },
-        { rel: "icon", href: "/logo.png", type: "image/x-icon" },
+        { rel: "icon", href: "/logo.png", type: "image/png" },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
         // Image CDN (resizes + WebP for portfolio screenshots)
@@ -175,6 +176,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: GTAG_CONVERSION }} />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
         <script dangerouslySetInnerHTML={{ __html: HYDRATION_FAILSAFE }} />
+        <SeoHead />
         <HeadContent />
       </head>
       <body>
