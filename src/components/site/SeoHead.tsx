@@ -1,6 +1,7 @@
 import { useRouterState } from "@tanstack/react-router";
 import { langFromSearch, DEFAULT_LANG, type Lang } from "@/i18n";
 import { SITE } from "@/lib/site";
+import { OrganizationJsonLd, WebSiteJsonLd } from "./JsonLd";
 
 const ORIGIN = `https://www.${SITE.domain}`;
 
@@ -32,6 +33,8 @@ export function SeoHead() {
       <meta property="og:image:width" content="512" />
       <meta property="og:image:height" content="512" />
       <meta name="twitter:image" content={OG_IMAGE} />
+      <OrganizationJsonLd />
+      <WebSiteJsonLd />
     </>
   );
 }
