@@ -184,6 +184,33 @@
     <priority>0.6</priority>
   </url>
 
+  <!-- Blog posts -->
+  <url>
+    <loc>https://www.umidjon.agency/blog/web-sayt-narxi-toshkent</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.umidjon.agency/blog/react-native-vs-flutter</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.umidjon.agency/blog/ecommerce-uzbekistan-qollanma</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.umidjon.agency/blog/biznesga-web-sayt-kerak</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.umidjon.agency/blog/web-sayt-tezligi-core-web-vitals</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Privacy Policy -->
   <url>
     <loc>https://www.umidjon.agency/privacy-policy</loc>
