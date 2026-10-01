@@ -547,6 +547,26 @@ const uz: Dict = {
         q: "Ishga tushgandan keyin yordam beriladimi?",
         a: "Ha, 1 oy bepul texnik yordam va bug-fix. Undan keyin arzon narxda oylik qo'llab-quvvatlash paketi mavjud.",
       },
+      {
+        q: "Qaysi texnologiyalardan foydalanasiz?",
+        a: "React, Next.js, TypeScript, Tailwind CSS, Node.js, React Native, Flutter, PostgreSQL va boshqalar. Har bir loyiha uchun eng mos texnologiyani tanlaymiz.",
+      },
+      {
+        q: "Mobil ilova ham yasab berasizmi?",
+        a: "Ha, React Native va Flutter yordamida iOS va Android uchun mobil ilovalar yasaymiz. Bitta kod bazasidan ikkala platforma uchun ilova chiqadi.",
+      },
+      {
+        q: "SEO va Google'da chiqish bilan yordam berasizmi?",
+        a: "Ha, barcha loyihalar SEO-optimallashtirilgan holda yetkaziladi: tez yuklash, meta teglar, strukturalangan ma'lumotlar va mobil moslashuvchanlik.",
+      },
+      {
+        q: "O'zbekistondagi boshqa agentliklardan farqingiz nima?",
+        a: "Biz shaffof narx (kalkulyator), to'liq kod topshirish (lock-in yo'q), va 24 soat ichida javob beramiz. Har bir loyiha case study bilan hujjatlashtiriladi.",
+      },
+      {
+        q: "Chet eldan buyurtma qilsa bo'ladimi?",
+        a: "Ha, biz xalqaro mijozlar bilan ishlaymiz. Ingliz va rus tilida muloqot qilamiz. To'lov bank o'tkazmasi yoki xalqaro to'lov tizimlari orqali.",
+      },
     ],
   },
   contact: {
@@ -931,6 +951,26 @@ const ru: Dict = {
       {
         q: "Есть ли поддержка после запуска?",
         a: "Да, 1 месяц бесплатной техподдержки и исправлений. Далее доступен недорогой пакет сопровождения.",
+      },
+      {
+        q: "Какие технологии вы используете?",
+        a: "React, Next.js, TypeScript, Tailwind CSS, Node.js, React Native, Flutter, PostgreSQL и другие. Для каждого проекта подбираем оптимальный стек.",
+      },
+      {
+        q: "Делаете ли мобильные приложения?",
+        a: "Да, разрабатываем приложения для iOS и Android на React Native и Flutter. Одна кодовая база — два приложения.",
+      },
+      {
+        q: "Помогаете ли с SEO и продвижением в Google?",
+        a: "Да, все проекты поставляются с SEO-оптимизацией: быстрая загрузка, мета-теги, структурированные данные и адаптивность под мобильные.",
+      },
+      {
+        q: "Чем вы отличаетесь от других агентств в Узбекистане?",
+        a: "Прозрачные цены (калькулятор), полная передача кода (без привязки), ответ в течение 24 часов. Каждый проект документируется как кейс-стади.",
+      },
+      {
+        q: "Можно ли заказать из-за рубежа?",
+        a: "Да, работаем с международными клиентами. Общаемся на английском и русском. Оплата банковским переводом или через международные платёжные системы.",
       },
     ],
   },
@@ -1326,6 +1366,26 @@ const en: Dict = {
       {
         q: "Is there support after launch?",
         a: "Yes, 1 month of free technical support and bug-fixes. After that an affordable maintenance package is available.",
+      },
+      {
+        q: "What technologies do you use?",
+        a: "React, Next.js, TypeScript, Tailwind CSS, Node.js, React Native, Flutter, PostgreSQL and more. We pick the optimal stack for each project.",
+      },
+      {
+        q: "Do you build mobile apps?",
+        a: "Yes, we build iOS and Android apps with React Native and Flutter. One codebase, two platforms.",
+      },
+      {
+        q: "Do you help with SEO and Google ranking?",
+        a: "Yes, every project ships SEO-optimized: fast loading, meta tags, structured data and mobile responsiveness.",
+      },
+      {
+        q: "What sets you apart from other agencies in Uzbekistan?",
+        a: "Transparent pricing (calculator), full code handover (no lock-in), and a 24-hour response guarantee. Every project is documented as a case study.",
+      },
+      {
+        q: "Can I order from outside Uzbekistan?",
+        a: "Yes, we work with international clients. We communicate in English and Russian. Payment via bank transfer or international payment systems.",
       },
     ],
   },
