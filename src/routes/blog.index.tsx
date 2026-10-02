@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getBlogPosts } from "../api/api";
 import { PageHeader } from "../components/site/PageHeader";
-import { useI18n } from "../i18n";
+import { useI18n, langFromSearch, DEFAULT_LANG } from "../i18n";
+import { PAGE_META } from "../i18n/translations";
 
 /** Shape of db/models/BlogPost after the loader's JSON round-trip. */
 type BlogPostRow = {
@@ -18,6 +19,18 @@ export const Route = createFileRoute("/blog/")({
   component: BlogList,
   loader: async () => {
     return await getBlogPosts();
+  },
+  head: ({ match }) => {
+    const lang = langFromSearch(match.search) ?? DEFAULT_LANG;
+    const m = PAGE_META[lang].blog;
+    return {
+      meta: [
+        { title: m.title },
+        { name: "description", content: m.description },
+        { property: "og:title", content: m.title },
+        { property: "og:description", content: m.description },
+      ],
+    };
   },
 });
 

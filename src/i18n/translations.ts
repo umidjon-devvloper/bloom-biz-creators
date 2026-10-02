@@ -1502,4 +1502,136 @@ export const META: Record<
   },
 };
 
+export const PAGE_META: Record<
+  Lang,
+  Record<string, { title: string; description: string }>
+> = {
+  uz: {
+    services: {
+      title: "Xizmatlar — websayt, onlayn do'kon va mobil ilova | Umidjon Agency",
+      description:
+        "Toshkentda professional web-sayt, onlayn do'kon va mobil ilova ishlab chiqish xizmatlari. Narxni kalkulyatorda hisoblang.",
+    },
+    portfolio: {
+      title: "Portfolio — tugallangan loyihalar | Umidjon Agency",
+      description:
+        "Umidjon Agency tomonidan ishlab chiqilgan websaytlar, onlayn do'konlar va mobil ilovalar. Barcha loyihalar ishlayapti — bosib tekshiring.",
+    },
+    about: {
+      title: "Biz haqimizda — Umidjon Agency | Toshkent",
+      description:
+        "Toshkentdagi web-ishlab chiqish jamoasi. 3+ yil tajriba, 50+ loyiha. React, TypeScript va zamonaviy texnologiyalar bilan ishlaymiz.",
+    },
+    team: {
+      title: "Jamoa — ishlab chiquvchilar | Umidjon Agency",
+      description:
+        "Umidjon Agency jamoasi — tajribali frontend va backend dasturchilar. React, Node.js, TypeScript bo'yicha mutaxassislar.",
+    },
+    contact: {
+      title: "Aloqa — loyiha muhokamasi | Umidjon Agency",
+      description:
+        "Loyihangizni muhokama qilish uchun bog'laning. Telegram, telefon yoki forma orqali 24 soat ichida javob beramiz.",
+    },
+    careers: {
+      title: "Vakansiyalar — Umidjon Agency | Toshkent",
+      description:
+        "Umidjon Agency'da ochiq ish o'rinlari. React, Node.js va zamonaviy texnologiyalar bilan ishlang.",
+    },
+    blog: {
+      title: "Blog — web-ishlab chiqish maqolalari | Umidjon Agency",
+      description:
+        "Websayt narxi, React Native vs Flutter, e-commerce va boshqa mavzularda amaliy maqolalar. Toshkentlik dasturchilardan.",
+    },
+    "case-studies": {
+      title: "Case study — qanday ishlaymiz | Umidjon Agency",
+      description:
+        "Har bir loyiha uchun: mijozda qanday muammo bor edi, qanday yechim tanladik va nima topshirildi. Barcha saytlar ishlayapti — bosib tekshiring.",
+    },
+  },
+  ru: {
+    services: {
+      title: "Услуги — сайты, интернет-магазины и мобильные приложения | Umidjon Agency",
+      description:
+        "Профессиональная разработка сайтов, интернет-магазинов и мобильных приложений в Ташкенте. Рассчитайте стоимость в калькуляторе.",
+    },
+    portfolio: {
+      title: "Портфолио — завершённые проекты | Umidjon Agency",
+      description:
+        "Сайты, интернет-магазины и мобильные приложения от Umidjon Agency. Все проекты работают — нажмите и проверьте.",
+    },
+    about: {
+      title: "О нас — Umidjon Agency | Ташкент",
+      description:
+        "Команда веб-разработки из Ташкента. 3+ года опыта, 50+ проектов. Работаем на React, TypeScript и современных технологиях.",
+    },
+    team: {
+      title: "Команда — разработчики | Umidjon Agency",
+      description:
+        "Команда Umidjon Agency — опытные frontend и backend разработчики. Специалисты по React, Node.js, TypeScript.",
+    },
+    contact: {
+      title: "Контакты — обсудить проект | Umidjon Agency",
+      description:
+        "Свяжитесь для обсуждения проекта. Отвечаем в течение 24 часов через Telegram, телефон или форму.",
+    },
+    careers: {
+      title: "Вакансии — Umidjon Agency | Ташкент",
+      description:
+        "Открытые позиции в Umidjon Agency. Работайте с React, Node.js и современными технологиями.",
+    },
+    blog: {
+      title: "Блог — статьи о веб-разработке | Umidjon Agency",
+      description:
+        "Практические статьи о стоимости сайтов, React Native vs Flutter, e-commerce и других темах от ташкентских разработчиков.",
+    },
+    "case-studies": {
+      title: "Кейсы — как мы работаем | Umidjon Agency",
+      description:
+        "Для каждого проекта: какая проблема, какое решение, что сдали. Все сайты работают — нажмите и проверьте.",
+    },
+  },
+  en: {
+    services: {
+      title: "Services — websites, online stores and mobile apps | Umidjon Agency",
+      description:
+        "Professional website, online store and mobile app development in Tashkent. Calculate your price in our instant estimator.",
+    },
+    portfolio: {
+      title: "Portfolio — completed projects | Umidjon Agency",
+      description:
+        "Websites, online stores and mobile apps built by Umidjon Agency. Every project is live — click and check.",
+    },
+    about: {
+      title: "About Us — Umidjon Agency | Tashkent",
+      description:
+        "A web development team in Tashkent. 3+ years of experience, 50+ projects. We build with React, TypeScript and modern technologies.",
+    },
+    team: {
+      title: "Team — developers | Umidjon Agency",
+      description:
+        "The Umidjon Agency team — experienced frontend and backend developers specialising in React, Node.js and TypeScript.",
+    },
+    contact: {
+      title: "Contact — discuss your project | Umidjon Agency",
+      description:
+        "Get in touch to discuss your project. We reply within 24 hours via Telegram, phone or the contact form.",
+    },
+    careers: {
+      title: "Careers — Umidjon Agency | Tashkent",
+      description:
+        "Open positions at Umidjon Agency. Work with React, Node.js and modern technologies.",
+    },
+    blog: {
+      title: "Blog — web development articles | Umidjon Agency",
+      description:
+        "Practical articles on website pricing, React Native vs Flutter, e-commerce and more from Tashkent-based developers.",
+    },
+    "case-studies": {
+      title: "Case Studies — how we work | Umidjon Agency",
+      description:
+        "For every project: what the problem was, how we solved it and what we delivered. Every site is live — click and check.",
+    },
+  },
+};
+
 export type { Dict, Stat, StatKey };

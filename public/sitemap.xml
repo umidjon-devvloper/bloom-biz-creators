@@ -187,26 +187,46 @@
   <!-- Blog posts -->
   <url>
     <loc>https://www.umidjon.agency/blog/web-sayt-narxi-toshkent</loc>
+    <xhtml:link rel="alternate" hreflang="uz" href="https://www.umidjon.agency/blog/web-sayt-narxi-toshkent"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.umidjon.agency/blog/web-sayt-narxi-toshkent?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.umidjon.agency/blog/web-sayt-narxi-toshkent?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.umidjon.agency/blog/web-sayt-narxi-toshkent"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.umidjon.agency/blog/react-native-vs-flutter</loc>
+    <xhtml:link rel="alternate" hreflang="uz" href="https://www.umidjon.agency/blog/react-native-vs-flutter"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.umidjon.agency/blog/react-native-vs-flutter?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.umidjon.agency/blog/react-native-vs-flutter?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.umidjon.agency/blog/react-native-vs-flutter"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.umidjon.agency/blog/ecommerce-uzbekistan-qollanma</loc>
+    <xhtml:link rel="alternate" hreflang="uz" href="https://www.umidjon.agency/blog/ecommerce-uzbekistan-qollanma"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.umidjon.agency/blog/ecommerce-uzbekistan-qollanma?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.umidjon.agency/blog/ecommerce-uzbekistan-qollanma?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.umidjon.agency/blog/ecommerce-uzbekistan-qollanma"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.umidjon.agency/blog/biznesga-web-sayt-kerak</loc>
+    <xhtml:link rel="alternate" hreflang="uz" href="https://www.umidjon.agency/blog/biznesga-web-sayt-kerak"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.umidjon.agency/blog/biznesga-web-sayt-kerak?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.umidjon.agency/blog/biznesga-web-sayt-kerak?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.umidjon.agency/blog/biznesga-web-sayt-kerak"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.umidjon.agency/blog/web-sayt-tezligi-core-web-vitals</loc>
+    <xhtml:link rel="alternate" hreflang="uz" href="https://www.umidjon.agency/blog/web-sayt-tezligi-core-web-vitals"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.umidjon.agency/blog/web-sayt-tezligi-core-web-vitals?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.umidjon.agency/blog/web-sayt-tezligi-core-web-vitals?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.umidjon.agency/blog/web-sayt-tezligi-core-web-vitals"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

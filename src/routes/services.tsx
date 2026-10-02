@@ -4,10 +4,23 @@ import { ServicesTimeline } from "@/components/site/ServicesTimeline";
 import { PriceCalculator } from "@/components/site/PriceCalculator";
 import { WhyUs } from "@/components/site/WhyUs";
 import { CtaBand } from "@/components/site/CtaBand";
-import { useI18n } from "@/i18n";
+import { useI18n, langFromSearch, DEFAULT_LANG } from "@/i18n";
+import { PAGE_META } from "@/i18n/translations";
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
+  head: ({ match }) => {
+    const lang = langFromSearch(match.search) ?? DEFAULT_LANG;
+    const m = PAGE_META[lang].services;
+    return {
+      meta: [
+        { title: m.title },
+        { name: "description", content: m.description },
+        { property: "og:title", content: m.title },
+        { property: "og:description", content: m.description },
+      ],
+    };
+  },
 });
 
 function ServicesPage() {
