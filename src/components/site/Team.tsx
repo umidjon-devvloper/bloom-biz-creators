@@ -57,11 +57,13 @@ function BentoAvatar({
   initials,
   accent,
   bg,
+  name,
 }: {
   photo: string;
   initials: string;
   accent: string;
   bg: string;
+  name: string;
 }) {
   const [failed, setFailed] = useState(false);
   return (
@@ -81,7 +83,7 @@ function BentoAvatar({
       {photo && !failed && (
         <img
           src={photo}
-          alt={initials}
+          alt={name}
           loading="lazy"
           decoding="async"
           onError={() => setFailed(true)}
@@ -231,6 +233,7 @@ export function Team({
                           initials={meta.initials}
                           accent={meta.accent}
                           bg={meta.bg}
+                          name={m.name}
                         />
                       </div>
                       <div className={`${bentoClass} md:col-span-2 lg:col-span-3 text-left group`}>
@@ -248,6 +251,7 @@ export function Team({
                           initials={meta.initials}
                           accent={meta.accent}
                           bg={meta.bg}
+                          name={m.name}
                         />
                       </div>
                     </>

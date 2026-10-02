@@ -3,8 +3,9 @@ import { ArrowLeft, ArrowRight, Check, ExternalLink, MessageCircle, Quote } from
 import { StoreBadges } from "../components/site/StoreBadges";
 import { CASE_STUDIES, getCaseStudy, listCaseStudies } from "../lib/case-studies";
 import { optimizedImage, fallbackToOriginal } from "../lib/img";
-import { telegramLink } from "../lib/site";
+import { PROJECTS, SITE, telegramLink } from "../lib/site";
 import { useI18n } from "../i18n";
+import { BreadcrumbJsonLd } from "../components/site/JsonLd";
 
 export const Route = createFileRoute("/case-studies/$slug")({
   component: CaseStudyDetail,
@@ -20,6 +21,8 @@ export const Route = createFileRoute("/case-studies/$slug")({
     const found = CASE_STUDIES.find((c) => c.slug === params.slug);
     if (!found) return {};
     const copy = found.copy.uz;
+    const origin = `https://www.${SITE.domain}`;
+    const project = PROJECTS.find((p) => p.title === found.project);
     return {
       meta: [
         { title: `${copy.title} | Umidjon Agency` },
@@ -27,6 +30,7 @@ export const Route = createFileRoute("/case-studies/$slug")({
         { property: "og:title", content: copy.title },
         { property: "og:description", content: copy.summary },
         { property: "og:type", content: "article" },
+        { property: "og:image", content: project?.image || `${origin}/logo.png` },
       ],
     };
   },
@@ -47,8 +51,16 @@ function CaseStudyDetail() {
     .filter((c) => c.study.slug !== slug)
     .slice(0, 3);
 
+  const origin = `https://www.${SITE.domain}`;
+
   return (
     <article className="min-h-screen pt-32 pb-24 md:pt-40">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Case Studies", url: `${origin}/case-studies` },
+          { name: copy.title, url: `${origin}/case-studies/${slug}` },
+        ]}
+      />
       <div className="mx-auto max-w-4xl px-6">
         <Link
           to="/case-studies"

@@ -8,7 +8,8 @@ import { CtaBand } from "../components/site/CtaBand";
 import { listCaseStudies } from "../lib/case-studies";
 import type { ProjectFilter } from "../lib/site";
 import { optimizedImage, fallbackToOriginal } from "../lib/img";
-import { useI18n } from "../i18n";
+import { useI18n, langFromSearch, DEFAULT_LANG } from "../i18n";
+import { PAGE_META } from "../i18n/translations";
 
 type Cat = "all" | ProjectFilter;
 
@@ -20,16 +21,18 @@ type Cat = "all" | ProjectFilter;
  */
 export const Route = createFileRoute("/case-studies/")({
   component: CaseStudies,
-  head: () => ({
-    meta: [
-      { title: "Case study — qanday ishlaymiz | Umidjon Agency" },
-      {
-        name: "description",
-        content:
-          "Har bir loyiha uchun: mijozda qanday muammo bor edi, qanday yechim tanladik va nima topshirildi. Barcha saytlar ishlayapti — bosib tekshiring.",
-      },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = langFromSearch(match.search) ?? DEFAULT_LANG;
+    const m = PAGE_META[lang]["case-studies"];
+    return {
+      meta: [
+        { title: m.title },
+        { name: "description", content: m.description },
+        { property: "og:title", content: m.title },
+        { property: "og:description", content: m.description },
+      ],
+    };
+  },
 });
 
 function CaseStudies() {
